@@ -4,6 +4,7 @@
   outputs = inputs@{ self, nixpkgs, home-manager, nur, ... }: 
   let 
     systemSettings = {
+      profile = "personal";
       system = "x86_64-linux"; 
       timeZone = "Europe/Paris";
       locale = "en_US.UTF-8";
@@ -25,7 +26,7 @@
   {
     nixosConfigurations.brian = lib.nixosSystem {
       modules = [ 
-        ./configuration.nix
+        (./. + "/profiles" + ("/" + systemSettings.profile) + "/configuration.nix")
       ];
 
       specialArgs = {
@@ -38,7 +39,7 @@
     homeConfigurations.brian = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
       modules = [ 
-        ./home.nix 
+        (./. + "/profiles" + ("/" + systemSettings.profile) + "/home.nix")
         nur.nixosModules.nur
       ];
 
