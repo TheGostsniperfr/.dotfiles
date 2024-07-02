@@ -14,6 +14,7 @@
     ../../user/app/social/discord/discord.nix
     ../../user/app/social/whatsapp/whatsapp.nix
     ../../user/app/work/microsoft/todo.nix
+    ../../user/app/nodejs/nodejs.nix
     ../../user/shell/cli-collection/cli-collection.nix
     ../../user/shell/sh/sh.nix
   ];
