@@ -48,7 +48,28 @@
         inherit userSettings;
         inherit inputs;
       };
-    }; 
+    };
+
+    packages = forAllSystems (system:
+        let pkgs = nixpkgsFor.${system};
+        in {
+          default = self.packages.${system}.install;
+
+          install = pkgs.writeShellApplication {
+            name = "install";
+            runtimeInputs = with pkgs; [ git ];
+            text = ''${./install.sh} "$@"'';
+          };
+        });
+
+      apps = forAllSystems (system: {
+        default = self.apps.${system}.install;
+
+        install = {
+          type = "app";
+          program = "${self.packages.${system}.install}/bin/install";
+        };
+      }); 
   };
 
 
