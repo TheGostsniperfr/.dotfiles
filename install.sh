@@ -31,7 +31,7 @@ fi
 $EDITOR $SCRIPT_DIR/flake.nix;
 
 # Permissions for files that should be owned by root
-sudo $SCRIPT_DIR/harden.sh $SCRIPT_DIR;
+sudo bash $SCRIPT_DIR/harden.sh $SCRIPT_DIR;
 
 # Rebuild system
 sudo nixos-rebuild switch --flake $SCRIPT_DIR#brian;

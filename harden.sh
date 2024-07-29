@@ -22,13 +22,10 @@ pushd $SCRIPT_DIR &> /dev/null;
 sudo chown 0:0 .;
 sudo chown 0:0 profiles/*;
 sudo chown -R 0:0 system;
-sudo chown -R 0:0 patches;
 sudo chown 0:0 flake.lock;
 sudo chown 0:0 flake.nix
 sudo chown 0:0 profiles
 sudo chown 0:0 profiles/*/configuration.nix;
 sudo chown 0:0 harden.sh;
 sudo chown 0:0 install.sh;
-sudo chown 0:0 update.sh;
-sudo chown 1000:users **/README.org;
 popd &> /dev/null;
