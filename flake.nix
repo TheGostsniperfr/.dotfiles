@@ -34,6 +34,7 @@
   in  
   {
     nixosConfigurations.brian = lib.nixosSystem {
+      system = systemSettings.system;
       modules = [ 
         (./. + "/profiles" + ("/" + systemSettings.profile) + "/configuration.nix")
       ];
