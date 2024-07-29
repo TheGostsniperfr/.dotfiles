@@ -8,7 +8,7 @@ in
 {
   imports =
     [ # Include the results of the hardware scan.
-      ../../hardware-configuration.nix
+      ../../system/hardware-configuration.nix
       # ../../system/app/java/java.nix
       # ../../system/app/steam/steam.nix
       # ../../system/hardware/nvidia/nvidia.nix

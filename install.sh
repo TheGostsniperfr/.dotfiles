@@ -13,7 +13,7 @@ fi
 nix-shell -p git --command "git clone https://github.com/TheGostsniperfr/.dotfiles $SCRIPT_DIR"
 
 # Generate hardware config for new system
-sudo nixos-generate-config --show-hardware-config > $SCRIPT_DIR/hardware-configuration.nix
+sudo nixos-generate-config --show-hardware-config > $SCRIPT_DIR/system/hardware-configuration.nix
 
 # Check if uefi or bios
 # if [ -d /sys/firmware/efi/efivars ]; then
