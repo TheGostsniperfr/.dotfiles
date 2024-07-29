@@ -34,7 +34,7 @@ $EDITOR $SCRIPT_DIR/flake.nix;
 sudo $SCRIPT_DIR/harden.sh $SCRIPT_DIR;
 
 # Rebuild system
-sudo nixos-rebuild switch --flake $SCRIPT_DIR#system;
+sudo nixos-rebuild switch --flake $SCRIPT_DIR#brian;
 
 # Install and build home-manager configuration
-nix run home-manager/release-24.05 --extra-experimental-features nix-command --extra-experimental-features flakes -- switch --flake $SCRIPT_DIR#user;
+nix run home-manager/release-24.05 --extra-experimental-features nix-command --extra-experimental-features flakes -- switch --flake $SCRIPT_DIR#brian;
