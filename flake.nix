@@ -4,7 +4,7 @@
   outputs = inputs@{ self, nixpkgs, home-manager, nur, ... }: 
   let 
     systemSettings = {
-      profile = "personal";
+      profile = "work";
       system = "x86_64-linux"; 
       timeZone = "Europe/Paris";
       locale = "en_US.UTF-8";
