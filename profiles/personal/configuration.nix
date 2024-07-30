@@ -9,6 +9,7 @@ in
   imports =
     [ # Include the results of the hardware scan.
       ../../system/hardware-configuration.nix
+      ../../system/app/gparted/gparted.nix
       # ../../system/app/java/java.nix
       # ../../system/app/steam/steam.nix
       # ../../system/hardware/nvidia/nvidia.nix
