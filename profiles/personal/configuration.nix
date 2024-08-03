@@ -9,6 +9,10 @@ in
   imports =
     [ # Include the results of the hardware scan.
       ../../system/hardware-configuration.nix
+
+      #config for simba server link
+      ../../system/app/utils/cifs-utils.nix
+
       ../../system/app/gparted/gparted.nix
       # ../../system/app/java/java.nix
       # ../../system/app/steam/steam.nix
