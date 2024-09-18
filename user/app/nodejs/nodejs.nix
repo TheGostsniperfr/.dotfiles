@@ -3,6 +3,7 @@
 {
   home.packages = [
     pkgs.nodejs
-    pkgs.electron
+    pkgs.yarn
+    pkgs.glib
   ];
 }
