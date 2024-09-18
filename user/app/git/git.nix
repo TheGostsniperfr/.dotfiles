@@ -7,8 +7,10 @@
 
   programs.git = {
     enable = true;
-    userName = "TheGostsniperfr";
-    userEmail = userSettings.email;
+    # userName = "TheGostsniperfr";
+    userName = "brian.perret";
+    # userEmail = userSettings.email;
+    userEmail = "brian.perret@epita.fr";
     extraConfig = {
       init.defaultBranch = "main";
     };

@@ -7,5 +7,6 @@
     pkgs.fprintd
     pkgs.libfprint
     pkgs.usbutils
+    pkgs.poetry
   ];
 }

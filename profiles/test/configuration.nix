@@ -11,12 +11,12 @@ in
       ../../system/hardware-configuration.nix
 
       # Add jp keyboard layout
-      ../../system/app/layout/jp-ime.nix
+      # ../../system/app/layout/jp-ime.nix
 
       #config for simba server link
-      ../../system/app/utils/cifs-utils.nix
+      # ../../system/app/utils/cifs-utils.nix
 
-      ../../system/app/gparted/gparted.nix
+      # ../../system/app/gparted/gparted.nix
       # ../../system/app/java/java.nix
       # ../../system/app/steam/steam.nix
       # ../../system/hardware/nvidia/nvidia.nix
