@@ -17,6 +17,7 @@ in
       ../../system/app/language/dotnet/dotnet.nix
       ../../system/app/language/python/python.nix
       ../../system/app/language/go/go.nix
+      ../../system/app/language/c/c.nix
     ];
 }
 
