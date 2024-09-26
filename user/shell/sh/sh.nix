@@ -17,7 +17,7 @@ let
 
     ll = "ls -l";
     ".." = "cd ..";
-    ep = "xdg-open ."; # open paht in file explorer
+    ep = "xdg-open ."; # open path in file explorer
 
 
     # Update cmd aliases
@@ -35,6 +35,8 @@ let
     lcms = "source ~/Documents/aepita/pyenv/cms/bin/activate";
     spyenv = "deactivate";
 
+    # Epita SM alias:
+    initepita = "bash ~/afs/.dotfiles/profiles/epita/init.sh";
   };
   
 in
