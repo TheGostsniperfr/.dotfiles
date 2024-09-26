@@ -35,10 +35,16 @@ If you want to modify the installation directory, replace `~/.dotfiles` with you
 
 - **Install :**
 
-    You need to change the `userSettings` in the `flake.nix`.
+    You need to change the `userSettings` in the `flake.nix` by your forge login (like: `brian.perret`).
+    <br/>
 
     After that, you need to run the `init.sh` script to install the config.
     ```bash
     bash ~/afs/.dotfiles/profiles/epita/init.sh
     ```
     Nb: On your next startup, just type `initepita` in the terminal to do that.
+    <br/>
+
+    If you want to setup vscode, you can use the vscode profile here: `~/afs/.dotfiles/profiles/epita/Epita.code-profile`
+
+    
