@@ -5,6 +5,7 @@
     pkgs.nodejs
     pkgs.yarn
     pkgs.glib
+    pkgs.electron
   ];
 
   nixpkgs.config.permittedInsecurePackages = [
