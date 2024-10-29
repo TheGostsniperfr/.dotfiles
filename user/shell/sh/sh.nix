@@ -11,7 +11,7 @@ let
     CCF = "code ~/.dotfiles";
 
     # Bash commands
-    BC = "nvim ~/.bashrc";
+    BC = "vim ~/.bashrc";
     SC = "source ~/.bashrc";
     CC = "clear";
 
@@ -34,6 +34,7 @@ let
     lmounette = "source ~/Documents/aepita/pyenv/mounette/bin/activate";
     lcms = "source ~/Documents/aepita/pyenv/cms/bin/activate";
     spyenv = "deactivate";
+    apc="cd /home/brian/Documents/aepita/ing1/piscine/epita-ing-assistants-acu-piscine-2027-brian.perret";
 
     # Epita SM alias:
     initepita = "bash ~/afs/.dotfiles/profiles/epita/init.sh";

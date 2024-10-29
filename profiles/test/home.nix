@@ -5,7 +5,7 @@
     ../../user/app/browser/firefox.nix
     ../../user/app/git/git.nix
     # ../../user/app/ide/idea.nix
-    # ../../user/app/ide/neovim.nix
+    # ../../user/app/ide/vim.nix
     # ../../user/app/ide/rider.nix
     # ../../user/app/ide/pycharm.nix
     ../../user/app/ide/vscode.nix

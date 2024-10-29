@@ -2,6 +2,6 @@
 
 {
   home.packages = [
-    pkgs.neovim
+    pkgs.vim
   ];
 }
