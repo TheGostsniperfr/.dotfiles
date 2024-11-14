@@ -8,5 +8,11 @@
     pkgs.libfprint
     pkgs.usbutils
     pkgs.poetry
+    pkgs.file
+
+    # Man pages
+    pkgs.man-pages
+    pkgs.linux-manual
+    pkgs.man-pages-posix
   ];
 }

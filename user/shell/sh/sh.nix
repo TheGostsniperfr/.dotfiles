@@ -18,6 +18,7 @@ let
     ll = "ls -l";
     ".." = "cd ..";
     ep = "xdg-open ."; # open path in file explorer
+    lc = "nix-shell -p criterion";
 
 
     # Update cmd aliases

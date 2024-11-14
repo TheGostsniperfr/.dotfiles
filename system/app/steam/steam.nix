@@ -4,6 +4,7 @@
   environment.systemPackages = [
     pkgs.steam-tui
     pkgs.steamcmd
+    pkgs.lutris
   ];
 
   hardware.opengl.driSupport32Bit = true;

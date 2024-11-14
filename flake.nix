@@ -1,7 +1,7 @@
 {
   description = "Flake of TheGostsniper";
 
-  outputs = inputs@{ self, nixpkgs, home-manager, nur, ... }: 
+  outputs = inputs@{ self, nixpkgs, home-manager, nur, nixos-hardware, ... }: 
   let 
     systemSettings = {
       profile = "work";
@@ -18,18 +18,14 @@
       dotfilesDir = "~/.dotfiles";
     };
 
-
     lib = nixpkgs.lib;
     
     pkgs = nixpkgs.legacyPackages.${systemSettings.system};
 
-    # Systems that can run tests:
     supportedSystems = [ "aarch64-linux" "i686-linux" "x86_64-linux" ];
 
-    # Function to generate a set based on supported systems:
     forAllSystems = inputs.nixpkgs.lib.genAttrs supportedSystems;
 
-    # Attribute set of nixpkgs for each system:
     nixpkgsFor = forAllSystems (system: import inputs.nixpkgs { inherit system; });
   in  
   {
@@ -37,6 +33,7 @@
       system = systemSettings.system;
       modules = [ 
         (./. + "/profiles" + ("/" + systemSettings.profile) + "/configuration.nix")
+        nixos-hardware.nixosModules.common-gpu-nvidia
       ];
 
       specialArgs = {
@@ -82,13 +79,13 @@
       }); 
   };
 
-
- inputs = {
+  inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nur.url = github:nix-community/NUR;
+    nur.url = "github:nix-community/NUR";
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
   };
 }
