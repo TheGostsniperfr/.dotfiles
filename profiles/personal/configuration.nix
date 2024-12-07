@@ -19,7 +19,7 @@ in
       ../../system/app/gparted/gparted.nix
       # ../../system/app/java/java.nix
       # ../../system/app/steam/steam.nix
-      ../../system/hardware/nvidia/nvidia.nix
+      # ../../system/hardware/nvidia/nvidia.nix
     ];
 
   # Bootloader.

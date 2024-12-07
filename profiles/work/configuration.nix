@@ -19,6 +19,7 @@ in
       ../../system/app/language/go/go.nix
       ../../system/app/language/c/c.nix
       ../../system/app/gns3/gns3.nix
+      ../../system/app/sql/postgresql.nix
     ];
 }
 

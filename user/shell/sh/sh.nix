@@ -29,6 +29,10 @@ let
 
     # Git commands
     gs = "git status";
+    gpp = "git pull";
+    gp = "git push";
+    ga = "git add .";
+    # gc = "git commit -m " + curl -s "https://whatthecommit.com/index.txt" 
 
     # Epita tool alias : 
     aepita = "cd ~/Documents/aepita/";
@@ -46,5 +50,10 @@ in
   programs.bash = {
     enable = true;
     shellAliases = myAliases;
+  };
+
+  home.sessionVariables = {
+    PGDATA = "~/postgres_data";
+    PGHOST = "/tmp";
   };
 }

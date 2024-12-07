@@ -6,5 +6,9 @@
     gnumake
     gdb
     valgrind
+    meson
+    ninja
+    openssl.dev
+    pkg-config
   ];
 }

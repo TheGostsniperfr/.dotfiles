@@ -33,7 +33,7 @@
       system = systemSettings.system;
       modules = [ 
         (./. + "/profiles" + ("/" + systemSettings.profile) + "/configuration.nix")
-        nixos-hardware.nixosModules.common-gpu-nvidia
+        # nixos-hardware.nixosModules.common-gpu-nvidia
       ];
 
       specialArgs = {
