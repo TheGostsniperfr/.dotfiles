@@ -10,5 +10,10 @@
     ninja
     openssl.dev
     pkg-config
+
+    autoconf
+    automake
+    libtool
+    autoconf-archive
   ];
 }
