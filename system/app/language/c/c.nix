@@ -2,6 +2,10 @@
 
 {
   environment.systemPackages = with pkgs; [
+    glibc
+    clang
+    clang-tools
+
     gcc
     gnumake
     gdb
@@ -16,4 +20,6 @@
     libtool
     autoconf-archive
   ];
+
+  environment.variables.PATH = "${pkgs.clang-tools}/bin:$PATH";
 }

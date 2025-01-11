@@ -1,9 +1,9 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 
 {
-  home.packages = [
+  home.packages = with pkgs; [
     # Spotify (no ads)
-    config.nur.repos.nltch.spotify-adblock    #for installing spotify-adblock
-    config.nur.repos.nltch.ciscoPacketTracer8 #for installing packettracer8 
+    nur.repos.nltch.spotify-adblock    #for installing spotify-adblock
+    nur.repos.nltch.ciscoPacketTracer8 #for installing packettracer8 
   ];
 }

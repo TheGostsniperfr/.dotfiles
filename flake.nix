@@ -47,7 +47,7 @@
       inherit pkgs;
       modules = [ 
         (./. + "/profiles" + ("/" + systemSettings.profile) + "/home.nix")
-        nur.nixosModules.nur
+        nur.modules.homeManager.default
       ];
 
       extraSpecialArgs = {
@@ -80,12 +80,15 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nur.url = "github:nix-community/NUR";
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-hardware.url = "github:NixOS/nixos-hardware";
   };
 }

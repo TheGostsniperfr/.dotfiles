@@ -3,6 +3,7 @@
 {
   home.packages = [
     pkgs.git
+    pkgs.pre-commit
   ];
 
   programs.git = {

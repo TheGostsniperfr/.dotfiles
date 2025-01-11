@@ -5,4 +5,9 @@
     pkgs.dotnet-sdk_7
     pkgs.dotnet-runtime_7 
   ];
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "dotnet-sdk-7.0.410"
+    "dotnet-runtime-7.0.20"
+  ];
 }

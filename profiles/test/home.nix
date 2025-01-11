@@ -29,7 +29,7 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  home.stateVersion = "24.05"; # home-manager verison
+  home.stateVersion = "24.11"; # home-manager verison
 
   home.file = {
   
