@@ -5,6 +5,10 @@
     pkgs.javaPackages.openjfx17
     pkgs.libGL
     pkgs.xorg.libXtst
+
+    pkgs.zulu
+    pkgs.quarkus
+    pkgs.maven
   ];
 
   programs.java = {

@@ -2,7 +2,7 @@
 
 {
   home.packages = [
-    pkgs.nodejs
+    pkgs.nodejs_22
     pkgs.yarn
     pkgs.glib
     pkgs.electron
