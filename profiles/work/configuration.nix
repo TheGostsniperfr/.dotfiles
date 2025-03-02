@@ -23,6 +23,7 @@ in
       ../../system/app/gns3/gns3.nix
       ../../system/app/sql/postgresql.nix
       ../../system/app/unity/unity.nix
+      ../../system/app/language/octave/octave.nix
     ];
 }
 
