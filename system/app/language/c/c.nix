@@ -6,6 +6,8 @@
     clang
     clang-tools
 
+    cmake
+    
     gcc
     gnumake
     gdb

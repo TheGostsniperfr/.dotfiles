@@ -20,6 +20,10 @@ let
     ep = "xdg-open ."; # open path in file explorer
     lc = "nix-shell -p criterion";
 
+    # SSH alias
+    sshmaster = "ssh master-node@192.168.1.73";
+    sshworker01 = "ssh worker-01@192.168.1.168";
+
 
     # Update cmd aliases
     update = "sudo nixos-rebuild switch --flake ~/.dotfiles"; # update configuration file using flake
@@ -55,5 +59,11 @@ in
   home.sessionVariables = {
     PGDATA = "~/postgres_data";
     PGHOST = "/tmp";
+    
+    GTK_IM_MODULE="fcitx";
+    QT_IM_MODULE="fcitx";
+    XMODIFIERS="@im=fcitx";
+    SDL_IM_MODULE="fcitx";
+    GLFW_IM_MODULE="ibus";
   };
 }
