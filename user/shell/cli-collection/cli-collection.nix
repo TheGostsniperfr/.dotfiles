@@ -10,6 +10,10 @@
     pkgs.poetry
     pkgs.file
 
+    # Yaml tools
+    pkgs.yq
+    pkgs.yamllint
+
     # Man pages
     pkgs.man-pages
     pkgs.linux-manual
