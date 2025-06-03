@@ -20,10 +20,11 @@ in
       ../../system/app/language/c/c.nix
       ../../system/app/language/php/php.nix
       ../../system/app/language/rust/rust.nix
-      ../../system/app/language/octave/octave.nix
+      # ../../system/app/language/octave/octave.nix
       ../../system/app/gns3/gns3.nix
       ../../system/app/sql/postgresql.nix
-      ../../system/app/unity/unity.nix
+      # ../../system/app/unity/unity.nix
+      ../../system/app/utils/kube.nix
     ];
 }
 

@@ -29,7 +29,7 @@ let
     update = "sudo nixos-rebuild switch --flake ~/.dotfiles"; # update configuration file using flake
     hupdate = "home-manager switch --flake ~/.dotfiles"; # update home-manager file using flake
     fupdate = "nix flake update"; #update flake file
-    allupdate = "fupdate && update && fupdate"; # update all
+    allupdate = "fupdate; update; fupdate"; # update all
 
     # Git commands
     gs = "git status";
@@ -47,6 +47,9 @@ let
 
     # Epita SM alias:
     initepita = "bash ~/afs/.dotfiles/profiles/epita/init.sh";
+
+    # Arffornia alias:
+    arffornia = "cd ~/Documents/arffornia/";
   };
   
 in
@@ -58,7 +61,7 @@ in
 
   home.sessionVariables = {
     PGDATA = "~/postgres_data";
-    PGHOST = "/tmp";
+    PGHOST = "/run/postgresql";
     
     GTK_IM_MODULE="fcitx";
     QT_IM_MODULE="fcitx";
