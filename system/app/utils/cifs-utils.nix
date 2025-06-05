@@ -5,9 +5,9 @@
     pkgs.cifs-utils
   ];
 
-  fileSystems."/media/nas" = {
-    device = "";
-    fsType = "cifs";
-    options = [ "username=" "password=" ];
-  };
+  # fileSystems."/media/nas" = {
+  #   device = "";
+  #   fsType = "cifs";
+  #   options = [ "username=" "password=" ];
+  # };
 }
