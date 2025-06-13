@@ -18,6 +18,7 @@ in
       ../../system/app/language/python/python.nix
       ../../system/app/language/go/go.nix
       ../../system/app/language/c/c.nix
+      ../../system/app/language/r/r.nix
       ../../system/app/language/php/php.nix
       ../../system/app/language/rust/rust.nix
       # ../../system/app/language/octave/octave.nix
