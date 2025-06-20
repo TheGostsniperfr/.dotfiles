@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, systemSettings, make-project-prompt, ... }:
 
 {
   home.packages = [
@@ -18,5 +18,9 @@
     pkgs.man-pages
     pkgs.linux-manual
     pkgs.man-pages-posix
+
+    # MPP
+    pkgs.xsel
+    make-project-prompt.packages.${systemSettings.system}.default
   ];
 }

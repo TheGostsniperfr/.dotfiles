@@ -1,7 +1,7 @@
 {
   description = "Flake of TheGostsniper";
 
-  outputs = inputs@{ self, nixpkgs, home-manager, nur, nixos-hardware, ... }: 
+  outputs = inputs@{ self, nixpkgs, home-manager, nur, nixos-hardware, make-project-prompt, ... }: 
   let 
     systemSettings = {
       profile = "work";
@@ -54,6 +54,7 @@
         inherit systemSettings;
         inherit userSettings;
         inherit inputs;
+        make-project-prompt = inputs.make-project-prompt;
       };
     };
 
@@ -90,5 +91,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware";
+    make-project-prompt.url = "github:briossant/make-project-prompt";
   };
 }

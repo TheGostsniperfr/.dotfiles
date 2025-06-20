@@ -11,6 +11,7 @@
     ../../user/app/ide/vscode.nix
     ../../user/app/media/spotify/spotify.nix
     ../../user/app/media/vlc/vlc.nix
+    ../../user/app/media/nextcloud/nextcloud.nix
     # ../../user/app/other/scenebuilder/scenebuilder.nix
     ../../user/app/social/discord/discord.nix
     # ../../user/app/social/whatsapp/whatsapp.nix
