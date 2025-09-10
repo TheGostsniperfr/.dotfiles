@@ -13,6 +13,7 @@
     ../../user/app/media/vlc/vlc.nix
     ../../user/app/media/nextcloud/nextcloud.nix
     # ../../user/app/other/scenebuilder/scenebuilder.nix
+    ../../user/app/other/jap/jap.nix
     ../../user/app/social/discord/discord.nix
     # ../../user/app/social/whatsapp/whatsapp.nix
     ../../user/app/work/microsoft/todo.nix

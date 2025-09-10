@@ -79,6 +79,8 @@ in
     pulse.enable = true;
   };
 
+  services.flatpak.enable = true;
+
   users.users.${userSettings.username} = {
     isNormalUser = true;
     description = userSettings.username;
