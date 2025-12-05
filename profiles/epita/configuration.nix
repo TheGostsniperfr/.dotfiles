@@ -59,7 +59,7 @@ in
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -84,7 +84,7 @@ in
   # Enable Run unpatched dynamic binaries on NixOS:
   programs.nix-ld.enable = true;
 
- system.stateVersion = "25.05"; # Did you read the comment?
+ system.stateVersion = "25.11"; # Did you read the comment?
  
   # enable flakes:
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
