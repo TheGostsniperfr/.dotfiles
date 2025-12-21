@@ -1,0 +1,10 @@
+keys:
+  - &user_brian age1g5st2tr6aze2m3dc0pm9m0rk0hf8qjkwggmcz3kwcu4kvw60tfgsj5u9q6
+  - &host_nixos age143q88vkea3kgak0whxwjntzumdlefr954yfz6ruweygatl6pv56sgpx2aj
+
+creation_rules:
+  - path_regex: secrets/.*$
+    key_groups:
+      - age:
+          - *user_brian
+          - *host_nixos

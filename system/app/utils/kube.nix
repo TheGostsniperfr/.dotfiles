@@ -5,6 +5,7 @@
     pkgs.minikube
     pkgs.kubectl
     pkgs.kubernetes-helm
+    pkgs.terraform
   ];
 
 }

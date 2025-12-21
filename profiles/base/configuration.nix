@@ -10,6 +10,9 @@ in
     [ # Include the results of the hardware scan.
       ../../system/hardware-configuration.nix
 
+      # Secrets management
+      ../../system/app/secrets/secrets-management.nix
+
       # Add jp keyboard layout
       ../../system/app/layout/jp-ime.nix
 
@@ -18,8 +21,25 @@ in
 
       ../../system/app/gparted/gparted.nix
       # ../../system/app/java/java.nix
-      # ../../system/app/steam/steam.nix
-      ../../system/hardware/nvidia/nvidia.nix
+
+      # Development tools
+      ../../system/app/language/docker/docker.nix
+      ../../system/app/sql/postgresql.nix
+      ../../system/app/utils/kube.nix
+      # ../../system/app/unity/unity.nix
+
+      # Language runtimes and tools
+      ../../system/app/language/java/java.nix
+      ../../system/app/language/dotnet/dotnet.nix
+      ../../system/app/language/python/python.nix
+      ../../system/app/language/go/go.nix
+      ../../system/app/language/c/c.nix
+      ../../system/app/language/r/r.nix
+      ../../system/app/language/php/php.nix
+      ../../system/app/language/rust/rust.nix
+
+      # Games: 
+      ../../system/app/steam/steam.nix
     ];
 
   # Bootloader.

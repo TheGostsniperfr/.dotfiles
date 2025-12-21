@@ -5,6 +5,7 @@
     pkgs.steam-tui
     pkgs.steamcmd
     pkgs.lutris
+    pkgs.appimage-run
   ];
 
   hardware.graphics.enable32Bit = true;

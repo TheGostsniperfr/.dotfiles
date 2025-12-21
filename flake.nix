@@ -1,10 +1,10 @@
 {
   description = "Flake of TheGostsniper";
 
-  outputs = inputs@{ self, nixpkgs, home-manager, nur, nixos-hardware, make-project-prompt, ... }: 
+  outputs = inputs@{ self, nixpkgs, home-manager, nur, nixos-hardware, make-project-prompt, sops-nix, ... }: 
   let 
     systemSettings = {
-      profile = "work";
+      profile = "workstation";
       system = "x86_64-linux"; 
       timeZone = "Europe/Paris";
       locale = "en_US.UTF-8";
@@ -33,7 +33,8 @@
       system = systemSettings.system;
       modules = [ 
         (./. + "/profiles" + ("/" + systemSettings.profile) + "/configuration.nix")
-        nixos-hardware.nixosModules.common-gpu-nvidia
+        # nixos-hardware.nixosModules.common-gpu-nvidia
+        sops-nix.nixosModules.sops
       ];
 
       specialArgs = {
@@ -88,6 +89,10 @@
     };
     nur = {
       url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware";

@@ -10,6 +10,10 @@
     pkgs.poetry
     pkgs.file
 
+    # Secrets management
+    pkgs.age
+    pkgs.sops
+
     # Yaml tools
     pkgs.yq
     pkgs.yamllint
