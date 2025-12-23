@@ -8,7 +8,7 @@ in
 {
   imports =
     [ # Include the results of the hardware scan.
-      ../../system/hardware-configuration.nix
+      # ../../system/hardware-configuration.nix # TODO Remove for clean migration
 
       # Secrets management
       ../../system/app/secrets/secrets-management.nix
@@ -46,7 +46,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "${userSettings.username}"; # Define your hostname.
+  # networking.hostName = "${userSettings.username}"; # Define your hostname.
   
   # Enable networking
   networking.networkmanager.enable = true;

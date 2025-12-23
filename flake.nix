@@ -1,86 +1,6 @@
 {
   description = "Flake of TheGostsniper";
 
-  outputs = inputs@{ self, nixpkgs, home-manager, nur, nixos-hardware, make-project-prompt, sops-nix, ... }: 
-  let 
-    systemSettings = {
-      profile = "workstation";
-      system = "x86_64-linux"; 
-      timeZone = "Europe/Paris";
-      locale = "en_US.UTF-8";
-      extraLocale = "fr_FR.UTF-8";
-      keyboardLayout = "us";
-    };
-
-    userSettings = rec {
-      username = "brian";
-      email = "brianperret.pro@gmail.com";
-      dotfilesDir = "~/.dotfiles";
-    };
-
-    lib = nixpkgs.lib;
-    
-    pkgs = nixpkgs.legacyPackages.${systemSettings.system};
-
-    supportedSystems = [ "aarch64-linux" "i686-linux" "x86_64-linux" ];
-
-    forAllSystems = inputs.nixpkgs.lib.genAttrs supportedSystems;
-
-    nixpkgsFor = forAllSystems (system: import inputs.nixpkgs { inherit system; });
-  in  
-  {
-    nixosConfigurations.brian = lib.nixosSystem {
-      system = systemSettings.system;
-      modules = [ 
-        (./. + "/profiles" + ("/" + systemSettings.profile) + "/configuration.nix")
-        # nixos-hardware.nixosModules.common-gpu-nvidia
-        sops-nix.nixosModules.sops
-      ];
-
-      specialArgs = {
-        inherit systemSettings;
-        inherit userSettings;
-        inherit inputs;
-      };
-    };
-
-    homeConfigurations.brian = home-manager.lib.homeManagerConfiguration {
-      inherit pkgs;
-      modules = [ 
-        (./. + "/profiles" + ("/" + systemSettings.profile) + "/home.nix")
-        nur.modules.homeManager.default
-      ];
-
-      extraSpecialArgs = {
-        inherit systemSettings;
-        inherit userSettings;
-        inherit inputs;
-        make-project-prompt = inputs.make-project-prompt;
-      };
-    };
-
-    packages = forAllSystems (system:
-        let pkgs = nixpkgsFor.${system};
-        in {
-          default = self.packages.${system}.install;
-
-          install = pkgs.writeShellApplication {
-            name = "install";
-            runtimeInputs = with pkgs; [ git ];
-            text = ''${./install.sh} "$@"'';
-          };
-        });
-
-      apps = forAllSystems (system: {
-        default = self.apps.${system}.install;
-
-        install = {
-          type = "app";
-          program = "${self.packages.${system}.install}/bin/install";
-        };
-      }); 
-  };
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     home-manager = {
@@ -97,5 +17,82 @@
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     make-project-prompt.url = "github:briossant/make-project-prompt";
+  };
+
+  outputs = inputs@{ self, nixpkgs, home-manager, nur, nixos-hardware, make-project-prompt, sops-nix, ... }: 
+  let 
+    # Global Settings
+    systemSettings = {
+      system = "x86_64-linux"; 
+      timeZone = "Europe/Paris";
+      locale = "en_US.UTF-8";
+      extraLocale = "fr_FR.UTF-8";
+      keyboardLayout = "us";
+    };
+
+    userSettings = {
+      username = "brian";
+      email = "brianperret.pro@gmail.com";
+      dotfilesDir = "~/.dotfiles";
+    };
+
+    lib = nixpkgs.lib;
+
+    # Logic to detect directories in ./hosts
+    hosts = builtins.attrNames (lib.filterAttrs (n: v: v == "directory") (builtins.readDir ./hosts));
+
+    # Function to create the configuration
+    mkHost = hostName: lib.nixosSystem {
+      system = systemSettings.system;
+      
+      # Pass inputs and settings to all modules
+      specialArgs = {
+        inherit inputs systemSettings userSettings;
+      };
+
+      modules = [
+        # 1. Global Home Manager Setup
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = false;
+          home-manager.useUserPackages = true;
+          home-manager.backupFileExtension = "backup";
+          home-manager.extraSpecialArgs = {
+            inherit inputs systemSettings userSettings;
+            make-project-prompt = inputs.make-project-prompt;
+          };
+          # Global NUR import for Home Manager
+          home-manager.users.${userSettings.username}.imports = [ 
+            nur.modules.homeManager.default 
+          ];
+        }
+
+        # 2. Global Sops Setup
+        sops-nix.nixosModules.sops
+
+        # 3. Import the Host Specific File (The "Bind")
+        (./hosts + "/${hostName}/default.nix")
+
+        # 4. Force Hostname and Allow Unfree globally
+        { 
+          networking.hostName = hostName; 
+          nixpkgs.config.allowUnfree = true;
+        }
+      ];
+    };
+
+  in  
+  {
+    # Generate configurations for every folder found in ./hosts
+    nixosConfigurations = lib.genAttrs hosts mkHost;
+
+    # Keep your formatter/packages logic if needed
+    packages.x86_64-linux.install = let
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
+    in pkgs.writeShellApplication {
+        name = "install";
+        runtimeInputs = with pkgs; [ git ];
+        text = ''${./install.sh} "$@"'';
+    };
   };
 }
