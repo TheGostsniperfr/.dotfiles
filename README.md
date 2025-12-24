@@ -2,11 +2,17 @@
 
 From a new NixOS user, hoping for a good configuration 😊.
 
-## Installation : 
+## Installation
 
-### Single command installation : 
+### Automated Installation (Recommended)
+
+You can install this configuration with a single command. The script handles two scenarios:
+1.  **Existing Host:** If the hostname matches a folder in `hosts/`, it simply applies that config.
+2.  **New Host:** It creates a new host folder, generates the hardware config, and binds it to the profile you specify.
+
+**Syntax:**
 ```bash
-nix-shell -p git --command "nix run --experimental-features 'nix-command flakes' github:TheGostsniperfr/.dotfiles"
+nix run --experimental-features 'nix-command flakes' github:TheGostsniperfr/.dotfiles -- <hostname> <profile>
 ```
 
 ### Custom installation :
