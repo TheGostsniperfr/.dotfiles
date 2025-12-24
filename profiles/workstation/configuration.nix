@@ -26,14 +26,14 @@ in
       mkdir -p $out/lib/firmware/edid
       # On copie le fichier depuis ton dépôt git vers le dossier firmware final
       # Le chemin est relatif à ce fichier configuration.nix
-      cp ${../../system/hardware/edid/4k.bin} $out/lib/firmware/edid/4k_fake.bin
+      cp ${../../system/hardware/edid/2880x1620-120.bin} $out/lib/firmware/edid/2880x1620-120_fake.bin
     '')
   ];
 
   # 2. On dit au Kernel d'utiliser ce fichier pour le port HDMI
   boot.kernelParams = [ 
     # Applique l'EDID 4K sur HDMI-A-1
-    "drm.edid_firmware=HDMI-A-1:edid/4k_fake.bin" 
+    "drm.edid_firmware=HDMI-A-1:edid/2880x1620-120_fake.bin" 
     
     # Force le port à être considéré comme "connecté" même si l'écran est éteint
     "video=HDMI-A-1:e" 
