@@ -10,7 +10,7 @@ in
     [ # Include the results of the hardware scan.
       ../personal/configuration.nix
 
-      ../../system/app/steam/steam.nix
+      # ../../system/app/steam/steam.nix
       ../../system/app/language/docker/docker.nix
 
       ../../system/app/language/java/java.nix
