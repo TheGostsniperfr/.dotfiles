@@ -40,6 +40,9 @@ in
 
       # Games: 
       ../../system/app/steam/steam.nix
+
+      # Other
+      ../../system/app/obs/obs.nix
     ];
 
   # Bootloader.
