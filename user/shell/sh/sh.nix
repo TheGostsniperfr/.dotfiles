@@ -20,6 +20,9 @@ let
     ep = "xdg-open ."; # open path in file explorer
     lc = "nix-shell -p criterion";
 
+    k = "kubectl";
+    kw = "watch kubectl";
+
     # SSH alias
     sshmaster = "ssh master-node@192.168.1.73";
     sshworker01 = "ssh worker-01@192.168.1.168";
@@ -56,7 +59,14 @@ in
 {
   programs.bash = {
     enable = true;
+    enableCompletion = true;
     shellAliases = myAliases;
+
+    initExtra = ''
+      # kubectl Autocompletion
+      source <(kubectl completion bash)
+      complete -F __start_kubectl k
+    '';
   };
 
   home.sessionVariables = {
