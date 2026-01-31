@@ -6,7 +6,7 @@
     ../../user/app/browser/firefox.nix
     ../../user/app/media/spotify/spotify.nix
     ../../user/app/media/vlc/vlc.nix
-    # ../../user/app/media/nextcloud/nextcloud.nix
+    ../../user/app/media/nextcloud/nextcloud.nix
     ../../user/app/other/jap/jap.nix
     ../../user/app/social/discord/discord.nix
     # ../../user/app/social/whatsapp/whatsapp.nix
