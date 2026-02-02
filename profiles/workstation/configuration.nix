@@ -28,10 +28,10 @@ in
     '')
   ];
 
-  boot.kernelParams = [ 
-    "drm.edid_firmware=DP-2:edid/2880x1620-120_fake.bin" 
+  # boot.kernelParams = [ 
+  #   "drm.edid_firmware=DP-2:edid/2880x1620-120_fake.bin" 
     
-    "video=DP-2:e" 
-  ];
+  #   "video=DP-2:e" 
+  # ];
 }
 

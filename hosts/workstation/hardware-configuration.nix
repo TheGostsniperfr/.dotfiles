@@ -24,7 +24,22 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
+  fileSystems."/mnt/data" = {
+      device = "/dev/disk/by-uuid/ddaae936-6a09-47fd-a489-2c354b91e2e2";
+      fsType = "ext4";
+      options = [ "defaults" "nofail" ];
+    };
+
   swapDevices = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+
+  hardware.enableAllFirmware = true;
+
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
+
+  # services.blueman.enable = true;
 }

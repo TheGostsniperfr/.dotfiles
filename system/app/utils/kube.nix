@@ -7,5 +7,7 @@
     pkgs.kubernetes-helm
     pkgs.terraform
     pkgs.kubectx
+    pkgs.kustomize
+    pkgs.vault
   ];
 }

@@ -6,6 +6,7 @@
     pkgs.steamcmd
     pkgs.lutris
     pkgs.appimage-run
+    pkgs.protonup-qt
   ];
 
   hardware.graphics.enable32Bit = true;

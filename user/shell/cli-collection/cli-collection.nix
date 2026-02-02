@@ -9,6 +9,8 @@
     pkgs.usbutils
     pkgs.poetry
     pkgs.file
+    pkgs.jq
+    pkgs.traceroute
 
     # Secrets management
     pkgs.age
