@@ -17,6 +17,7 @@ in
       # ../../user/app/layout/kde-plugins.nix # TODO fix wallpaper engine plugin
       ../../system/app/sunshine/sunshine.nix
       ../../system/app/openssh/openssh.nix
+      ../../system/app/linoffice/linoffice.nix
       
       # Development tools
     ];

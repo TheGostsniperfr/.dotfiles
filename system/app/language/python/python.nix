@@ -2,15 +2,20 @@
 
 {
   environment.systemPackages = with pkgs; [
-    python312
-    python312Packages.pip
-    python312Packages.jupyter-core
-    python312Packages.notebook
-    python312Packages.numpy
-    python312Packages.scipy
-    python312Packages.matplotlib
-    python312Packages.scikit-learn
-    python312Packages.scikit-image
+    (python312.withPackages (ps: with ps; [
+      pip
+      jupyter-core
+      notebook
+      numpy
+      scipy
+      matplotlib
+      scikit-learn
+      scikit-image
+      
+      pyside6
+      requests
+      python-dotenv
+    ]))
 
     # OpenCV runtime deps
     libGL

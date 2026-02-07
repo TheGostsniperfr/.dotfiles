@@ -17,7 +17,7 @@ let
 
     ll = "ls -l";
     ".." = "cd ..";
-    ep = "xdg-open ."; # open path in file explorer
+    # ep = "xdg-open ."; # open path in file explorer
     lc = "nix-shell -p criterion";
 
     k = "kubectl";
@@ -47,12 +47,24 @@ let
     lcms = "source ~/Documents/aepita/pyenv/cms/bin/activate";
     spyenv = "deactivate";
     apc="cd /home/brian/Documents/aepita/ing1/piscine/epita-ing-assistants-acu-piscine-2027-brian.perret";
+    infra="cd ~/Documents/arffornia/infra";
+    epimac="cd ~/Documents/epimac";
 
     # Epita SM alias:
     initepita = "bash ~/afs/.dotfiles/profiles/epita/init.sh";
 
     # Arffornia alias:
     arffornia = "cd ~/Documents/arffornia/";
+
+    # === LinOffice Aliases ===
+    linoffice = "bash ~/.local/bin/linoffice/linoffice.sh";
+    loffice-stop = "linoffice --stopcontainer";
+    # loffice-reset = "linoffice reset"; 
+
+    word = "linoffice word";
+    excel = "linoffice excel";
+    ppt = "linoffice powerpoint";
+    outlook = "linoffice outlook";
   };
   
 in
