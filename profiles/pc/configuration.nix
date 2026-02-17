@@ -10,6 +10,9 @@ in
     [ # Include the results of the hardware scan.
       ../base/configuration.nix
 
+      # Apps
+      ../../system/app/linoffice/linoffice.nix
+
       # GPU
       ../../system/hardware/nvidia/nvidia-igpu.nix
       

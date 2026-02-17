@@ -10,6 +10,9 @@ in
     [ # Include the results of the hardware scan.
       # ../../system/hardware-configuration.nix # TODO Remove for clean migration
 
+      # GPG
+      ../../system/app/gpg/gpg.nix
+
       # Secrets management
       ../../system/app/secrets/secrets-management.nix
 
