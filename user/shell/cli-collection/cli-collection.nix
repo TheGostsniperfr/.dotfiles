@@ -26,7 +26,7 @@
     pkgs.man-pages-posix
 
     # MPP
-    pkgs.xsel
+    pkgs.wl-clipboard
     make-project-prompt.packages.${systemSettings.system}.default
   ];
 }
