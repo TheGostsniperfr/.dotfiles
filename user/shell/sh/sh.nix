@@ -27,6 +27,9 @@ let
     sshmaster = "ssh master-node@192.168.1.73";
     sshworker01 = "ssh worker-01@192.168.1.168";
 
+    # Kubeswitch alias
+    switch = "switcher"; # switch kubernetes context
+
 
     # Update cmd aliases
     update = "sudo nixos-rebuild switch --flake ~/.dotfiles"; # update configuration file using flake

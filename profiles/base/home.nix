@@ -26,6 +26,7 @@
     ../../user/app/ide/vscode.nix
     # ../../user/app/other/scenebuilder/scenebuilder.nix
     ../../user/app/nodejs/nodejs.nix
+    ../../user/app/openstack/openstack.nix
   ];
 
 
