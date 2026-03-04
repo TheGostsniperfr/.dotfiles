@@ -43,6 +43,7 @@ in
 
       # VPN:
       ../../system/app/vpn/openvpn.nix
+      ../../system/app/vpn/wireguard.nix
 
       # Games: 
       ../../system/app/steam/steam.nix
