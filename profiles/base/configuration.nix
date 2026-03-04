@@ -41,6 +41,9 @@ in
       ../../system/app/language/php/php.nix
       ../../system/app/language/rust/rust.nix
 
+      # VPN:
+      ../../system/app/vpn/openvpn.nix
+
       # Games: 
       ../../system/app/steam/steam.nix
 
