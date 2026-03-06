@@ -68,6 +68,9 @@ let
     excel = "linoffice excel";
     ppt = "linoffice powerpoint";
     outlook = "linoffice outlook";
+
+    # Kube Aliases
+    wk = "watch kubectl";
   };
   
 in
