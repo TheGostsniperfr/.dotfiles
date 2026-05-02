@@ -2,7 +2,6 @@
 
 {
   home.packages = [
-    pkgs.vscode
-    pkgs.kiro
+    pkgs.google-chrome
   ];
 }

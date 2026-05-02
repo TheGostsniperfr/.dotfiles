@@ -4,6 +4,7 @@
   imports = [
     # Base Apps
     ../../user/app/browser/firefox.nix
+    ../../user/app/browser/chrome.nix
     ../../user/app/media/spotify/spotify.nix
     ../../user/app/media/vlc/vlc.nix
     ../../user/app/media/nextcloud/nextcloud.nix
