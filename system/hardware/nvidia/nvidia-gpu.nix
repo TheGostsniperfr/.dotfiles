@@ -23,13 +23,11 @@
     #   # extraPackages = [ pkgs.intel-media-driver pkgs.vaapiVdpau ];
     # };
 
-    opengl.enable = true;
-    opengl.driSupport32Bit = true;
+    nvidia-container-toolkit.enable = true;
 
     graphics = {
-      # For 32 bit applications
-      # enable32Bit = true;
       enable = true;
+      enable32Bit = true;
     };
 
     nvidia = {

@@ -8,18 +8,18 @@
 
   programs.git = {
     enable = true;
-    # userName = "TheGostsniperfr";
-    userName = "brian.perret";
-    # userEmail = userSettings.email;
-    userEmail = "brian.perret@epita.fr";
+
+    settings = {
+      user = {
+        name = "brian.perret";
+        email = "brian.perret@epita.fr";
+      };
+      init.defaultBranch = "main";
+    };
 
     signing = {
       signByDefault = false; 
       key = "brian.perret@epita.fr";
-    };
-
-    extraConfig = {
-      init.defaultBranch = "main";
     };
 
     includes = [

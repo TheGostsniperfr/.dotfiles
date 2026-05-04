@@ -18,6 +18,9 @@ in
       ../../system/app/sunshine/sunshine.nix
       ../../system/app/openssh/openssh.nix
       ../../system/app/linoffice/linoffice.nix
+      ../../system/app/music/music.nix
+
+      ../../system/app/network/cisco-packet-tracer.nix
       
       # Development tools
     ];

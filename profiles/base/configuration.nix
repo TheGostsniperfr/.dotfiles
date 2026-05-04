@@ -33,13 +33,13 @@ in
 
       # Language runtimes and tools
       ../../system/app/language/java/java.nix
-      ../../system/app/language/dotnet/dotnet.nix
+      # ../../system/app/language/dotnet/dotnet.nix
       ../../system/app/language/python/python.nix
       ../../system/app/language/go/go.nix
       ../../system/app/language/c/c.nix
       ../../system/app/language/r/r.nix
       ../../system/app/language/php/php.nix
-      ../../system/app/language/rust/rust.nix
+      # ../../system/app/language/rust/rust.nix
 
       # VPN:
       ../../system/app/vpn/openvpn.nix
@@ -50,7 +50,7 @@ in
 
       # Other
       ../../system/app/obs/obs.nix
-      ../../system/app/tailscale/tailscale.nix
+      # ../../system/app/tailscale/tailscale.nix
     ];
 
   # Bootloader.
@@ -100,6 +100,8 @@ in
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  boot.kernelModules = [ "snd-seq" "snd-rawmidi" ];
+
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -108,6 +110,7 @@ in
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    jack.enable = true;
   };
 
   services.flatpak.enable = true;

@@ -31,18 +31,20 @@
     stdenv.cc.cc.lib
   ];
 
-  environment.sessionVariables = {
-    LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [
-      pkgs.libGL
-      pkgs.libGLU
-      pkgs.xorg.libX11
-      pkgs.xorg.libXext
-      pkgs.xorg.libXrender
-      pkgs.xorg.libXinerama
-      pkgs.xorg.libXcursor
-      pkgs.xorg.libXi
-      pkgs.glib      
-      pkgs.stdenv.cc.cc.lib
-    ];
+environment.sessionVariables = {
+    LD_LIBRARY_PATH = [  
+      (pkgs.lib.makeLibraryPath[
+        pkgs.libGL
+        pkgs.libGLU
+        pkgs.xorg.libX11
+        pkgs.xorg.libXext
+        pkgs.xorg.libXrender
+        pkgs.xorg.libXinerama
+        pkgs.xorg.libXcursor
+        pkgs.xorg.libXi
+        pkgs.glib      
+        pkgs.stdenv.cc.cc.lib
+      ])
+    ];  
   };
 }

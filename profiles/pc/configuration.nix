@@ -18,7 +18,7 @@ in
       
       # Development tools
       # ../../system/app/language/octave/octave.nix
-      # ../../system/app/gns3/gns3.nix
+      # ../../system/app/network/gns3.nix
     ];
 }
 

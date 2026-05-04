@@ -46,6 +46,7 @@ let
 
     # Epita tool alias : 
     aepita = "cd ~/Documents/aepita/";
+    "3i" = "cd ~/Documents/aepita/ing2/3-Istor/";
     lmounette = "source ~/Documents/aepita/pyenv/mounette/bin/activate";
     lcms = "source ~/Documents/aepita/pyenv/cms/bin/activate";
     spyenv = "deactivate";
