@@ -11,6 +11,7 @@
     pkgs.file
     pkgs.jq
     pkgs.traceroute
+    pkgs.openssl
 
     # Secrets management
     pkgs.age
