@@ -19,7 +19,7 @@
 
     signing = {
       signByDefault = false; 
-      key = "brian.perret@epita.fr";
+      key = "22DEE91446BB48B8";
     };
 
     includes = [
@@ -29,7 +29,7 @@
           user = {
             name = "Brian Perret";
             email = "brian1.perret@epita.fr";
-            signingKey = "brian1.perret@epita.fr";
+            signingKey = "22DEE91446BB48B8";
           };
 
           commit = {
@@ -51,7 +51,7 @@
           user = {
             name = "Brian Perret";
             email = "brian.perret@epita.fr";
-            signingKey = "brian.perret@epita.fr";
+            signingKey = "22DEE91446BB48B8";
           };
 
           commit = {
@@ -73,7 +73,7 @@
           user = {
             name = "TheGostsniperfr";
             email = "brianperret.pro@gmail.com";
-            signingKey = "brianperret.pro@gmail.com";
+            signingKey = "22DEE91446BB48B8";
           };
 
           commit = {

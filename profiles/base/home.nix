@@ -16,6 +16,8 @@
     # ../../user/app/photo/darktable/darktable.nix
     ../../user/shell/cli-collection/cli-collection.nix
     ../../user/shell/sh/sh.nix
+    ../../user/shell/kube/krew.nix
+    ../../user/app/ai/gemini.nix
 
     # Development Apps
     ../../user/app/git/git.nix

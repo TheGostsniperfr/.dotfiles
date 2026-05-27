@@ -12,5 +12,6 @@
     pkgs.kustomize
     pkgs.vault
     pkgs.kubelogin-oidc
+    pkgs.ktop
   ];
 }
