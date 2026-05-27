@@ -11,5 +11,6 @@
     pkgs.kubeswitch
     pkgs.kustomize
     pkgs.vault
+    pkgs.kubelogin-oidc
   ];
 }
