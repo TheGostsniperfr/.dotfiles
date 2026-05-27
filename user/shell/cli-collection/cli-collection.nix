@@ -1,4 +1,4 @@
-{ pkgs, systemSettings, make-project-prompt, ... }:
+{ pkgs, systemSettings, make-project-prompt, antigravity, ... }:
 
 {
   home.packages = [
@@ -29,5 +29,8 @@
     # MPP
     pkgs.wl-clipboard
     make-project-prompt.packages.${systemSettings.system}.default
+
+    # Antigravity
+    antigravity.packages.${systemSettings.system}.default
   ];
 }

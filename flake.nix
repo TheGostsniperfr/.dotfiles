@@ -17,9 +17,10 @@
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     make-project-prompt.url = "github:briossant/make-project-prompt";
+    antigravity.url = "github:TheGostsniperfr/antigravity2.0-nix";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, nur, nixos-hardware, make-project-prompt, sops-nix, ... }: 
+  outputs = inputs@{ self, nixpkgs, home-manager, nur, nixos-hardware, make-project-prompt, antigravity, sops-nix, ... }: 
   let 
     # Global Settings
     systemSettings = {
@@ -60,6 +61,7 @@
           home-manager.extraSpecialArgs = {
             inherit inputs systemSettings userSettings;
             make-project-prompt = inputs.make-project-prompt;
+            antigravity = inputs.antigravity;
           };
           # Global NUR import for Home Manager
           home-manager.users.${userSettings.username}.imports = [ 
