@@ -24,14 +24,14 @@ let
     src = "${ptAppImage}/packettracer.AppImage";
     
     extraPkgs = pkgs: with pkgs; [
-      libpng xorg.libxkbfile stdenv.cc.cc.lib alsa-lib dbus expat 
+      libpng libxkbfile stdenv.cc.cc.lib alsa-lib dbus expat 
       fontconfig freetype glib libGL libdrm libglvnd libpulseaudio 
       libxkbcommon libxml2 libxslt nspr nss udev wayland zlib
-      xorg.libICE xorg.libSM xorg.libX11 xorg.libXScrnSaver 
-      xorg.libXcomposite xorg.libXcursor xorg.libXdamage xorg.libXext 
-      xorg.libXfixes xorg.libXi xorg.libXrandr xorg.libXrender 
-      xorg.libXtst xorg.libxcb xorg.xcbutilcursor xorg.xcbutilimage 
-      xorg.xcbutilkeysyms xorg.xcbutilrenderutil xorg.xcbutilwm
+      libice libsm libx11 libxscrnsaver 
+      libxcomposite libxcursor libxdamage libxext 
+      libxfixes libxi libxrandr libxrender 
+      libxtst libxcb libxcb-cursor libxcb-image 
+      libxcb-keysyms libxcb-render-util libxcb-wm
     ];
 
     extraInstallCommands = ''

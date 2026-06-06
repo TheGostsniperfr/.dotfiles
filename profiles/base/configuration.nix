@@ -52,6 +52,9 @@ in
       # Other
       ../../system/app/obs/obs.nix
       # ../../system/app/tailscale/tailscale.nix
+
+      # KDE Packages
+      ../../system/app/kde/kde-connect.nix
     ];
 
   # Bootloader.
@@ -124,8 +127,6 @@ in
     #  thunderbird
     ];
   };
-
-  nixpkgs.config.allowUnfree = true;
 
   nixpkgs.config.permittedInsecurePackages = [
     "electron-38.8.4"

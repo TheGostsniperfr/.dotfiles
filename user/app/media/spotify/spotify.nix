@@ -2,12 +2,6 @@
 
 {
   home.packages = with pkgs; [
-    # Spotify (no ads)
-    nur.repos.nltch.spotify-adblock    #for installing spotify-adblock
-    # nur.repos.nltch.ciscoPacketTracer8 #for installing packettracer8 
+    nur.repos.nltch.spotify-adblock
   ];
-
-  # nixpkgs.config.permittedInsecurePackages = [
-  #   "ciscoPacketTracer8-8.2.2"
-  # ];
 }

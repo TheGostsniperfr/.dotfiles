@@ -88,8 +88,6 @@ in
     ];
   };
 
-  nixpkgs.config.allowUnfree = true;
-
   services.fprintd.enable = true;
   
   # Enable Run unpatched dynamic binaries on NixOS:

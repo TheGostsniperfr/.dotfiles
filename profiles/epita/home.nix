@@ -11,9 +11,7 @@
   home.username = userSettings.username;
   home.homeDirectory = "/home/" + userSettings.username;
 
-  nixpkgs.config.allowUnfree = true;
-
-  home.stateVersion = "25.11"; # home-manager verison
+  home.stateVersion = "26.05"; # home-manager verison
 
   home.file = {
   

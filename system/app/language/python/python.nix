@@ -20,12 +20,12 @@
     # OpenCV runtime deps
     libGL
     libGLU
-    xorg.libX11
-    xorg.libXext
-    xorg.libXrender
-    xorg.libXinerama
-    xorg.libXcursor
-    xorg.libXi
+    libX11
+    libXext
+    libXrender
+    libXinerama
+    libXcursor
+    libXi
     glib        
 
     stdenv.cc.cc.lib
@@ -36,12 +36,12 @@ environment.sessionVariables = {
       (pkgs.lib.makeLibraryPath[
         pkgs.libGL
         pkgs.libGLU
-        pkgs.xorg.libX11
-        pkgs.xorg.libXext
-        pkgs.xorg.libXrender
-        pkgs.xorg.libXinerama
-        pkgs.xorg.libXcursor
-        pkgs.xorg.libXi
+        pkgs.libX11
+        pkgs.libXext
+        pkgs.libXrender
+        pkgs.libXinerama
+        pkgs.libXcursor
+        pkgs.libXi
         pkgs.glib      
         pkgs.stdenv.cc.cc.lib
       ])

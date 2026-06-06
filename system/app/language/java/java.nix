@@ -4,7 +4,7 @@
   environment.systemPackages = [
     pkgs.javaPackages.openjfx17
     pkgs.libGL
-    pkgs.xorg.libXtst
+    pkgs.libXtst
 
     pkgs.zulu
     pkgs.quarkus

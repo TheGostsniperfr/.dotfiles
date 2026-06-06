@@ -2,9 +2,9 @@
   description = "Flake of TheGostsniper";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nur = {
@@ -79,7 +79,25 @@
         { 
           networking.hostName = hostName; 
           nixpkgs.config.allowUnfree = true;
-          nixpkgs.overlays = [ nur.overlays.default ]; 
+          documentation.enable = false;
+          nixpkgs.overlays = [ 
+            nur.overlays.default 
+            (final: prev: {
+              rustPlatform = prev.rustPlatform // {
+                buildRustPackage = args:
+                  if args ? pname && args.pname == "spotify-adblock" then
+                    prev.rustPlatform.buildRustPackage (args // {
+                      src = args.src.overrideAttrs (_: {
+                        outputHash = "sha256-0Iho3yupFlB0XrrKwEptdDpeeIQldWbeQmDJQL+4NVQ=";
+                        outputHashAlgo = "sha256";
+                      });
+                      cargoHash = "sha256-gxGetdqaoJa/ZF1VnW6UXJyJfLBGZxZnyKpT/Qk/8Og=";
+                    })
+                  else
+                    prev.rustPlatform.buildRustPackage args;
+              };
+            })
+          ]; 
         }
       ];
     };
