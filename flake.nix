@@ -83,21 +83,36 @@
           nixpkgs.overlays = [ 
             nur.overlays.default 
             (final: prev: {
-              rustPlatform = prev.rustPlatform // {
-                buildRustPackage = args:
-                  if args ? pname && args.pname == "spotify-adblock" then
-                    prev.rustPlatform.buildRustPackage (args // {
-                      src = args.src.overrideAttrs (_: {
-                        outputHash = "sha256-0Iho3yupFlB0XrrKwEptdDpeeIQldWbeQmDJQL+4NVQ=";
-                        outputHashAlgo = "sha256";
-                      });
-                      cargoHash = "sha256-gxGetdqaoJa/ZF1VnW6UXJyJfLBGZxZnyKpT/Qk/8Og=";
-                    })
-                  else
-                    prev.rustPlatform.buildRustPackage args;
+              spotify-adblock = final.rustPlatform.buildRustPackage rec {
+                pname = "spotify-adblock";
+                version = "1.0.3";
+
+                src = prev.fetchFromGitHub {
+                  owner = "abba23";
+                  repo = "spotify-adblock";
+                  rev = "v${version}";
+                  hash = "sha256-0Iho3yupFlB0XrrKwEptdDpeeIQldWbeQmDJQL+4NVQ=";
+                };
+
+                cargoHash = "sha256-gxGetdqaoJa/ZF1VnW6UXJyJfLBGZxZnyKpT/Qk/8Og=";
+
+                postInstall = ''
+                  mkdir -p $out/etc/spotify-adblock
+                  cp config.toml $out/etc/spotify-adblock/config.toml
+                '';
+              };
+
+              spotify-adblocked = prev.symlinkJoin {
+                name = "spotify";
+                paths = [ prev.spotify ];
+                nativeBuildInputs = [ prev.makeWrapper ];
+                postBuild = ''
+                  wrapProgram $out/bin/spotify \
+                    --set LD_PRELOAD "${final.spotify-adblock}/lib/libspotifyadblock.so"
+                '';
               };
             })
-          ]; 
+          ];
         }
       ];
     };

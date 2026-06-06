@@ -14,5 +14,6 @@
     pkgs.kubelogin-oidc
     pkgs.ktop
     pkgs.talosctl
+    pkgs.awscli
   ];
 }
