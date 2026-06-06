@@ -33,6 +33,7 @@ in
 
       # Language runtimes and tools
       ../../system/app/language/java/java.nix
+      ../../system/app/language/nodejs/nodejs.nix
       # ../../system/app/language/dotnet/dotnet.nix
       ../../system/app/language/python/python.nix
       ../../system/app/language/go/go.nix
@@ -126,12 +127,17 @@ in
 
   nixpkgs.config.allowUnfree = true;
 
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-38.8.4"
+    "gradle-7.6.6"
+  ];
+
   services.fprintd.enable = true;
   
   # Enable Run unpatched dynamic binaries on NixOS:
   programs.nix-ld.enable = true;
 
- system.stateVersion = "25.11"; # Did you read the comment?
+  system.stateVersion = "25.11"; # Did you read the comment?
  
   # enable flakes:
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

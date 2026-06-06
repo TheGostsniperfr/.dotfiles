@@ -15,8 +15,4 @@
     enable = true;
     package = (pkgs.jdk17.override { enableJavaFX = true; });
   };
-
-  nixpkgs.config.permittedInsecurePackages = [
-    "gradle-7.6.6"
-  ];
 }

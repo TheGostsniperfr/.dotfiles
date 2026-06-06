@@ -55,7 +55,7 @@
         # 1. Global Home Manager Setup
         home-manager.nixosModules.home-manager
         {
-          home-manager.useGlobalPkgs = false;
+          home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "backup";
           home-manager.extraSpecialArgs = {
@@ -79,6 +79,7 @@
         { 
           networking.hostName = hostName; 
           nixpkgs.config.allowUnfree = true;
+          nixpkgs.overlays = [ nur.overlays.default ]; 
         }
       ];
     };

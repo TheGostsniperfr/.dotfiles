@@ -15,7 +15,6 @@
     # ../../user/app/social/discord/discord.nix
     # ../../user/app/social/whatsapp/whatsapp.nix
     # ../../user/app/work/microsoft/todo.nix
-    ../../user/app/nodejs/nodejs.nix
     # ../../user/app/photo/darktable/darktable.nix
     # ../../user/app/media/obs/obs.nix
 

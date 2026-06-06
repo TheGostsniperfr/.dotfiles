@@ -14,6 +14,7 @@ in
       ../../system/app/language/docker/docker.nix
 
       ../../system/app/language/java/java.nix
+      ../../system/app/language/nodejs/nodejs.nix
       # ../../system/app/language/dotnet/dotnet.nix
       ../../system/app/language/python/python.nix
       ../../system/app/language/go/go.nix

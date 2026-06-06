@@ -28,7 +28,6 @@
     # ../../user/app/ide/pycharm.nix
     ../../user/app/ide/vscode.nix
     # ../../user/app/other/scenebuilder/scenebuilder.nix
-    ../../user/app/nodejs/nodejs.nix
     ../../user/app/openstack/openstack.nix
   ];
 
@@ -36,7 +35,7 @@
   home.username = userSettings.username;
   home.homeDirectory = "/home/" + userSettings.username;
 
-  nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.allowUnfree = true;
 
   home.stateVersion = "25.11"; # home-manager verison
 

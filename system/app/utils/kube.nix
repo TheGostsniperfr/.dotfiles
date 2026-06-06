@@ -13,5 +13,6 @@
     pkgs.vault
     pkgs.kubelogin-oidc
     pkgs.ktop
+    pkgs.talosctl
   ];
 }
