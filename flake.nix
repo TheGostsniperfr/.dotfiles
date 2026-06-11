@@ -64,9 +64,9 @@
             antigravity = inputs.antigravity;
           };
           # Global NUR import for Home Manager
-          home-manager.users.${userSettings.username}.imports = [ 
-            nur.modules.homeManager.default 
-          ];
+          # home-manager.users.${userSettings.username}.imports = [ 
+          #   nur.modules.homeManager.default 
+          # ];
         }
 
         # 2. Global Sops Setup
@@ -91,10 +91,10 @@
                   owner = "abba23";
                   repo = "spotify-adblock";
                   rev = "v${version}";
-                  hash = "sha256-0Iho3yupFlB0XrrKwEptdDpeeIQldWbeQmDJQL+4NVQ=";
+                  hash = "sha256-UzpHAHpQx2MlmBNKm2turjeVmgp5zXKWm3nZbEo0mYE=";
                 };
 
-                cargoHash = "sha256-gxGetdqaoJa/ZF1VnW6UXJyJfLBGZxZnyKpT/Qk/8Og=";
+                cargoHash = "sha256-oGpe+kBf6kBboyx/YfbQBt1vvjtXd1n2pOH6FNcbF8M=";
 
                 postInstall = ''
                   mkdir -p $out/etc/spotify-adblock
