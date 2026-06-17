@@ -1,4 +1,4 @@
-{ config, pkgs, systemSettings, userSettings, ... }:
+{ config, pkgs, systemSettings, userSettings, inputs, ... }:
 
 let 
 
@@ -9,6 +9,8 @@ in
   imports =
     [ # Include the results of the hardware scan.
       # ../../system/hardware-configuration.nix # TODO Remove for clean migration
+
+      inputs.antigravity2.nixosModules.default
 
       # GPG
       ../../system/app/gpg/gpg.nix
@@ -132,6 +134,11 @@ in
     "electron-38.8.4"
     "gradle-7.6.6"
   ];
+
+  programs.antigravity = {
+    enable = true;
+    displayManager = "sddm"; 
+  };
 
   services.fprintd.enable = true;
   

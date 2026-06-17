@@ -15,5 +15,6 @@
     pkgs.ktop
     pkgs.talosctl
     pkgs.awscli
+    pkgs.terragrunt
   ];
 }
