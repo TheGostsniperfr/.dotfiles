@@ -20,8 +20,9 @@ let
     # ep = "xdg-open ."; # open path in file explorer
     lc = "nix-shell -p criterion";
 
-    k = "kubectl";
-    kw = "watch kubectl";
+    k = "kubecolor";
+    kubectl = "kubecolor";
+    wk = "watch --color kubecolor"; 
 
     # SSH alias
     sshmaster = "ssh master-node@192.168.1.73";
@@ -69,13 +70,12 @@ let
     excel = "linoffice excel";
     ppt = "linoffice powerpoint";
     outlook = "linoffice outlook";
-
-    # Kube Aliases
-    wk = "watch kubectl";
   };
   
 in
 {
+  home.packages = [ pkgs.grc ];
+
   programs.bash = {
     enable = true;
     enableCompletion = true;
@@ -85,7 +85,25 @@ in
       # kubectl Autocompletion
       source <(kubectl completion bash)
       complete -F __start_kubectl k
+      complete -F __start_kubectl kubecolor
+
+      if [ -f "${pkgs.grc}/etc/grc.bashrc" ]; then
+        source "${pkgs.grc}/etc/grc.bashrc"
+      fi
     '';
+  };
+
+  programs.zellij = {
+    enable = true;
+    settings = {
+      theme = "default";
+      pane_frames = true; 
+      ui = {
+        pane_frames = {
+          rounded_corners = true;
+        };
+      };
+    };
   };
 
   home.sessionVariables = {
