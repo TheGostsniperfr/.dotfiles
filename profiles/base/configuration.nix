@@ -54,9 +54,6 @@ in
       # Other
       ../../system/app/obs/obs.nix
       # ../../system/app/tailscale/tailscale.nix
-
-      # KDE Packages
-      ../../system/app/kde/kde-connect.nix
     ];
 
   # Bootloader.
@@ -144,6 +141,9 @@ in
   
   # Enable Run unpatched dynamic binaries on NixOS:
   programs.nix-ld.enable = true;
+
+  # Enable KDE Connect  
+  programs.kdeconnect.enable = true;
 
   system.stateVersion = "25.11"; # Did you read the comment?
  

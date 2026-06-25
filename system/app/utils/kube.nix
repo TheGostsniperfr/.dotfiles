@@ -16,5 +16,6 @@
     pkgs.talosctl
     pkgs.awscli
     pkgs.terragrunt
+    pkgs.boundary
   ];
 }

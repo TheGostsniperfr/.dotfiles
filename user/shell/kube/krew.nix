@@ -16,12 +16,14 @@
     export PATH="${pkgs.krew}/bin:${pkgs.kubectl}/bin:${pkgs.git}/bin:$PATH"
     export PATH="$HOME/.krew/bin:$PATH"
 
-    echo "🔄 Updating Krew index..."
+    if [ ! -d "$HOME/.krew/store/resource-capacity" ]; then
+      echo "🔄 Updating Krew index..."
     # Use standalone 'krew' binary since 'kubectl krew' might not exist yet on a fresh install
-    krew update || true
+      krew update || true
 
-    echo "📦 Installing Krew Plugins..."
+      echo "📦 Installing Krew Plugins..."
     # Install 'krew' first to create the 'kubectl-krew' binary, then install the other plugins
-    krew install krew resource-capacity modify-secret get-all || true
+      krew install krew resource-capacity modify-secret get-all || true
+    fi
   '';
 }

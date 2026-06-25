@@ -16,7 +16,9 @@
 
       mkdir -p "$HOME/.npm-global"
 
-      echo "Installing / updating gemini-cli..."
-      ${pkgs.nodejs}/bin/npm install -g @google/gemini-cli@latest
+      if [ ! -x "$HOME/.npm-global/bin/gemini" ]; then
+        echo "Installing gemini-cli..."
+        ${pkgs.nodejs}/bin/npm install -g @google/gemini-cli@latest
+      fi
     '';
 }

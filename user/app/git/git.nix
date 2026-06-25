@@ -11,10 +11,13 @@
 
     settings = {
       user = {
-        name = "brian.perret";
-        email = "brian.perret@epita.fr";
+        name = "TheGostsniperfr";
+        email = "brianperret.pro@gmail.com";
       };
       init.defaultBranch = "main";
+      core = {
+        sshCommand = "ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes";
+      };
     };
 
     signing = {
@@ -24,29 +27,7 @@
 
     includes = [
       {
-        condition = "gitdir:~/Documents/aepita/forge/";
-        contents = {
-          user = {
-            name = "Brian Perret";
-            email = "brian1.perret@epita.fr";
-            signingKey = "318BD4D2D1ED7837";
-          };
-
-          commit = {
-            gpgsign = true;
-          };
-
-          pull = {
-            rebase = true;
-          };
-
-          tag = {
-            gpgsign = true;
-          };
-        };
-      }
-      {
-        condition = "gitdir:~/Documents/aepita/ing2/pae/";
+        condition = "gitdir:~/Documents/aepita/";
         contents = {
           user = {
             name = "Brian Perret";
@@ -68,12 +49,16 @@
         };
       }
       {
-        condition = "gitdir:~/Documents/arffornia/";
+        condition = "gitdir:~/Documents/aepita/forge/";
         contents = {
           user = {
-            name = "TheGostsniperfr";
-            email = "brianperret.pro@gmail.com";
+            name = "Brian Perret";
+            email = "brian1.perret@epita.fr";
             signingKey = "318BD4D2D1ED7837";
+          };
+
+          core = {
+            sshCommand = "ssh -i ~/.ssh/id_rsa -o IdentitiesOnly=yes";
           };
 
           commit = {
