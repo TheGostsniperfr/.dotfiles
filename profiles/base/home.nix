@@ -18,6 +18,7 @@
     ../../user/shell/sh/sh.nix
     ../../user/shell/kube/krew.nix
     ../../user/app/ai/gemini.nix
+    ../../user/app/konsole/konsole.nix
 
     # Development Apps
     ../../user/app/git/git.nix

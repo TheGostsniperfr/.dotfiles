@@ -1,0 +1,18 @@
+MenuBar=Disabled
+
+[Desktop Entry]
+DefaultProfile=Brian.profile
+
+[General]
+ConfigVersion=1
+
+[MainWindow]
+ToolBarsMovable=Enabled
+
+[Notification Messages]
+CloseAllEmptyTabs=true
+CloseAllTabs=true
+CloseSingleTab=true
+
+[UiSettings]
+ColorScheme=
