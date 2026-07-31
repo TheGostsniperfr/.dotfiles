@@ -1,81 +1,47 @@
 { pkgs, config, lib, inputs, ... }: {
-  # imports = [
-  #   inputs.nixos-hardware.nixosModules.common-gpu-nvidia
 
-  #   # TODO: why do I get the below error?
-  #   # error: The option `hardware.intelgpu.loadInInitrd' in `/nix/store/4mgg9mrh8g0qj4g3z9zvqhrniig10bsn-source/systems/evo/hardware/gpus.nix' is already declared in `/nix/store/75hvhrfigcnckibdlg877157bpwjmy85-source/common/gpu/intel'.
-  #   # Where is the other coming from?g
-  #   # inputs.nixos-hardware.nixosModules.common-gpu-intel
-  # ];
-
-  # boot = {
-  #   # TODO: confirm this works
-  #   # https://forums.developer.nvidia.com/t/550-54-14-cannot-create-sg-table-for-nvkmskapimemory-spammed-when-launching-chrome-on-wayland/284775/26
-  #   initrd.kernelModules = [ "nvidia" "i915" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
-  #   # extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
-  #   kernelParams = [ "nvidia-drm.fbdev=1" ];
-  # };
+  # Display Drivers: Use strictly "nvidia".
+  # Do NOT place "modesetting" before "nvidia", as it forces Xwayland and Lutris 
+  # to load Proxmox's virtual display driver (bochs-drm) before your RTX 5080,
+  # causing Lutris to crash with incorrect PRIME Offload settings.
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware = {
-    # deprecated for graphics.enable
-    # opengl = {
-    #   enable = true;
-    #   # extraPackages = [ pkgs.intel-media-driver pkgs.vaapiVdpau ];
-    # };
-
+    # Enables NVIDIA GPU passthrough support for Docker / Podman containers
     nvidia-container-toolkit.enable = true;
 
+    # Graphics & Vulkan Subsystem
     graphics = {
       enable = true;
+      # Crucial for 32-bit Steam games, Wine/Proton runners, and 32-bit Java libraries
       enable32Bit = true;
     };
 
     nvidia = {
-      # Modesetting is required.
+      # DRM Modesetting is required for Wayland compositors (KDE Plasma 6, Hyprland, etc.)
       modesetting.enable = true;
 
-      # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-      # Enable this if you have graphical corruption issues or application crashes after waking
-      # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
-      # of just the bare essentials.
-      # powerManagement.enable = false;
+      # Disable power management inside the VM.
+      # EXPERIMENTAL power-saving features can cause hypervisor VRAM crashes,
+      # graphical corruption, or black screens after waking up.
+      powerManagement.enable = false;
+      powerManagement.finegrained = false;
 
-      # Fine-grained power management. Turns off GPU when not in use.
-      # Experimental and only works on modern Nvidia GPUs (Turing or newer).
-      # powerManagement.finegrained = false;
-
-      # Use the NVidia open source kernel module (not to be confused with the
-      # independent third-party "nouveau" open source driver).
-      # Support is limited to the Turing and later architectures. Full list of
-      # supported GPUs is at:
-      # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
-      # Only available from driver 515.43.04+
-      # Currently alpha-quality/buggy, so false is currently the recommended setting.
+      # Use NVIDIA's open-source kernel module.
+      # This is the recommended default by NVIDIA for modern architectures (RTX 4000/5000 series).
       open = true;
 
-      # forceFullCompositionPipeline = true;
+      # Enables the nvidia-settings GUI utility
+      nvidiaSettings = true;
 
-      # prime = {
-      #   intelBusId = "PCI:0:2:0";
-      #   nvidiaBusId = "PCI:1:0:0";
-      #   offload = {
-      #     enable = true;
-      #     enableOffloadCmd = true;
-      #   };
-      #   # Make the Intel iGP default. The NVIDIA Quadro is for CUDA/NVENC
-      #   # reverseSync.enable = true;
-      #   # sync.enable = true;
-      # };
-      # nvidiaSettings = true;
-
-      # Optionally, you may need to select the appropriate driver version for your specific GPU.
+      # Driver package selection (Beta driver branch is recommended for cutting-edge GPUs like RTX 5080)
       package = config.boot.kernelPackages.nvidiaPackages.beta;
     };
   };
 
-  services.xserver.videoDrivers = [
-    "modesetting"  
-    "nvidia"
+  # System-wide packages required for gaming runners (Lutris, Wine, Proton)
+  environment.systemPackages = with pkgs; [
+    vulkan-tools   # Provides 'vulkaninfo' (fixes the Lutris missing /usr/bin/vulkaninfo error)
+    vulkan-loader  # Ensures Vulkan ICD drivers are properly discoverable by games
   ];
-
 }

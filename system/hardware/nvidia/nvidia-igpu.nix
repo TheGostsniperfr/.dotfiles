@@ -73,8 +73,12 @@
   };
 
   services.xserver.videoDrivers = [
-    "modesetting"  
     "nvidia"
   ];
 
+  # System-wide packages required for gaming runners (Lutris, Wine, Proton)
+  environment.systemPackages = with pkgs; [
+    vulkan-tools   # Provides 'vulkaninfo' (fixes the Lutris missing /usr/bin/vulkaninfo error)
+    vulkan-loader  # Ensures Vulkan ICD drivers are properly discoverable by games
+  ];
 }
