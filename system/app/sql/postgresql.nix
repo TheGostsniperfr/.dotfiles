@@ -2,7 +2,7 @@
 
 {
   services.postgresql = {
-    enable = false;
+    enable = true;
     package = pkgs.postgresql_15;
 
     initialScript = pkgs.writeText "initial-postgres.sql" ''

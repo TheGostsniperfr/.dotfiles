@@ -1,0 +1,54 @@
+{
+  "theme": "dark",
+
+  "model": "claude-sonnet-4-6",
+
+  "permissions": {
+    "allow": [
+      "Bash(git:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(pwd:*)",
+      "Bash(which:*)",
+      "Bash(cat:*)",
+      "Bash(echo:*)",
+      "Bash(nix:*)",
+      "Bash(nixos-rebuild:*)",
+      "Bash(home-manager:*)",
+      "Bash(systemctl status:*)",
+      "Bash(journalctl:*)",
+      "Bash(df:*)",
+      "Bash(du:*)",
+      "Bash(ps:*)",
+      "Bash(uname:*)"
+    ],
+    "deny": []
+  },
+
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[hook] modified: $(echo '$CLAUDE_TOOL_INPUT' | python3 -c \"import sys,json; d=json.load(sys.stdin); print(d.get('file_path',''))\" 2>/dev/null)\" >&2"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "notify-send --app-name='Claude Code' --icon=terminal 'Task complete' 'Claude has finished.' 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  },
+
+  "env": {}
+}

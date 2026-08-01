@@ -1,6 +1,6 @@
 [Appearance]
 BorderWhenActive=false
-ColorScheme=WhiteOnBlack
+ColorScheme=Dracula
 FocusBorderColor=79,30,164
 
 [Cursor Options]

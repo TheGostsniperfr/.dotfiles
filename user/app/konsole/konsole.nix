@@ -9,6 +9,7 @@ let
     cp -f "$HOME/.config/konsolerc" "$DOT_DIR/konsolerc" 2>/dev/null || true
     cp -f "$HOME/.local/share/konsole/Brian.profile" "$DOT_DIR/Brian.profile" 2>/dev/null || true
     cp -f "$HOME/.local/share/konsole/WhiteOnBlack.colorscheme" "$DOT_DIR/WhiteOnBlack.colorscheme" 2>/dev/null || true
+    cp -f "$HOME/.local/share/konsole/Dracula.colorscheme" "$DOT_DIR/Dracula.colorscheme" 2>/dev/null || true
     
     sync_xml() {
       FILE=$1
@@ -58,6 +59,7 @@ in
     rm -f "$HOME/.config/konsolerc"
     rm -f "$KONSOLE_DIR/Brian.profile"
     rm -f "$KONSOLE_DIR/WhiteOnBlack.colorscheme"
+    rm -f "$KONSOLE_DIR/Dracula.colorscheme"
     rm -f "$KXML5_DIR/konsoleui.rc"
     rm -f "$KXML5_DIR/sessionui.rc"
     rm -f "$KXML6_DIR/konsoleui.rc"
@@ -66,6 +68,7 @@ in
     cp -f "${./konsolerc}" "$HOME/.config/konsolerc"
     cp -f "${./Brian.profile}" "$KONSOLE_DIR/Brian.profile"
     cp -f "${./WhiteOnBlack.colorscheme}" "$KONSOLE_DIR/WhiteOnBlack.colorscheme"
+    cp -f "${./Dracula.colorscheme}" "$KONSOLE_DIR/Dracula.colorscheme"
 
     cp -f "${./konsoleui.rc}" "$KXML5_DIR/konsoleui.rc"
     cp -f "${./sessionui.rc}" "$KXML5_DIR/sessionui.rc"
@@ -76,6 +79,7 @@ in
     chmod u+w "$HOME/.config/konsolerc"
     chmod u+w "$KONSOLE_DIR/Brian.profile"
     chmod u+w "$KONSOLE_DIR/WhiteOnBlack.colorscheme"
+    chmod u+w "$KONSOLE_DIR/Dracula.colorscheme"
     chmod u+w "$KXML5_DIR/konsoleui.rc"
     chmod u+w "$KXML5_DIR/sessionui.rc"
     chmod u+w "$KXML6_DIR/konsoleui.rc"

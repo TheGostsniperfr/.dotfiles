@@ -61,6 +61,13 @@ let
     # Arffornia alias:
     arffornia = "cd ~/Documents/arffornia/";
 
+    # Claude aliases
+    CD = "claude";
+    CDD = "claude --dangerously-skip-permissions";
+    CT = "claude --think";
+    CTH = "claude --think-hard";
+    CO = "claude --continue";
+
     # === LinOffice Aliases ===
     linoffice = "bash ~/.local/bin/linoffice/linoffice.sh";
     loffice-stop = "linoffice --stopcontainer";
