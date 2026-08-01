@@ -39,6 +39,15 @@
     };
   };
 
+  # Register the nvidia runtime with Docker so `runtime: nvidia` works in docker-compose.
+  # `hardware.nvidia-container-toolkit.enable` only sets up CDI specs, not the runtime shim.
+  virtualisation.docker.daemon.settings = {
+    runtimes.nvidia = {
+      path = "${pkgs.nvidia-container-toolkit.tools}/bin/nvidia-container-runtime";
+      runtimeArgs = [];
+    };
+  };
+
   # System-wide packages required for gaming runners (Lutris, Wine, Proton)
   environment.systemPackages = with pkgs; [
     vulkan-tools   # Provides 'vulkaninfo' (fixes the Lutris missing /usr/bin/vulkaninfo error)
