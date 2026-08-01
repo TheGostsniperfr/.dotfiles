@@ -4,6 +4,7 @@
   home.packages = [
     pkgs.git
     pkgs.pre-commit
+    pkgs.gh
   ];
 
   programs.git = {
@@ -17,6 +18,9 @@
       init.defaultBranch = "main";
       core = {
         sshCommand = "ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes";
+      };
+      credential."https://github.com" = {
+        helper = "${pkgs.gh}/bin/gh auth git-credential";
       };
     };
 
