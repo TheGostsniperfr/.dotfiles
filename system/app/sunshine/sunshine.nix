@@ -16,11 +16,14 @@ let
     echo "Action: $ACTION | $WIDTH x $HEIGHT @ $FPS" >> "$LOG"
 
     if [ "$ACTION" = "do" ]; then
-      # Add as custom mode first in case it's not in the EDID (e.g. 4K TV, phone)
+      $KSCREEN output.$TARGET.enable >> "$LOG" 2>&1
+      sleep 1
+      # Add as custom mode first in case resolution isn't in the EDID (e.g. 4K TV, phone)
       $KSCREEN output.$TARGET.mode.add.''${WIDTH}x''${HEIGHT}@''${FPS} >> "$LOG" 2>&1
       $KSCREEN output.$TARGET.mode.''${WIDTH}x''${HEIGHT}@''${FPS} \
                output.$TARGET.scale.1 >> "$LOG" 2>&1
     elif [ "$ACTION" = "undo" ]; then
+      # Reset to native EDID resolution but keep enabled so Sunshine finds it on next startup
       $KSCREEN output.$TARGET.mode.2880x1620@120 \
                output.$TARGET.scale.1 >> "$LOG" 2>&1
     fi
