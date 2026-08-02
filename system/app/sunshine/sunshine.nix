@@ -42,7 +42,7 @@ in
     };
 
     settings = {
-      output_name = "DP-3";
+      output_name = 3;
       enable_hdr = "true";
       video_format = "p010";
       encoder_preset = "P7";
