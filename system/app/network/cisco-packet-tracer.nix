@@ -3,10 +3,7 @@
 let
   ptAppImage = pkgs.stdenv.mkDerivation {
     name = "pt9-appimage";
-    src = builtins.path {
-      path = /home/brian/.dotfiles/system/app/network/CiscoPacketTracer_900_Ubuntu_64bit.deb;
-      name = "CiscoPacketTracer.deb";
-    };
+    src = ./CiscoPacketTracer_900_Ubuntu_64bit.deb;
     
     dontUnpack = true;
     dontBuild = true;
