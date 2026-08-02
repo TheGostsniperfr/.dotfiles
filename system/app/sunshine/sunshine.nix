@@ -61,6 +61,12 @@ in
     };
   };
 
+  # Enable DP-3 before Sunshine starts so its startup encoder test finds an active CRTC.
+  # Without this, DP-3 is "connected" (EDID present) but has no framebuffer allocated yet,
+  # causing KMS capture to fail even though Wayland enumeration sees the output.
+  systemd.user.services.sunshine.serviceConfig.ExecStartPre =
+    "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor output.DP-3.enable output.DP-3.mode.2880x1620@120";
+
   users.users.${userSettings.username}.extraGroups = [ "input" "video" "render" ];
 
   networking.firewall = {
