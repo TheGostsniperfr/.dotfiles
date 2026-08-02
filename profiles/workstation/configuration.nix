@@ -30,12 +30,12 @@ in
   hardware.firmware = [
     (pkgs.runCommand "streaming-edid" {} ''
       mkdir -p $out/lib/firmware/edid
-      cp ${../../system/hardware/edid/4k.bin} $out/lib/firmware/edid/streaming-4k.bin
+      cp ${../../system/hardware/edid/2880x1620-120.bin} $out/lib/firmware/edid/streaming.bin
     '')
   ];
 
   boot.kernelParams = [
-    "drm.edid_firmware=DP-3:edid/streaming-4k.bin"
+    "drm.edid_firmware=DP-3:edid/streaming.bin"
     "video=DP-3:e"
   ];
 }

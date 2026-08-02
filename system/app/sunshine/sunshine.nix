@@ -6,9 +6,9 @@ let
     echo "--- $(date) ---" >> "$LOG"
 
     ACTION="$1"
-    WIDTH="''${SUNSHINE_CLIENT_WIDTH:-3840}"
-    HEIGHT="''${SUNSHINE_CLIENT_HEIGHT:-2160}"
-    FPS="''${SUNSHINE_CLIENT_FPS:-60}"
+    WIDTH="''${SUNSHINE_CLIENT_WIDTH:-2880}"
+    HEIGHT="''${SUNSHINE_CLIENT_HEIGHT:-1620}"
+    FPS="''${SUNSHINE_CLIENT_FPS:-120}"
 
     KSCREEN="${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor"
     TARGET="DP-3"
@@ -16,10 +16,12 @@ let
     echo "Action: $ACTION | $WIDTH x $HEIGHT @ $FPS" >> "$LOG"
 
     if [ "$ACTION" = "do" ]; then
+      # Add as custom mode first in case it's not in the EDID (e.g. 4K TV, phone)
+      $KSCREEN output.$TARGET.mode.add.''${WIDTH}x''${HEIGHT}@''${FPS} >> "$LOG" 2>&1
       $KSCREEN output.$TARGET.mode.''${WIDTH}x''${HEIGHT}@''${FPS} \
                output.$TARGET.scale.1 >> "$LOG" 2>&1
     elif [ "$ACTION" = "undo" ]; then
-      $KSCREEN output.$TARGET.mode.3840x2160@60 \
+      $KSCREEN output.$TARGET.mode.2880x1620@120 \
                output.$TARGET.scale.1 >> "$LOG" 2>&1
     fi
   '';
