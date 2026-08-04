@@ -33,8 +33,6 @@
 
     # Antigravity
     antigravity.packages.${systemSettings.system}.default
-    antigravity.packages.${systemSettings.system}.antigravity-desktop
-    antigravity.packages.${systemSettings.system}.antigravity-cli
 
     pkgs.zellij
     pkgs.kubecolor
