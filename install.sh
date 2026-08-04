@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 # Colors
 GREEN='\033[0;32m'
@@ -30,7 +31,7 @@ if [ -d "$INSTALL_DIR" ]; then
     cd "$INSTALL_DIR" && git pull
 else
     log "Cloning repository to $INSTALL_DIR..."
-    nix-shell -p git --command "git clone $REPO_URL $INSTALL_DIR"
+    git clone "$REPO_URL" "$INSTALL_DIR"
 fi
 
 cd "$INSTALL_DIR"
