@@ -16,8 +16,7 @@
   home.username = userSettings.username;
   home.homeDirectory = "/home/" + userSettings.username;
 
-  home.stateVersion = "26.05"; # home-manager verison
+  home.stateVersion = "26.05";
 
-  # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }

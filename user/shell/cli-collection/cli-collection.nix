@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
 { pkgs, systemSettings, make-project-prompt, antigravity, ... }:
-=======
-{ pkgs, systemSettings, make-project-prompt, antigravity, ... }:
->>>>>>> Stashed changes
 
 {
   home.packages = [
@@ -36,15 +32,11 @@
     make-project-prompt.packages.${systemSettings.system}.default
 
     # Antigravity
-<<<<<<< Updated upstream
     antigravity.packages.${systemSettings.system}.default
     antigravity.packages.${systemSettings.system}.antigravity-desktop
     antigravity.packages.${systemSettings.system}.antigravity-cli
 
-    pkgs.zellij 
+    pkgs.zellij
     pkgs.kubecolor
-=======
-    antigravity.packages.${systemSettings.system}.default
->>>>>>> Stashed changes
   ];
 }

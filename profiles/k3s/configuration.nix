@@ -1,6 +1,6 @@
 { config, pkgs, systemSettings, userSettings, ... }:
 
-let 
+let
 
   user="brian";
 
@@ -24,8 +24,6 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # networking.hostName = "${userSettings.username}"; # Define your hostname.
-  
   # Enable networking
   networking.networkmanager.enable = true;
 
@@ -50,7 +48,7 @@ in
   services = {
     desktopManager.plasma6.enable = true;
     displayManager.sddm.enable = true;
-    libinput.enable = true;   
+    libinput.enable = true;
 
     xserver = {
       enable = true;
@@ -58,7 +56,7 @@ in
         layout = systemSettings.keyboardLayout;
         variant = "";
       };
-    };      
+    };
   };
 
   hardware.bluetooth.enable = true;
@@ -89,13 +87,10 @@ in
   };
 
   services.fprintd.enable = true;
-  
-  # Enable Run unpatched dynamic binaries on NixOS:
+
   programs.nix-ld.enable = true;
 
- system.stateVersion = "25.11"; # Did you read the comment?
- 
-  # enable flakes:
+  system.stateVersion = "25.11";
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 }
-
