@@ -10,13 +10,16 @@ in
     [ # Include the results of the hardware scan.
       # ../../system/hardware-configuration.nix # TODO Remove for clean migration
 
-      inputs.antigravity2.nixosModules.default
+      inputs.antigravity.nixosModules.default
 
       # GPG
       ../../system/app/gpg/gpg.nix
 
       # Secrets management
       ../../system/app/secrets/secrets-management.nix
+
+      # AI / MCP
+      ../../system/app/ai/notion-mcp.nix
 
       # Add jp keyboard layout
       ../../system/app/layout/jp-ime.nix
@@ -53,7 +56,7 @@ in
 
       # Other
       ../../system/app/obs/obs.nix
-      # ../../system/app/tailscale/tailscale.nix
+      ../../system/app/tailscale/tailscale.nix
     ];
 
   # Bootloader.

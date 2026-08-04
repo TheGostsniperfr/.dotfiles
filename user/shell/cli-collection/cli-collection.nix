@@ -1,4 +1,8 @@
-{ pkgs, systemSettings, make-project-prompt, antigravity2, ... }:
+<<<<<<< Updated upstream
+{ pkgs, systemSettings, make-project-prompt, antigravity, ... }:
+=======
+{ pkgs, systemSettings, make-project-prompt, antigravity, ... }:
+>>>>>>> Stashed changes
 
 {
   home.packages = [
@@ -11,6 +15,7 @@
     pkgs.file
     pkgs.jq
     pkgs.traceroute
+    pkgs.imagemagick
     pkgs.openssl
 
     # Secrets management
@@ -31,11 +36,15 @@
     make-project-prompt.packages.${systemSettings.system}.default
 
     # Antigravity
-    antigravity2.packages.${systemSettings.system}.default
-    antigravity2.packages.${systemSettings.system}.antigravity-desktop
-    antigravity2.packages.${systemSettings.system}.antigravity-cli
+<<<<<<< Updated upstream
+    antigravity.packages.${systemSettings.system}.default
+    antigravity.packages.${systemSettings.system}.antigravity-desktop
+    antigravity.packages.${systemSettings.system}.antigravity-cli
 
     pkgs.zellij 
     pkgs.kubecolor
+=======
+    antigravity.packages.${systemSettings.system}.default
+>>>>>>> Stashed changes
   ];
 }
