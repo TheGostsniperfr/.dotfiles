@@ -1,4 +1,4 @@
-{ pkgs, systemSettings, make-project-prompt, antigravity, ... }:
+{ pkgs, systemSettings, make-project-prompt, antigravity2, ... }:
 
 {
   home.packages = [
@@ -32,7 +32,9 @@
     make-project-prompt.packages.${systemSettings.system}.default
 
     # Antigravity
-    antigravity.packages.${systemSettings.system}.default
+    antigravity2.packages.${systemSettings.system}.default
+    antigravity2.packages.${systemSettings.system}.antigravity-desktop
+    antigravity2.packages.${systemSettings.system}.antigravity-cli
 
     pkgs.zellij
     pkgs.kubecolor

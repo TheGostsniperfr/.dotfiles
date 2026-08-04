@@ -10,7 +10,7 @@ in
     [ # Include the results of the hardware scan.
       # ../../system/hardware-configuration.nix # TODO Remove for clean migration
 
-      inputs.antigravity.nixosModules.default
+      inputs.antigravity2.nixosModules.default
 
       # GPG
       ../../system/app/gpg/gpg.nix
