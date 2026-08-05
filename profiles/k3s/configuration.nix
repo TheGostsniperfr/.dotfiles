@@ -50,6 +50,9 @@ in
     settings = {
       PasswordAuthentication = false;
       PermitRootLogin = "no";
+      # Read authorized_keys at connection time (not at build time) so the key
+      # lives on each machine without being tracked in git.
+      AuthorizedKeysFile = "%h/.ssh/authorized_keys /etc/nixos/authorized_keys";
     };
   };
 
@@ -57,9 +60,6 @@ in
     isNormalUser = true;
     description = userSettings.username;
     extraGroups = [ "networkmanager" "wheel" ];
-    openssh.authorizedKeys.keyFiles = [
-      /etc/nixos/authorized_keys
-    ];
   };
 
   programs.nix-ld.enable = true;
