@@ -16,6 +16,9 @@ in
       ../../system/app/sql/postgresql.nix
       ../../system/app/utils/kube.nix
 
+      # K3s
+      ../../system/app/kubernetes/k3s/k3s.nix
+
       # VPN:
       ../../system/app/vpn/wireguard.nix
     ];
