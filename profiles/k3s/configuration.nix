@@ -45,48 +45,22 @@ in
     LC_TIME = systemSettings.extraLocale;
   };
 
-  services = {
-    desktopManager.plasma6.enable = true;
-    displayManager.sddm.enable = true;
-    libinput.enable = true;
-
-    xserver = {
-      enable = true;
-      xkb = {
-        layout = systemSettings.keyboardLayout;
-        variant = "";
-      };
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      PermitRootLogin = "no";
     };
   };
-
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
-  services.flatpak.enable = false;
 
   users.users.${userSettings.username} = {
     isNormalUser = true;
     description = userSettings.username;
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-    #  thunderbird
+    openssh.authorizedKeys.keyFiles = [
+      /etc/nixos/authorized_keys
     ];
   };
-
-  services.fprintd.enable = true;
 
   programs.nix-ld.enable = true;
 
