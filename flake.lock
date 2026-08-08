@@ -1,6 +1,6 @@
 {
   "nodes": {
-    "antigravity": {
+    "antigravity2": {
       "inputs": {
         "flake-utils": "flake-utils",
         "nixpkgs": [
@@ -8,15 +8,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1779318165,
-        "narHash": "sha256-jEgtHfJndUm7KR8KkaXN6ja0zr/wxtIrAQGrNFUa9Ds=",
-        "owner": "TheGostsniperfr",
+        "lastModified": 1785226402,
+        "narHash": "sha256-OxqiAkneXainwAHZSu3pzGEelRJh/h80itTK/jvymRU=",
+        "owner": "briossant",
         "repo": "antigravity2.0-nix",
-        "rev": "f029b2dff1bf1773e7402ca0b1cae2e866599401",
+        "rev": "d42653345f5105d924334fac9fc739953cd2fc29",
         "type": "github"
       },
       "original": {
-        "owner": "TheGostsniperfr",
+        "owner": "briossant",
         "repo": "antigravity2.0-nix",
         "type": "github"
       }
@@ -204,7 +204,7 @@
     },
     "root": {
       "inputs": {
-        "antigravity": "antigravity",
+        "antigravity2": "antigravity2",
         "home-manager": "home-manager",
         "make-project-prompt": "make-project-prompt",
         "nixos-hardware": "nixos-hardware",
