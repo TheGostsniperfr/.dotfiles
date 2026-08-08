@@ -20,6 +20,7 @@
     ../../user/app/ai/gemini.nix
     ../../user/app/ai/claude.nix
     ../../user/app/konsole/konsole.nix
+    ../../user/app/zellij/zellij.nix
 
     # Development Apps
     ../../user/app/git/git.nix
@@ -37,12 +38,11 @@
   home.username = userSettings.username;
   home.homeDirectory = "/home/" + userSettings.username;
 
-  home.stateVersion = "25.11"; # home-manager verison
+  home.stateVersion = "25.11";
 
   home.file = {
-  
+
   };
 
-  # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }

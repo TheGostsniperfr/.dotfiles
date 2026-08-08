@@ -78,6 +78,20 @@
 - `/nix-rebuild [hostname]` — safe NixOS rebuild with dry-activate first
 - `/new-feature <description>` — plan-then-implement workflow for new features
 
+**SRE Research Pipeline** (state: `~/.sre-research/<slug>/`, output: Notion SRE Research Hub)
+
+- `/sre-research new <slug>` — start a new research project (runs brief capture)
+- `/sre-research status` — list all projects and current phases
+- `/sre-research continue <slug>` — advance to next phase after human review
+- `/sre-research <phase> <slug>` — jump to specific phase directly
+- `/sre-brief <slug>` — phase 0: structured research brief
+- `/sre-landscape <slug>` — phase 1: landscape scan via research-scout
+- `/sre-deepdive <slug>` — phase 2: per-implementation deep dives via research-scout
+- `/sre-lab <slug>` — phase 3: lab IaC kit + test scripts for remote cluster
+- `/sre-synthesize <slug>` — phase 4: scoring matrix, choice matrix, ADR, risk register
+- `/sre-write <slug> [article|livrable|runbook|all]` — phase 5: generate documents
+- `/sre-publish <slug> [article|livrable|runbook|all]` — phase 6: publish to Notion
+
 ## Workflow
 
 - After completing any code review (inline or via `/review`), always ask: "Do you want me to commit, push, and open a MR/PR?"
@@ -100,3 +114,6 @@
 - `code-reviewer` — Opus-powered thorough code review agent
 - `explorer` — Fast Sonnet read-only codebase mapping agent
 - `nix-expert` — NixOS/Nix specialist with full dotfiles context
+- `research-scout` — Sonnet web research agent (landscape scans + deep dives)
+- `research-analyst` — Opus analysis agent (scoring matrices, ADRs, risk registers)
+- `research-writer` — Opus writer agent (research articles, livrables, runbooks)

@@ -21,7 +21,7 @@
     antigravity2.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, nur, nixos-hardware, make-project-prompt, antigravity2, sops-nix, ... }: 
+  outputs = inputs@{ self, nixpkgs, home-manager, nur, nixos-hardware, make-project-prompt, antigravity2, sops-nix, ... }:
   let 
     # Global Settings
     systemSettings = {
@@ -131,5 +131,6 @@
         runtimeInputs = with pkgs; [ git ];
         text = ''${./install.sh} "$@"'';
     };
+    packages.x86_64-linux.default = self.packages.x86_64-linux.install;
   };
 }

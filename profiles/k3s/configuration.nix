@@ -1,6 +1,6 @@
 { config, pkgs, systemSettings, userSettings, ... }:
 
-let 
+let
 
   user="brian";
 
@@ -16,6 +16,9 @@ in
       ../../system/app/sql/postgresql.nix
       ../../system/app/utils/kube.nix
 
+      # K3s
+      ../../system/app/kubernetes/k3s/k3s.nix
+
       # VPN:
       ../../system/app/vpn/wireguard.nix
     ];
@@ -24,8 +27,6 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # networking.hostName = "${userSettings.username}"; # Define your hostname.
-  
   # Enable networking
   networking.networkmanager.enable = true;
 
@@ -47,55 +48,26 @@ in
     LC_TIME = systemSettings.extraLocale;
   };
 
-  services = {
-    desktopManager.plasma6.enable = true;
-    displayManager.sddm.enable = true;
-    libinput.enable = true;   
-
-    xserver = {
-      enable = true;
-      xkb = {
-        layout = systemSettings.keyboardLayout;
-        variant = "";
-      };
-    };      
-  };
-
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
+  services.openssh = {
     enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      PermitRootLogin = "no";
+      # Read authorized_keys at connection time (not at build time) so the key
+      # lives on each machine without being tracked in git.
+      AuthorizedKeysFile = "%h/.ssh/authorized_keys /etc/nixos/authorized_keys";
+    };
   };
-
-  services.flatpak.enable = false;
 
   users.users.${userSettings.username} = {
     isNormalUser = true;
     description = userSettings.username;
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-    #  thunderbird
-    ];
   };
 
-  services.fprintd.enable = true;
-  
-  # Enable Run unpatched dynamic binaries on NixOS:
   programs.nix-ld.enable = true;
 
- system.stateVersion = "25.11"; # Did you read the comment?
- 
-  # enable flakes:
+  system.stateVersion = "25.11";
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 }
-

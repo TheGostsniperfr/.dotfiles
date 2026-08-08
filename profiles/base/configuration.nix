@@ -53,7 +53,7 @@ in
 
       # Other
       ../../system/app/obs/obs.nix
-      # ../../system/app/tailscale/tailscale.nix
+      ../../system/app/tailscale/tailscale.nix
     ];
 
   # Bootloader.

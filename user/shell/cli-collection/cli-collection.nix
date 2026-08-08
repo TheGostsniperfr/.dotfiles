@@ -12,6 +12,7 @@
     pkgs.file
     pkgs.jq
     pkgs.traceroute
+    pkgs.imagemagick
     pkgs.openssl
 
     # Secrets management
@@ -36,7 +37,7 @@
     antigravity2.packages.${systemSettings.system}.antigravity-desktop
     antigravity2.packages.${systemSettings.system}.antigravity-cli
 
-    pkgs.zellij 
+    pkgs.zellij
     pkgs.kubecolor
   ];
 }
