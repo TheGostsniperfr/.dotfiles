@@ -20,6 +20,7 @@
     ../../user/app/ai/gemini.nix
     ../../user/app/ai/claude.nix
     ../../user/app/konsole/konsole.nix
+    ../../user/app/zellij/zellij.nix
 
     # Development Apps
     ../../user/app/git/git.nix
