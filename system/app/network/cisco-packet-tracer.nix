@@ -1,9 +1,15 @@
 { pkgs, ... }:
 
 let
+  ptDeb = pkgs.requireFile {
+    name = "CiscoPacketTracer_900_Ubuntu_64bit.deb";
+    url = "https://www.netacad.com/resources/lab-downloads";
+    hash = "sha256-3ZrA1Mf8N9y2j2J/18fm+m1CAMFEklJuVhi5vRcu2SA=";
+  };
+
   ptAppImage = pkgs.stdenv.mkDerivation {
     name = "pt9-appimage";
-    src = ./CiscoPacketTracer_900_Ubuntu_64bit.deb;
+    src = ptDeb;
     
     dontUnpack = true;
     dontBuild = true;
