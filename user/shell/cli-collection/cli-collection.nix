@@ -4,6 +4,7 @@
   home.packages = [
     pkgs.wget
     pkgs.tree
+    pkgs.htop
     pkgs.fprintd
     pkgs.libfprint
     pkgs.usbutils

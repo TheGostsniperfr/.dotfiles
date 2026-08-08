@@ -28,17 +28,21 @@ in
       # Development tools
     ];
     
+  # Permanently expose DP-3 (unused physical port) as a virtual streaming display.
+  # No dummy plug needed — the kernel enumerates the connector from the firmware EDID.
   hardware.firmware = [
-    (pkgs.runCommand "custom-edid" {} ''
+    (pkgs.runCommand "streaming-edid" {} ''
       mkdir -p $out/lib/firmware/edid
-      cp ${../../system/hardware/edid/2880x1620-120.bin} $out/lib/firmware/edid/2880x1620-120_fake.bin
+      cp ${../../system/hardware/edid/2880x1620-120.bin} $out/lib/firmware/edid/streaming.bin
     '')
   ];
 
-  # boot.kernelParams = [ 
-  #   "drm.edid_firmware=DP-2:edid/2880x1620-120_fake.bin" 
-    
-  #   "video=DP-2:e" 
-  # ];
+  boot.kernelParams = [
+    "drm.edid_firmware=DP-3:edid/streaming.bin"
+    "video=DP-3:e"
+    # Required for Sunshine KMS capture: without this, nvidia-drm returns 0x0 framebuffer
+    # sizes via drmModeGetFB(), preventing Sunshine from matching any display connector.
+    "nvidia-drm.fbdev=1"
+  ];
 }
 
