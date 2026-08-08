@@ -37,6 +37,9 @@ in
   boot.kernelParams = [
     "drm.edid_firmware=DP-3:edid/streaming.bin"
     "video=DP-3:e"
+    # Required for Sunshine KMS capture: without this, nvidia-drm returns 0x0 framebuffer
+    # sizes via drmModeGetFB(), preventing Sunshine from matching any display connector.
+    "nvidia-drm.fbdev=1"
   ];
 }
 

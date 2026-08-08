@@ -1,6 +1,45 @@
 { config, pkgs, userSettings, ... }:
 
 let
+  # Patches libnvidia-fbc.so at service startup to unlock NvFBC on GeForce.
+  # The patched copy lives in $RUNTIME_DIRECTORY (cleared on reboot) and is
+  # injected via LD_LIBRARY_PATH so Sunshine picks it up via dlopen.
+  sunshine-fbc-patch = pkgs.writeShellScriptBin "sunshine-fbc-patch" ''
+    set -euo pipefail
+    LOG="/tmp/sunshine-fbc-patch.log"
+    echo "--- $(date) ---" >> "$LOG"
+
+    SRC=$(ls /run/opengl-driver/lib/libnvidia-fbc.so.*.*.* 2>/dev/null | head -1)
+    if [ -z "$SRC" ]; then
+      echo "ERROR: libnvidia-fbc.so not found in /run/opengl-driver/lib/" | tee -a "$LOG" >&2
+      exit 1
+    fi
+    VERSION=$(basename "$SRC" | sed 's/libnvidia-fbc\.so\.//')
+    LIBDIR="$RUNTIME_DIRECTORY"
+    DEST="$LIBDIR/libnvidia-fbc.so.$VERSION"
+
+    cp -f "$SRC" "$DEST"
+    chmod +w "$DEST"
+
+    ${pkgs.python3Minimal}/bin/python3 - "$DEST" <<'PYEOF'
+import sys
+path = sys.argv[1]
+data = open(path, 'rb').read()
+search  = b'\x85\xc0\x0f\x85\xd4\x00\x00\x00\x48'
+replace = b'\x85\xc0\x90\x90\x90\x90\x90\x90\x48'
+count = data.count(search)
+if count != 1:
+    raise RuntimeError(f'Expected 1 match, found {count}')
+patched = data.replace(search, replace)
+open(path, 'wb').write(patched)
+print(f'Patched {path}: offset {hex(data.index(search))}', flush=True)
+PYEOF
+
+    ln -sf "$DEST" "$LIBDIR/libnvidia-fbc.so.1"
+    ln -sf "$DEST" "$LIBDIR/libnvidia-fbc.so"
+    echo "NvFBC patch applied: $DEST" >> "$LOG"
+  '';
+
   sunshine-prep = pkgs.writeShellScriptBin "sunshine-prep" ''
     LOG="/tmp/sunshine-script.log"
     echo "--- $(date) ---" >> "$LOG"
@@ -16,14 +55,31 @@ let
     echo "Action: $ACTION | $WIDTH x $HEIGHT @ $FPS" >> "$LOG"
 
     if [ "$ACTION" = "do" ]; then
-      $KSCREEN output.$TARGET.enable >> "$LOG" 2>&1
+      # Unload any active Ollama models to free VRAM for NVENC.
+      # Lists running models then unloads each; safe to call even if Ollama is idle.
+      OLLAMA_MODELS=$(${pkgs.curl}/bin/curl -sf http://localhost:11434/api/ps 2>/dev/null \
+        | ${pkgs.python3}/bin/python3 -c "
+import sys,json
+d=json.load(sys.stdin)
+for m in d.get('models',[]): print(m['name'])
+" 2>/dev/null || true)
+      for MODEL in $OLLAMA_MODELS; do
+        echo "Unloading Ollama model: $MODEL" >> "$LOG"
+        ${pkgs.curl}/bin/curl -sf -X POST http://localhost:11434/api/generate \
+          -d "{\"model\":\"$MODEL\",\"keep_alive\":0}" >> "$LOG" 2>&1 || true
+      done
+
+      $KSCREEN output.$TARGET.enable \
+               output.$TARGET.hdr.enable \
+               output.$TARGET.wcg.enable >> "$LOG" 2>&1
       sleep 1
-      # Add as custom mode first in case resolution isn't in the EDID (e.g. 4K TV, phone)
-      $KSCREEN output.$TARGET.mode.add.''${WIDTH}x''${HEIGHT}@''${FPS} >> "$LOG" 2>&1
+      # kscreen-doctor can only switch to modes declared in the EDID.
+      # For clients requesting non-EDID resolutions (e.g. 4K TV, phone), this will
+      # fail and DP-3 stays at native 2880x1620@120; Sunshine scales on encode.
       $KSCREEN output.$TARGET.mode.''${WIDTH}x''${HEIGHT}@''${FPS} \
-               output.$TARGET.scale.1 >> "$LOG" 2>&1
+               output.$TARGET.scale.1 >> "$LOG" 2>&1 || \
+        echo "Mode ''${WIDTH}x''${HEIGHT}@''${FPS} not in EDID, streaming at native 2880x1620@120" >> "$LOG"
     elif [ "$ACTION" = "undo" ]; then
-      # Reset to native EDID resolution but keep enabled so Sunshine finds it on next startup
       $KSCREEN output.$TARGET.mode.2880x1620@120 \
                output.$TARGET.scale.1 >> "$LOG" 2>&1
     fi
@@ -43,14 +99,13 @@ in
 
     settings = {
       output_name = 3;
-      enable_hdr = "true";
-      video_format = "p010";
-      encoder_preset = "P7";
+      # Advertise HEVC Main + Main10 (HDR) and AV1 8-bit + 10-bit (HDR) to clients.
+      # RTX 5080 supports both NVENC HEVC and AV1; client picks what it supports.
+      hevc_mode = 3;
+      av1_mode = 3;
+      # Maximum quality NVENC preset. Sunshine auto-selects NVENC→VAAPI→software;
+      # this preset only applies when NVENC is available (requires free VRAM).
       nvenc_preset = "P7";
-      rate_control = "CBR";
-      tune = "ull";
-      color_range = "JPEG";
-      min_bitrate = 50000;
 
       global_prep_cmd = builtins.toJSON [
         {
@@ -64,8 +119,14 @@ in
   # Enable DP-3 before Sunshine starts so its startup encoder test finds an active CRTC.
   # Without this, DP-3 is "connected" (EDID present) but has no framebuffer allocated yet,
   # causing KMS capture to fail even though Wayland enumeration sees the output.
-  systemd.user.services.sunshine.serviceConfig.ExecStartPre =
-    "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor output.DP-3.enable output.DP-3.mode.2880x1620@120";
+  # sunshine-fbc-patch runs second: copies+patches libnvidia-fbc.so into the runtime dir
+  # so NvFBC is available on GeForce (unlocked via the keylase/nvidia-patch byte patch).
+  systemd.user.services.sunshine.serviceConfig.ExecStartPre = [
+    "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor output.DP-3.enable output.DP-3.hdr.enable output.DP-3.wcg.enable output.DP-3.mode.2880x1620@120"
+    "${sunshine-fbc-patch}/bin/sunshine-fbc-patch"
+  ];
+  systemd.user.services.sunshine.serviceConfig.RuntimeDirectory = "sunshine-libs";
+  systemd.user.services.sunshine.serviceConfig.Environment = [ "LD_LIBRARY_PATH=%t/sunshine-libs" ];
 
   users.users.${userSettings.username}.extraGroups = [ "input" "video" "render" ];
 
