@@ -22,6 +22,9 @@ in
 
       ../../system/app/network/cisco-packet-tracer.nix
       
+      # AI / MCP
+      ../../system/app/ai/notion-mcp.nix
+
       # Development tools
     ];
     
