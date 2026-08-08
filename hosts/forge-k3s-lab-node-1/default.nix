@@ -40,9 +40,12 @@ in
     # Si je suis le master initial, pas d'URL. Sinon, je pointe vers le master 1.
     serverAddr = if isInitMaster then "" else "https://${masterIp}:6443";
     
-    # On ajoute le flag de l'interface spécifique à ce noeud
-    extraFlags = toString[
+    # mkForce pour merger avec les flags du profil k3s (string, pas de merge natif)
+    extraFlags = lib.mkForce (toString [
       "--flannel-iface ${myNode.interface}"
-    ];
+      "--service-cidr=10.43.0.0/16,2a10:3781:25ac:3::/112"
+      "--cluster-cidr=10.42.0.0/16,2a10:3781:25ac:2::/64"
+      "--write-kubeconfig-mode=0644"
+    ]);
   };
 }
