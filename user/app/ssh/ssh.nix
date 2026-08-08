@@ -20,6 +20,10 @@
         User = "brian";
         Port = 2244;
         IdentityFile = "~/.ssh/id_ed25519";
+        ControlMaster = "auto";
+        ControlPath = "~/.ssh/cm-%r@%h:%p";
+        ControlPersist = "4h";
+        ForwardAgent = "yes";
       };
 
       # ── K3S / Kubernetes ───────────────────────────────────────────────────
