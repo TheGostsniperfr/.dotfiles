@@ -52,7 +52,7 @@ in
     };
 
     settings = {
-      output_name = 3;
+      output_name = "DP-3";
       hevc_mode = 3;
       av1_mode = 3;
       nvenc_preset = "P7";
