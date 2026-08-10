@@ -16,7 +16,7 @@
   
   systemd.services.enable-wol = {
     description = "Enable Wake-on-LAN for enp34s0";
-    wantedBy = [ "multi-user.target" ];
+    wants = [ "network-online.target" ];
     after = [ "network-online.target" ];
     serviceConfig = {
       Type = "oneshot";
