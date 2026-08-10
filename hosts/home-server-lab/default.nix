@@ -11,4 +11,6 @@
 
   # Selected Home Manager Configuration
   home-manager.users.${userSettings.username} = import ../../profiles/k3s/home.nix;
+
+  networking.interfaces.enp34s0.wakeOnLan.enable = true;
 }
