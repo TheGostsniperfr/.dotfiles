@@ -93,10 +93,6 @@ in
     capSysAdmin = false;
     openFirewall = true;
 
-    package = pkgs.sunshine.override {
-      cudaSupport = true;
-    };
-
     settings = {
       output_name = 3;
       # Advertise HEVC Main + Main10 (HDR) and AV1 8-bit + 10-bit (HDR) to clients.
