@@ -1,4 +1,4 @@
-{ config, pkgs, userSettings, ... }:
+{ config, pkgs, lib, userSettings, ... }:
 
 let
   # Patches libnvidia-fbc.so at service startup to unlock NvFBC on GeForce.
@@ -90,7 +90,7 @@ in
   services.sunshine = {
     enable = true;
     autoStart = true;
-    capSysAdmin = true;
+    capSysAdmin = false;
     openFirewall = true;
 
     package = pkgs.sunshine.override {
@@ -106,6 +106,9 @@ in
       # Maximum quality NVENC preset. Sunshine auto-selects NVENC→VAAPI→software;
       # this preset only applies when NVENC is available (requires free VRAM).
       nvenc_preset = "P7";
+      # Empty string = use Sunshine's built-in null audio sink.
+      # Prevents the pw.thread-loop EINVAL loop when PipeWire can't set up a loopback.
+      audio_sink = "";
 
       global_prep_cmd = builtins.toJSON [
         {
@@ -121,12 +124,25 @@ in
   # causing KMS capture to fail even though Wayland enumeration sees the output.
   # sunshine-fbc-patch runs second: copies+patches libnvidia-fbc.so into the runtime dir
   # so NvFBC is available on GeForce (unlocked via the keylase/nvidia-patch byte patch).
+  # plasma-xdg-desktop-portal-kde is D-Bus activated and normally starts after
+  # plasma-core.target, but xdg-desktop-portal initializes its backend list at
+  # startup. If the KDE portal isn't running yet, ScreenCast/RemoteDesktop are
+  # unavailable and Sunshine (which uses XDG portal on pure NVIDIA) can't capture.
+  # Force the ordering: KDE portal → xdg-desktop-portal frontend → Sunshine.
+  systemd.user.services.xdg-desktop-portal.wants = [ "plasma-xdg-desktop-portal-kde.service" ];
+  systemd.user.services.xdg-desktop-portal.after = lib.mkAfter [ "plasma-xdg-desktop-portal-kde.service" ];
+  systemd.user.services.sunshine.wants = [ "plasma-xdg-desktop-portal-kde.service" "xdg-desktop-portal.service" ];
+  systemd.user.services.sunshine.after = lib.mkAfter [ "plasma-xdg-desktop-portal-kde.service" "xdg-desktop-portal.service" ];
+
   systemd.user.services.sunshine.serviceConfig.ExecStartPre = [
     "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor output.DP-3.enable output.DP-3.hdr.enable output.DP-3.wcg.enable output.DP-3.mode.2880x1620@120"
     "${sunshine-fbc-patch}/bin/sunshine-fbc-patch"
   ];
   systemd.user.services.sunshine.serviceConfig.RuntimeDirectory = "sunshine-libs";
-  systemd.user.services.sunshine.serviceConfig.Environment = [ "LD_LIBRARY_PATH=%t/sunshine-libs" ];
+  # LD_LIBRARY_PATH is useless here: the sunshine wrapper script replaces it entirely.
+  # LD_PRELOAD is not touched by the wrapper, so it wins over RUNPATH (/run/opengl-driver/lib)
+  # and forces dlopen("libnvidia-fbc.so.1") to return our patched copy.
+  systemd.user.services.sunshine.serviceConfig.Environment = [ "LD_PRELOAD=%t/sunshine-libs/libnvidia-fbc.so.1" ];
 
   users.users.${userSettings.username}.extraGroups = [ "input" "video" "render" ];
 
