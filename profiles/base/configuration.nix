@@ -18,9 +18,6 @@ in
       # Secrets management
       ../../system/app/secrets/secrets-management.nix
 
-      # AI / MCP
-      ../../system/app/ai/notion-mcp.nix
-
       # Add jp keyboard layout
       ../../system/app/layout/jp-ime.nix
 

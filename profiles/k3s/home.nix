@@ -16,6 +16,10 @@
   home.username = userSettings.username;
   home.homeDirectory = "/home/" + userSettings.username;
 
+  home.sessionVariables = {
+    KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";
+  };
+
   home.stateVersion = "26.05";
 
   programs.home-manager.enable = true;

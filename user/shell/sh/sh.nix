@@ -68,6 +68,12 @@ let
     CTH = "claude --think-hard";
     CO = "claude --continue";
 
+    # Zellij session management
+    zs = "zellij --session";
+    za = "zellij attach";
+    zl = "zellij list-sessions";
+    zk = "zellij kill-session";
+
     # === LinOffice Aliases ===
     linoffice = "bash ~/.local/bin/linoffice/linoffice.sh";
     loffice-stop = "linoffice --stopcontainer";
@@ -98,19 +104,6 @@ in
         source "${pkgs.grc}/etc/grc.bashrc"
       fi
     '';
-  };
-
-  programs.zellij = {
-    enable = true;
-    settings = {
-      theme = "default";
-      pane_frames = true; 
-      ui = {
-        pane_frames = {
-          rounded_corners = true;
-        };
-      };
-    };
   };
 
   home.sessionVariables = {
