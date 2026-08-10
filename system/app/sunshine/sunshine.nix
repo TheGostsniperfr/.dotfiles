@@ -134,16 +134,19 @@ in
   systemd.user.services.sunshine.wants = [ "plasma-xdg-desktop-portal-kde.service" "xdg-desktop-portal.service" ];
   systemd.user.services.sunshine.after = lib.mkAfter [ "plasma-xdg-desktop-portal-kde.service" "xdg-desktop-portal.service" ];
 
-  systemd.user.services.sunshine.serviceConfig.ExecStartPre = [
-    "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor output.DP-3.enable output.DP-3.hdr.enable output.DP-3.wcg.enable output.DP-3.mode.2880x1620@120"
-    "${sunshine-fbc-patch}/bin/sunshine-fbc-patch"
-  ];
-  systemd.user.services.sunshine.serviceConfig.RuntimeDirectory = "sunshine-libs";
-  # LD_LIBRARY_PATH is useless here: the sunshine wrapper script replaces it entirely.
-  # LD_PRELOAD is not touched by the wrapper, so it wins over RUNPATH (/run/opengl-driver/lib)
-  # and forces dlopen("libnvidia-fbc.so.1") to return our patched copy.
-  systemd.user.services.sunshine.serviceConfig.Environment = [ "LD_PRELOAD=%t/sunshine-libs/libnvidia-fbc.so.1" ];
-
+  systemd.user.services.sunshine = {
+    wantedBy = [ "graphical-session.target" ];
+    
+    serviceConfig = {
+      Restart = "on-failure";
+      RestartSec = "5s";
+      
+      ExecStartPre = [
+        "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor output.DP-3.enable output.DP-3.hdr.enable output.DP-3.wcg.enable output.DP-3.mode.2880x1620@120"
+      ];
+    };
+  };
+  
   users.users.${userSettings.username}.extraGroups = [ "input" "video" "render" ];
 
   networking.firewall = {
