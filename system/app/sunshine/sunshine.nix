@@ -90,7 +90,7 @@ in
   services.sunshine = {
     enable = true;
     autoStart = true;
-    capSysAdmin = false;
+    capSysAdmin = true;
     openFirewall = true;
 
     package = pkgs.sunshine.override {
