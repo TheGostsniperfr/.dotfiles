@@ -90,7 +90,7 @@ in
   services.sunshine = {
     enable = true;
     autoStart = true;
-    capSysAdmin = true;
+    capSysAdmin = false;
     openFirewall = true;
 
     package = pkgs.sunshine.override {
@@ -146,7 +146,7 @@ in
       ];
     };
   };
-  
+
   users.users.${userSettings.username}.extraGroups = [ "input" "video" "render" ];
 
   networking.firewall = {
