@@ -16,7 +16,6 @@ let
     echo "Action: $ACTION | $WIDTH x $HEIGHT @ $FPS" >> "$LOG"
 
     if [ "$ACTION" = "do" ]; then
-      # Unload any active Ollama models to free VRAM for NVENC.
       OLLAMA_MODELS=$(${pkgs.curl}/bin/curl -sf http://localhost:11434/api/ps 2>/dev/null \
         | ${pkgs.python3}/bin/python3 -c "
 import sys,json
@@ -29,21 +28,19 @@ for m in d.get('models',[]): print(m['name'])
           -d "{\"model\":\"$MODEL\",\"keep_alive\":0}" >> "$LOG" 2>&1 || true
       done
 
-      $KSCREEN output.$TARGET.enable \
-               output.$TARGET.hdr.enable \
-               output.$TARGET.wcg.enable >> "$LOG" 2>&1
+      $KSCREEN output.$TARGET.enable output.$TARGET.hdr.enable output.$TARGET.wcg.enable >> "$LOG" 2>&1
       sleep 1
-      $KSCREEN output.$TARGET.mode.''${WIDTH}x''${HEIGHT}@''${FPS} \
-               output.$TARGET.scale.1 >> "$LOG" 2>&1 || \
-        echo "Mode ''${WIDTH}x''${HEIGHT}@''${FPS} not in EDID, streaming at native 2880x1620@120" >> "$LOG"
+      $KSCREEN output.$TARGET.mode.''${WIDTH}x''${HEIGHT}@''${FPS} output.$TARGET.scale.1 >> "$LOG" 2>&1 || \
+        echo "Mode ''${WIDTH}x''${HEIGHT}@''${FPS} not in EDID, streaming at native" >> "$LOG"
     elif [ "$ACTION" = "undo" ]; then
-      $KSCREEN output.$TARGET.mode.2880x1620@120 \
-               output.$TARGET.scale.1 >> "$LOG" 2>&1
+      $KSCREEN output.$TARGET.mode.2880x1620@120 output.$TARGET.scale.1 >> "$LOG" 2>&1
     fi
   '';
 
 in
 {
+  hardware.uinput.enable = true;
+
   services.sunshine = {
     enable = true;
     autoStart = true;
@@ -70,20 +67,16 @@ in
     };
   };
 
-  # Dépendances de démarrage pour Wayland (KDE Portal)
-  systemd.user.services.xdg-desktop-portal.wants = [ "plasma-xdg-desktop-portal-kde.service" ];
-  systemd.user.services.xdg-desktop-portal.after = lib.mkAfter [ "plasma-xdg-desktop-portal-kde.service" ];
-  systemd.user.services.sunshine.wants = [ "plasma-xdg-desktop-portal-kde.service" "xdg-desktop-portal.service" ];
-  systemd.user.services.sunshine.after = lib.mkAfter [ "plasma-xdg-desktop-portal-kde.service" "xdg-desktop-portal.service" ];
-
   systemd.user.services.sunshine = {
     wantedBy = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
     
     serviceConfig = {
       Restart = "on-failure";
       RestartSec = "5s";
       
       ExecStartPre = [
+        "${pkgs.coreutils}/bin/sleep 5"
         "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor output.DP-3.enable output.DP-3.hdr.enable output.DP-3.wcg.enable output.DP-3.mode.2880x1620@120"
       ];
     };
