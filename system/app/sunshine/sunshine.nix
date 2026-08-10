@@ -53,6 +53,7 @@ in
 
     settings = {
       output_name = "DP-3";
+       capture = "kwin";
       hevc_mode = 3;
       av1_mode = 3;
       nvenc_preset = "P7";
