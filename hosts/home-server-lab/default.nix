@@ -12,5 +12,16 @@
   # Selected Home Manager Configuration
   home-manager.users.${userSettings.username} = import ../../profiles/k3s/home.nix;
 
-  networking.interfaces.enp34s0.wakeOnLan.enable = true;
+  environment.systemPackages = [ pkgs.ethtool ]; 
+  
+  systemd.services.enable-wol = {
+    description = "Enable Wake-on-LAN for enp34s0";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network-online.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.ethtool}/bin/ethtool -s enp34s0 wol g";
+      RemainAfterExit = true;
+    };
+  };
 }
