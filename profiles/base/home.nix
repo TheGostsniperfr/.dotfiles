@@ -13,7 +13,6 @@
     # ../../user/app/social/whatsapp/whatsapp.nix
     ../../user/app/work/microsoft/todo.nix
     ../../user/app/work/drawio/drawio.nix
-    # ../../user/app/photo/darktable/darktable.nix
     ../../user/shell/cli-collection/cli-collection.nix
     ../../user/shell/sh/sh.nix
     ../../user/shell/kube/krew.nix

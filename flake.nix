@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -21,7 +22,7 @@
     antigravity2.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, nur, nixos-hardware, make-project-prompt, antigravity2, sops-nix, ... }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager, nur, nixos-hardware, make-project-prompt, antigravity2, sops-nix, ... }:
   let 
     # Global Settings
     systemSettings = {
@@ -40,6 +41,11 @@
 
     lib = nixpkgs.lib;
 
+    pkgs-unstable = import nixpkgs-unstable {
+      system = systemSettings.system;
+      config.allowUnfree = true;
+    };
+
     # Logic to detect directories in ./hosts
     hosts = builtins.attrNames (lib.filterAttrs (n: v: v == "directory") (builtins.readDir ./hosts));
 
@@ -49,7 +55,7 @@
       
       # Pass inputs and settings to all modules
       specialArgs = {
-        inherit inputs systemSettings userSettings;
+        inherit inputs systemSettings userSettings pkgs-unstable;
       };
 
       modules = [
@@ -60,7 +66,7 @@
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "backup";
           home-manager.extraSpecialArgs = {
-            inherit inputs systemSettings userSettings;
+            inherit inputs systemSettings userSettings pkgs-unstable;
             make-project-prompt = inputs.make-project-prompt;
             antigravity2 = inputs.antigravity2;
           };

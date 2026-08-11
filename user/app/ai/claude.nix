@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, pkgs-unstable, lib, config, ... }:
 
 #
 # TUTORIAL — Managing Claude Code Config with Home Manager
@@ -61,7 +61,7 @@ in
 
 {
   home.packages = with pkgs; [
-    claude-code
+    pkgs-unstable.claude-code
     claude-monitor
     notionPerso
     notionEleves
