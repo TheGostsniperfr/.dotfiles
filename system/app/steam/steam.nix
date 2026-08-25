@@ -13,6 +13,8 @@
     pkgs.steamcmd
     pkgs.appimage-run
     pkgs.protonup-qt
+    pkgs.protontricks
+    pkgs.winetricks
     pkgs.heroic
     
     (pkgs.lutris.override {
