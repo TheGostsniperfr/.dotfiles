@@ -110,7 +110,18 @@ if [ -f "harden.sh" ]; then
     sudo bash harden.sh "$INSTALL_DIR"
 fi
 
-# --- 5. Installation / Switch ---
+# --- 5. Restricted binaries (Nix can't fetch these itself) ---
+# Cisco/NetAcad forbids automated redistribution of this .deb, so it must be
+# downloaded manually from https://www.netacad.com/resources/lab-downloads
+# and dropped at this path. This step is skipped (and the file stays
+# gitignored) on machines that don't have it.
+PT_DEB="system/app/network/CiscoPacketTracer_900_Ubuntu_64bit.deb"
+if [ -f "$PT_DEB" ]; then
+    log "Registering Cisco Packet Tracer .deb in the Nix store..."
+    nix-store --add-fixed sha256 "$PT_DEB" > /dev/null
+fi
+
+# --- 6. Installation / Switch ---
 log "Building and switching to configuration: $HOST_NAME..."
 
 sudo nixos-rebuild switch --flake ".#$HOST_NAME"
