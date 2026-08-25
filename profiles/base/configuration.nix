@@ -17,6 +17,7 @@ in
 
       # Secrets management
       ../../system/app/secrets/secrets-management.nix
+      ../../system/app/git/glab-secrets.nix
 
       # Add jp keyboard layout
       ../../system/app/layout/jp-ime.nix
