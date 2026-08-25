@@ -34,8 +34,11 @@
       # Enables the nvidia-settings GUI utility
       nvidiaSettings = true;
 
-      # Driver package selection (Beta driver branch is recommended for cutting-edge GPUs like RTX 5080)
-      package = config.boot.kernelPackages.nvidiaPackages.beta;
+      # Driver package selection. The beta branch (595.45.04) hit a rendering
+      # regression on this RTX 5080 passthrough VM: kwin_wayland never paints
+      # a frame to the physical outputs (continuous GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT),
+      # while production (595.71.05) is currently newer and doesn't show it.
+      package = config.boot.kernelPackages.nvidiaPackages.production;
     };
   };
 
