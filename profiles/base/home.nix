@@ -9,12 +9,14 @@
     ../../user/app/media/vlc/vlc.nix
     ../../user/app/media/nextcloud/nextcloud.nix
     ../../user/app/other/jap/jap.nix
+    ../../user/app/other/prismlauncher/prismlauncher.nix
     ../../user/app/social/discord/discord.nix
     # ../../user/app/social/whatsapp/whatsapp.nix
     ../../user/app/work/microsoft/todo.nix
     ../../user/app/work/drawio/drawio.nix
     ../../user/shell/cli-collection/cli-collection.nix
     ../../user/shell/sh/sh.nix
+    ../../user/shell/direnv/direnv.nix
     ../../user/shell/kube/krew.nix
     ../../user/app/ai/gemini.nix
     ../../user/app/ai/claude.nix
