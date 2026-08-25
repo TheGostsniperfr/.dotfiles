@@ -46,6 +46,59 @@ let
   notionPerso  = mkNotionWrapper "perso"  "/run/secrets/notion_perso_token";
   notionEleves = mkNotionWrapper "eleves" "/run/secrets/notion_eleves_token";
 
+  # code-review-graph (PyPI, not in nixpkgs) — local code-intelligence MCP
+  # server used by the project-level .mcp.json in this repo's root.
+  # nixpkgs' fastmcp is pinned to 3.2.3, one patch below the minimum this
+  # package requires; 3.2.4 carries the CVE-2025-62800/62801/66416 fixes
+  # upstream calls out, so we bump it rather than pin to the vulnerable one.
+  pythonForCrg = pkgs.python313;
+  fastmcp_3_2_4 = pythonForCrg.pkgs.fastmcp.overridePythonAttrs (old: {
+    version = "3.2.4";
+    src = pkgs.fetchurl {
+      url = "https://files.pythonhosted.org/packages/9c/13/29544fbc6dfe45ea38046af0067311e0bad7acc7d1f2ad38bb08f2409fe2/fastmcp-3.2.4.tar.gz";
+      hash = "sha256-CD7LdbRKQWnn/A9jL5S3gb2w/4d8azW5h3y7Vm/U1NE=";
+    };
+    # nixpkgs' fastmcp doesn't propagate griffelib; 3.2.4 needs it at runtime.
+    dependencies = old.dependencies ++ [ pythonForCrg.pkgs.griffelib ];
+    # Upstream's own test suite needs network fixtures unavailable in the
+    # Nix sandbox; irrelevant here since we only consume the built wheel.
+    doCheck = false;
+  });
+  codeReviewGraph = pythonForCrg.pkgs.buildPythonApplication rec {
+    pname = "code-review-graph";
+    version = "2.3.8";
+    pyproject = true;
+    src = pkgs.fetchurl {
+      url = "https://files.pythonhosted.org/packages/b0/45/b37d3a9bc11a93fa625eb910018aa09e160685002e92e3a533d48fda3bb1/code_review_graph-2.3.8.tar.gz";
+      hash = "sha256-JF2e8kG0UoEXbPpAFHC6Sb8T5uAKmp/Icv2NG+DvAuA=";
+    };
+    build-system = [ pythonForCrg.pkgs.hatchling ];
+    dependencies = with pythonForCrg.pkgs; [
+      mcp
+      fastmcp_3_2_4
+      tree-sitter
+      tree-sitter-language-pack
+      pyyaml
+      networkx
+      watchdog
+    ];
+    # Upstream test suite expects a git worktree and network fixtures not
+    # available in the Nix sandbox.
+    doCheck = false;
+    # code-review-graph pins tree-sitter-language-pack<1; nixpkgs carries
+    # 1.4.1. Verified by smoke-testing a real build: the pin is upstream
+    # being conservative, not an actual incompatibility.
+    dontCheckRuntimeDeps = true;
+    # code-review-graph parses files in worker subprocesses. The default
+    # wrapper only mutates sys.path in the parent process (site.addsitedir);
+    # spawned children don't inherit that, so tree_sitter_language_pack
+    # silently fails to import there and every parser gets skipped. A real
+    # PYTHONPATH env var propagates to children.
+    makeWrapperArgs = [
+      "--set" "PYTHONPATH" (pythonForCrg.pkgs.makePythonPath dependencies)
+    ];
+  };
+
   # Written to the Nix store so activation can read it without quoting issues.
   mcpConfigFile = pkgs.writeText "claude-mcp-servers.json" (builtins.toJSON {
     "notion-perso" = {
@@ -65,6 +118,7 @@ in
     claude-monitor
     notionPerso
     notionEleves
+    codeReviewGraph
   ];
 
   # ── Read-only config (symlinked from nix store) ────────────────────────
@@ -91,6 +145,12 @@ in
   # code-reviewer (Opus), explorer (Sonnet, read-only), nix-expert (Opus)
   home.file.".claude/agents" = {
     source = ./claude/agents;
+    recursive = true;
+  };
+
+  # User-invoked skills — each skills/<name>/SKILL.md becomes a /<name> skill.
+  home.file.".claude/skills" = {
+    source = ./claude/skills;
     recursive = true;
   };
 
