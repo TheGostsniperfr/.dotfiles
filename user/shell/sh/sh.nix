@@ -31,6 +31,9 @@ let
     # Kubeswitch alias
     switch = "switcher"; # switch kubernetes context
 
+    # Other
+    neofetch = "fastfetch"; # fastfetch is a neofetch alternative
+
 
     # Update cmd aliases
     update = "sudo nixos-rebuild switch --flake ~/.dotfiles"; # update configuration file using flake
@@ -109,7 +112,13 @@ in
   home.sessionVariables = {
     PGDATA = "~/postgres_data";
     PGHOST = "/run/postgresql";
-    
+
+    # Default glab/git identity (gitlab.com). Overridden per-directory by direnv
+    # for EPITA student/pro contexts (see ~/Documents/aepita/.envrc and forge/.envrc).
+    # Evaluated once at login via hm-session-vars.sh, unlike bashrc's initExtra
+    # (interactive-only), so non-interactive shells (e.g. Claude Code) inherit it too.
+    GITLAB_TOKEN = "$(cat /run/secrets/gitlab_com_token 2>/dev/null)";
+
     GTK_IM_MODULE="fcitx";
     QT_IM_MODULE="fcitx";
     XMODIFIERS="@im=fcitx";
