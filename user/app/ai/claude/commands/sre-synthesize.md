@@ -16,7 +16,57 @@ Spawns the `research-analyst` agent. This is the intellectual core of the pipeli
    - Note which implementations are lab-validated vs desk-research-only.
    - Proceed regardless — mark unverified data clearly.
 
-3. Build the synthesis task for the `research-analyst` agent:
+2.5. **Devil's Advocate pass (optional, ask before running):**
+
+   Once a leading candidate is visible from the deep dives (usually the one with the strongest
+   scores or the one the user has been favoring in conversation), ask the user:
+   "Want a devil's-advocate pass before synthesis? It challenges the leading choice specifically
+   — more useful now than earlier when the field was still wide open."
+
+   If yes, spawn a `research-scout` agent with this task:
+
+   ---
+   **Task for research-scout (devil's advocate):**
+
+   The research so far is leaning toward **<leading candidate>** for: <topic_name>
+
+   Your job is NOT to summarize its strengths — actively try to find reasons this choice is wrong:
+   - Search for public criticism: Reddit (r/kubernetes, r/devops), Hacker News, GitHub issues titled
+     "why not X" / "alternative to X" / "X vs Y" threads, Stack Overflow "downsides of X"
+   - Search for alternatives NOT already in `landscape.md` — check the CNCF Landscape scheduling
+     category directly, recent (last 3 months) trending GitHub repos, recent KubeCon talks not yet indexed in blogs
+   - Search for post-mortems or incident reports specifically about <leading candidate> in production
+   - Check: has anything shipped in the last 4–6 weeks that changes the calculus? (new release,
+     new competitor, deprecation notice, CVE)
+
+   Be skeptical of your own findings too — note your confidence level per point.
+
+   Output structure:
+   ```markdown
+   ## Devil's Advocate: Challenges to <leading candidate>
+
+   ### Unaddressed criticism found
+   | Source | Date | Claim | Confidence | Still relevant? |
+
+   ### Alternatives not yet considered
+   | Tool | Why it wasn't in the original landscape | Worth a deep-dive? |
+
+   ### Recent developments that could change the decision
+   | Date | Event | Impact on decision |
+
+   ### Verdict
+   Does this change the recommendation? If no, say so plainly and why the leading choice still holds.
+   ```
+
+   Save to: `~/.sre-research/<slug>/devils-advocate.md`
+   ---
+
+   After the agent completes, read the file and present the verdict to the user before continuing
+   to synthesis. If it surfaces something material, ask whether to add a deep-dive before proceeding.
+
+3. Build the synthesis task for the `research-analyst` agent. If `devils-advocate.md` exists, include
+   it in the source files list and instruct the analyst to address any open points it raised in the
+   Risk Register (section 5) and Choice Matrix (section 4):
 
    ---
    **Task for research-analyst:**
