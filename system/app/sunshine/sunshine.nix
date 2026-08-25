@@ -28,7 +28,7 @@ for m in d.get('models',[]): print(m['name'])
           -d "{\"model\":\"$MODEL\",\"keep_alive\":0}" >> "$LOG" 2>&1 || true
       done
 
-      $KSCREEN output.$TARGET.enable output.$TARGET.hdr.enable output.$TARGET.wcg.enable >> "$LOG" 2>&1
+      $KSCREEN output.$TARGET.enable >> "$LOG" 2>&1
       sleep 1
       $KSCREEN output.$TARGET.mode.''${WIDTH}x''${HEIGHT}@''${FPS} output.$TARGET.scale.1 >> "$LOG" 2>&1 || \
         echo "Mode ''${WIDTH}x''${HEIGHT}@''${FPS} not in EDID, streaming at native" >> "$LOG"
@@ -78,7 +78,12 @@ in
       
       ExecStartPre = [
         "${pkgs.coreutils}/bin/sleep 5"
-        "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor output.DP-3.enable output.DP-3.hdr.enable output.DP-3.wcg.enable output.DP-3.mode.2880x1620@120"
+        # DP-3's fake EDID (see boot.kernelParams in profiles/workstation/configuration.nix)
+        # doesn't declare HDR/WCG capability. Forcing hdr.enable/wcg.enable here makes the
+        # kernel reject the atomic commit ("driver rejected the output configuration"),
+        # which corrupts KMS state and stops kwin from painting to the physical outputs
+        # (HDMI-A-1/DP-1/DP-2) entirely — the actual root cause of the black-screen bug.
+        "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor output.DP-3.enable output.DP-3.mode.2880x1620@120"
       ];
     };
   };
