@@ -19,6 +19,7 @@ in
       ../../system/app/openssh/openssh.nix
       ../../system/app/linoffice/linoffice.nix
       ../../system/app/music/music.nix
+      ../../system/app/video/davinci-resolve.nix
 
       ../../system/app/network/cisco-packet-tracer.nix
       

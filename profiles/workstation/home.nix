@@ -4,7 +4,6 @@
   imports = [
     ../base/home.nix
     # ../../user/app/zellij/zellij-remote.nix # auto-attach zellij wrapper on terminal open, unused
-    ../../user/app/video/davinci-resolve.nix
   ];
 
   # Physical-output rendering regression (kwin_wayland spamming
