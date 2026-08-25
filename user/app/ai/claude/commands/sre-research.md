@@ -13,6 +13,21 @@ from brief capture to Notion publication with mandatory human-in-the-loop checkp
 
 All state lives in `~/.sre-research/<slug>/`. Never skip a ★REVIEW.
 
+## Pipeline-wide principle — prerequisites are not eliminations
+
+No phase may stall on an unverified fact about the user's environment. Sort every obstacle:
+
+- **PREREQUISITE** (satisfiable by config, an operator request, or a lookup — kernel version,
+  a sysctl, a hardware feature, a platform minimum) → record the verification command, the
+  remediation and the fallback, mark it `assumed satisfied`, carry it forward to the lab
+  phase, and **keep evaluating the candidate on its merits**.
+- **CONSTRAINT** (immutable property of the software — archived, absent upstream, incompatible
+  licence) → may eliminate a candidate, with evidence cited.
+
+Demote a candidate only for CONSTRAINTS or measured drawbacks (benchmarks, CVE record, ops
+burden) — never for "we have not checked yet". Do not end a phase by asking the user to run a
+verification command before work can continue; assume the favourable answer, note it, proceed.
+
 ## Usage
 
 - `/sre-research new <slug>` — Start a new research project

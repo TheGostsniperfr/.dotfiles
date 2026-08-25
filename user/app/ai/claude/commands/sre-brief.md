@@ -24,6 +24,19 @@ The brief defines criteria weights — these become the scoring rubric for synth
 
    **Current state** — what's in place today (or "none")
 
+   **User stories** — who is asking for this and what do they need, as concrete stories, not
+   feature requests. Format each as: "As a <role>, I need <capability>, so that <outcome>."
+   Ask for at least 2-3. These anchor the deep-dive on what's actually relevant instead of a
+   generic feature checklist.
+
+   **Future needs / roadmap** — capabilities not needed for v1 but expected within ~12 months
+   (e.g., "will need multi-cluster in Q3", "team count will double next year"). This tells the
+   deep-dive what to check for extensibility even if it's not scored as a v1 requirement.
+
+   **Existing systems to integrate with** — services/controllers already running that this
+   decision touches (e.g., "existing ArgoCD apps," "current CI runners," "internal quota API").
+   Note for each: extend/modify it, or does the new tool sit alongside it untouched?
+
    **Cluster context:**
    - K8s version range (min to max across all target clusters)
    - CNI in use (Cilium/Calico/Flannel/etc)
@@ -54,6 +67,15 @@ The brief defines criteria weights — these become the scoring rubric for synth
    topic_name: <full name>
    goal: <decision to make>
    current_state: <description or "none">
+   user_stories:
+     - role: <role>
+       need: <capability>
+       outcome: <why it matters>
+   future_needs:
+     - <capability expected within ~12 months>
+   existing_systems:
+     - name: <system/service name>
+       relationship: <extend | modify | sits-alongside-untouched>
    context:
      k8s_version_range: "<min>-<max>"
      cni: <value>

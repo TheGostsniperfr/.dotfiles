@@ -7,6 +7,33 @@ Spawns the `research-scout` agent to conduct the web research.
 
 ---
 
+## Governing principle — prerequisites are not eliminations
+
+Research must not stall on things that are merely *unverified about the environment*.
+Sort every obstacle into exactly one of two buckets, and treat them differently:
+
+- **PREREQUISITE** — an environment fact or configuration that gates a candidate but is
+  satisfiable by a config change, an operator request, or a one-command lookup.
+  Examples: is nested virtualisation enabled, is the kernel recent enough, which sysctl
+  is set, how many nodes exist, which executor is actually configured.
+  → **Never eliminate a candidate for these.** Record the exact verification command, name
+  the phase that will run it (usually the lab phase), state the fallback if it turns out
+  unsatisfied, and mark it `assumed satisfied` so the analysis proceeds. Collect them in a
+  dedicated "Prerequisites carried into the lab phase" list.
+
+- **CONSTRAINT** — a property of the software or ecosystem itself that no local
+  configuration can change. Examples: the project is archived, the plugin does not exist,
+  the licence is incompatible, the feature is not implemented upstream.
+  → These *may* eliminate a candidate, and the reason must cite evidence.
+
+When the user's leading hypothesis is gated only by a PREREQUISITE, say so plainly and keep
+it ranked on its merits. Demote it only for CONSTRAINTS or for measured drawbacks
+(benchmarks, CVE record, ops burden). Never present "we have not checked X yet" as if it
+were a finding against a candidate — and never end a phase asking the user to go run a
+verification command before the research can continue.
+
+---
+
 ## Steps
 
 1. Read `~/.sre-research/<slug>/brief.yaml`. If missing, tell user to run `/sre-brief <slug>` first.
@@ -213,6 +240,14 @@ Spawns the `research-scout` agent to conduct the web research.
        operators). Label each: `[Stack: X]`. Frame these as "known issue with X"
        not as "risk for you" — the reader can decide relevance to their stack.
    11. Adoption signals with URLs and verified dates
+   12. **Prerequisites** — environment facts this candidate needs but which a config
+       change or an operator request can satisfy (kernel version, a sysctl, hardware
+       feature exposure, a minimum platform version). For each: the exact verification
+       command, the remediation, and the fallback candidate if unsatisfied.
+       **Do NOT eliminate a candidate for an unverified prerequisite** — mark it
+       `assumed satisfied`, carry it to the lab phase, and keep evaluating the candidate
+       on its merits. Only immutable properties of the software (archived, plugin absent
+       upstream, incompatible licence) belong in the eliminated table.
 
    ## Also search for
 
@@ -317,8 +352,22 @@ Spawns the `research-scout` agent to conduct the web research.
 
    ## Eliminated from Further Deep-Dive
 
+   Only immutable properties of the software belong here — archived upstream, plugin
+   does not exist, licence incompatible, feature not implemented. An unverified fact
+   about the user's environment is a prerequisite, never an elimination.
+
    | Tool | Reason |
    |------|--------|
+
+   ---
+
+   ## Prerequisites Carried Into the Lab Phase
+
+   Environment facts that gate a candidate but are satisfiable. All are `assumed satisfied`
+   so the analysis proceeds; the lab phase verifies them.
+
+   | ID | Prerequisite | Gates | Verification command | Remediation | Fallback if unsatisfied |
+   |----|--------------|-------|----------------------|-------------|-------------------------|
 
    ---
 
@@ -336,6 +385,10 @@ Spawns the `research-scout` agent to conduct the web research.
 
    **Key open questions to resolve in deep-dive:**
    - ...
+
+   **What the human must decide before proceeding:**
+   - Only genuine judgement calls — trade-offs, budget, ownership commitments, policy.
+     Never list a verification lookup here; those go in the prerequisites table.
 
    ---
 
