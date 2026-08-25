@@ -5,6 +5,7 @@
     pkgs.git
     pkgs.pre-commit
     pkgs.gh
+    pkgs.glab
   ];
 
   programs.git = {
@@ -25,8 +26,8 @@
     };
 
     signing = {
-      signByDefault = false;
-      key = "22DEE91446BB48B8";
+      signByDefault = false; 
+      key = "318BD4D2D1ED7837";
     };
 
     includes = [
@@ -58,51 +59,11 @@
           user = {
             name = "Brian Perret";
             email = "brian1.perret@epita.fr";
-            signingKey = "22DEE91446BB48B8";
+            signingKey = "318BD4D2D1ED7837";
           };
 
-          commit = {
-            gpgsign = true;
-          };
-
-          pull = {
-            rebase = true;
-          };
-
-          tag = {
-            gpgsign = true;
-          };
-        };
-      }
-      {
-        condition = "gitdir:~/Documents/aepita/ing2/pae/";
-        contents = {
-          user = {
-            name = "Brian Perret";
-            email = "brian.perret@epita.fr";
-            signingKey = "22DEE91446BB48B8";
-          };
-
-          commit = {
-            gpgsign = true;
-          };
-
-          pull = {
-            rebase = true;
-          };
-
-          tag = {
-            gpgsign = true;
-          };
-        };
-      }
-      {
-        condition = "gitdir:~/Documents/arffornia/";
-        contents = {
-          user = {
-            name = "TheGostsniperfr";
-            email = "brianperret.pro@gmail.com";
-            signingKey = "22DEE91446BB48B8";
+          core = {
+            sshCommand = "ssh -i ~/.ssh/id_rsa -o IdentitiesOnly=yes";
           };
 
           commit = {
