@@ -14,6 +14,15 @@
     pkgs.traceroute
     pkgs.imagemagick
     pkgs.openssl
+    pkgs.net-tools
+    pkgs.dnsutils
+    pkgs.tcpdump
+    pkgs.wireshark
+    pkgs.nmap
+    pkgs.iftop    # monitoring per connection
+    pkgs.nethogs  # monitoring per process
+    pkgs.iperf3   # performance test
+    pkgs.fastfetch
 
     # Secrets management
     pkgs.age
