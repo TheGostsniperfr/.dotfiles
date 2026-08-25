@@ -31,6 +31,7 @@
 
 - Be concise. No filler, no trailing summaries of what you just did.
 - No emojis unless I ask.
+- No em-dashes. No parenthetical asides — say it as a separate sentence or drop it.
 - I'm an experienced engineer — skip basics, don't over-explain.
 - When something is ambiguous, ask ONE clarifying question, not a list.
 - For exploratory questions: give a recommendation + the main tradeoff in 2-3 sentences. Don't implement until I agree.
