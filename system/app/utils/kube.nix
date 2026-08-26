@@ -11,6 +11,7 @@
     pkgs.kubeswitch
     pkgs.kustomize
     pkgs.vault
+    pkgs.keycloak
     pkgs.kubelogin-oidc
     pkgs.ktop
     pkgs.talosctl
