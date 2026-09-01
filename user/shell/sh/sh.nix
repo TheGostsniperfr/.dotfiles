@@ -23,6 +23,8 @@ let
     k = "kubecolor";
     kubectl = "kubecolor";
     wk = "watch --color kubecolor"; 
+    kx = "kubectx";
+    kn = "kubens";
 
     # SSH alias
     sshmaster = "ssh master-node@192.168.1.73";
@@ -46,6 +48,7 @@ let
     gpp = "git pull";
     gp = "git push";
     ga = "git add .";
+    gc = "git checkout";
     # gc = "git commit -m " + curl -s "https://whatthecommit.com/index.txt" 
 
     # Epita tool alias : 
@@ -102,6 +105,18 @@ in
       source <(kubectl completion bash)
       complete -F __start_kubectl k
       complete -F __start_kubectl kubecolor
+
+      # Git Autocompletion for Alias
+      if [ -f "${pkgs.git}/share/bash-completion/completions/git" ]; then
+        source "${pkgs.git}/share/bash-completion/completions/git"
+      fi
+
+      if type __git_complete &>/dev/null; then
+        __git_complete gc _git_checkout
+        __git_complete gp _git_push
+        __git_complete gpp _git_pull
+        __git_complete ga _git_add
+      fi
 
       if [ -f "${pkgs.grc}/etc/grc.bashrc" ]; then
         source "${pkgs.grc}/etc/grc.bashrc"
