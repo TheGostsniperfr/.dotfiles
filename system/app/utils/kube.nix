@@ -12,6 +12,7 @@
     pkgs.kustomize
     pkgs.vault
     pkgs.keycloak
+    pkgs.argocd
     pkgs.kubelogin-oidc
     pkgs.ktop
     pkgs.talosctl
