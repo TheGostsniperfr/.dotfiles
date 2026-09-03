@@ -212,7 +212,7 @@
         Hostname = "pve1";
         User = "root";
         IdentityFile = "~/.ssh/id_ed25519";
-        LocalForward = [ "6443 10.201.4.127:6443" ];
+        LocalForward = [ "6443 10.201.4.212:6443" ];
       };
 
       "pve2" = {

@@ -9,6 +9,7 @@
     ../../user/app/media/vlc/vlc.nix
     ../../user/app/media/nextcloud/nextcloud.nix
     ../../user/app/other/jap/jap.nix
+    ../../user/app/other/nh/nh.nix
     ../../user/app/other/prismlauncher/prismlauncher.nix
     ../../user/app/social/discord/discord.nix
     # ../../user/app/social/whatsapp/whatsapp.nix
