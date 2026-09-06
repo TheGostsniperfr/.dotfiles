@@ -8,8 +8,14 @@
     pkgs.glab
   ];
 
+  services.ssh-agent.enable = true;
+
   programs.git = {
     enable = true;
+
+    aliases = {
+      pull-all = "!for d in */ ; do [ -d \"$d/.git\" ] && echo \"=== Pulling $d ===\" && git -C \"$d\" pull; done";
+    };
 
     settings = {
       user = {
@@ -18,7 +24,7 @@
       };
       init.defaultBranch = "main";
       core = {
-        sshCommand = "ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes";
+        sshCommand = "ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes -o AddKeysToAgent=yes";
       };
       credential."https://github.com" = {
         helper = "${pkgs.gh}/bin/gh auth git-credential";
@@ -63,7 +69,7 @@
           };
 
           core = {
-            sshCommand = "ssh -i ~/.ssh/id_rsa -o IdentitiesOnly=yes";
+            sshCommand = "ssh -i ~/.ssh/id_rsa -o IdentitiesOnly=yes -o AddKeysToAgent=yes";
           };
 
           commit = {
