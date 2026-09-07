@@ -109,6 +109,10 @@ let
       command = "${notionEleves}/bin/notion-mcp-eleves";
       args = [];
     };
+    "linear-server" = {
+      type = "http";
+      url = "https://mcp.linear.app/mcp";
+    };
   });
 in
 
@@ -178,13 +182,12 @@ in
     fi
   '';
 
-  # Overwrites the mcpServers key on every rebuild — manage all MCP servers here.
-  home.activation.claudeMcpServers = lib.hm.dag.entryAfter [ "claudeSettings" ] ''
-    SETTINGS="${config.home.homeDirectory}/.claude/settings.json"
-    if [ -f "$SETTINGS" ]; then
+  home.activation.claudeMcpServers = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    CONFIG="${config.home.homeDirectory}/.claude.json"
+    if [ -f "$CONFIG" ]; then
       tmpfile=$(mktemp)
-      ${pkgs.jq}/bin/jq --slurpfile mcp "${mcpConfigFile}" '.mcpServers = $mcp[0]' "$SETTINGS" > "$tmpfile"
-      $DRY_RUN_CMD mv "$tmpfile" "$SETTINGS"
+      ${pkgs.jq}/bin/jq --slurpfile mcp "${mcpConfigFile}" '.mcpServers = $mcp[0]' "$CONFIG" > "$tmpfile"
+      $DRY_RUN_CMD mv "$tmpfile" "$CONFIG"
     fi
   '';
 }
