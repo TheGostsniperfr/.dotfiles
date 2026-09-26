@@ -150,6 +150,14 @@ let
     };
   };
 
+  # Claude Code plugins installed from their marketplaces on every switch.
+  # The CLI does not install plugins that are only declared in settings.json (that
+  # happens at interactive session start), so activation installs them explicitly.
+  # To add one: append { marketplace; repo; plugin; } and rebuild.
+  claudePlugins = [
+    { marketplace = "noodle"; repo = "TheGostsniperfr/Noodle"; plugin = "noodle"; }
+  ];
+
   # Written to the Nix store so activation can read it without quoting issues.
   mcpConfigFile = pkgs.writeText "claude-mcp-servers.json" (builtins.toJSON {
     "notion-perso" = {
@@ -240,5 +248,30 @@ in
       ${pkgs.jq}/bin/jq --slurpfile mcp "${mcpConfigFile}" '.mcpServers = $mcp[0]' "$CONFIG" > "$tmpfile"
       $DRY_RUN_CMD mv "$tmpfile" "$CONFIG"
     fi
+  '';
+
+  # Installs claudePlugins if missing, then declares them in settings.json with
+  # auto-update. Idempotent, and non-fatal offline: a failed install retries next switch.
+  home.activation.claudePlugins = lib.hm.dag.entryAfter [ "claudeSettings" ] ''
+    SETTINGS="${config.home.homeDirectory}/.claude/settings.json"
+    export PATH="${lib.makeBinPath [ pkgs.git pkgs.coreutils pkgs.gnugrep ]}:$PATH"
+    # Public repos: clone over HTTPS and skip the SSH probe, which needs known_hosts.
+    export CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1
+    claude="${claudeCodeLatest}/bin/claude"
+    installed="$($claude plugin list 2>/dev/null || true)"
+    ${lib.concatMapStrings (p: ''
+      if ! grep -q "${p.plugin}@${p.marketplace}" <<<"$installed"; then
+        $DRY_RUN_CMD $claude plugin marketplace add ${p.repo} >/dev/null 2>&1 || true
+        $DRY_RUN_CMD $claude plugin install ${p.plugin}@${p.marketplace} >/dev/null 2>&1 \
+          || echo "Claude Code: could not install ${p.plugin}@${p.marketplace}, will retry next switch"
+      fi
+      if [ -f "$SETTINGS" ]; then
+        tmpfile=$(mktemp)
+        ${pkgs.jq}/bin/jq '.extraKnownMarketplaces["${p.marketplace}"] = {"source":{"source":"github","repo":"${p.repo}"},"autoUpdate":true}
+          | .enabledPlugins["${p.plugin}@${p.marketplace}"] = true' "$SETTINGS" > "$tmpfile" \
+          && $DRY_RUN_CMD mv "$tmpfile" "$SETTINGS" \
+          || rm -f "$tmpfile"
+      fi
+    '') claudePlugins}
   '';
 }
