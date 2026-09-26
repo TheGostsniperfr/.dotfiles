@@ -1,3 +1,5 @@
 system/app/network/CiscoPacketTracer_900_Ubuntu_64bit.deb
 # Added by code-review-graph
 .code-review-graph/
+.ua/
+TECH_DEBT_AUDIT.md

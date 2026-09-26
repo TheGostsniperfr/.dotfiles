@@ -5,7 +5,6 @@
     (python312.withPackages (ps: with ps; [
       pip
       jupyter-core
-      notebook
       numpy
       scipy
       matplotlib

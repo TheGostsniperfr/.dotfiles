@@ -13,11 +13,11 @@
   programs.git = {
     enable = true;
 
-    aliases = {
-      pull-all = "!for d in */ ; do [ -d \"$d/.git\" ] && echo \"=== Pulling $d ===\" && git -C \"$d\" pull; done";
-    };
-
     settings = {
+      alias = {
+        pull-all = "!for d in */ ; do [ -d \"$d/.git\" ] && echo \"=== Pulling $d ===\" && git -C \"$d\" pull; done";
+      };
+
       user = {
         name = "TheGostsniperfr";
         email = "brianperret.pro@gmail.com";
