@@ -1,7 +1,7 @@
 ---
 name: code-reviewer
 description: Opinionated senior staff engineer for thorough code review. Spawned by main Claude for reviewing PRs or significant diffs. Uses Opus for deep reasoning.
-model: claude-opus-4-7
+model: opus
 tools:
   - Read
   - Bash

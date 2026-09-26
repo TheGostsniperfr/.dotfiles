@@ -1,7 +1,7 @@
 ---
 name: nix-expert
 description: NixOS/Nix specialist for complex Nix expressions, custom derivations, module options, flake design, home-manager config, and sops-nix. Knows the user's dotfiles structure deeply.
-model: claude-opus-4-7
+model: opus
 tools:
   - Read
   - Bash

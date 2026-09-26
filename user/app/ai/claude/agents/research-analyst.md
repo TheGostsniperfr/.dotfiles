@@ -1,7 +1,7 @@
 ---
 name: research-analyst
 description: Analysis agent for the SRE research pipeline. Synthesizes deep-dive data and lab results into weighted scoring matrices, choice matrices, risk registers, ADRs, and SLO impact analysis. Uses Opus for rigorous reasoning.
-model: claude-opus-4-7
+model: opus
 tools:
   - Read
   - Write

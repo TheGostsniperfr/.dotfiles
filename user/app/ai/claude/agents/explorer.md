@@ -1,7 +1,7 @@
 ---
 name: explorer
 description: Fast read-only agent for mapping and navigating unfamiliar codebases. Use when the main agent needs to locate code, understand architecture, or find where something is implemented without polluting the main context window.
-model: claude-sonnet-4-6
+model: sonnet
 tools:
   - Read
   - Bash

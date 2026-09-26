@@ -1,7 +1,7 @@
 ---
 name: research-writer
 description: Technical writer agent for the SRE research pipeline. Produces publication-quality research articles, livrable documents, and operation runbooks. Uses Opus for quality writing.
-model: claude-opus-4-7
+model: opus
 tools:
   - Read
   - Write

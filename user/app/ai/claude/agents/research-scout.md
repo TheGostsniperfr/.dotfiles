@@ -1,7 +1,7 @@
 ---
 name: research-scout
 description: Web research agent for the SRE research pipeline. Searches for implementations, benchmarks, GitHub issues, documentation quality, and community adoption signals. Used in landscape scan and deep-dive phases.
-model: claude-sonnet-4-6
+model: sonnet
 tools:
   - WebSearch
   - WebFetch
