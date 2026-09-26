@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, lib, config, ... }:
+{ pkgs, lib, config, ... }:
 
 #
 # TUTORIAL — Managing Claude Code Config with Home Manager
@@ -99,6 +99,57 @@ let
     ];
   };
 
+  # nixpkgs' claude-code lags npm releases by days-to-weeks (someone has to
+  # bump the derivation). We fetch Anthropic's own prebuilt binary directly —
+  # same mechanism nixpkgs itself uses (downloads.claude.ai/claude-code-releases) —
+  # so we can track npm's "latest" without waiting on a nixpkgs PR.
+  # To bump: fetch https://downloads.claude.ai/claude-code-releases/latest and
+  # .../<version>/manifest.json for the linux-x64 checksum.
+  claudeCodeLatest = pkgs.stdenvNoCC.mkDerivation {
+    pname = "claude-code";
+    version = "2.1.283";
+
+    src = pkgs.fetchurl {
+      url = "https://downloads.claude.ai/claude-code-releases/2.1.283/linux-x64/claude";
+      sha256 = "1859583ce32920595c61ef868bee52e1b1594f7486db209935e01f1e5e804ae2";
+    };
+
+    dontUnpack = true;
+    dontBuild = true;
+    dontStrip = true;
+    strictDeps = true;
+
+    nativeBuildInputs = [
+      pkgs.installShellFiles
+      pkgs.makeBinaryWrapper
+      pkgs.autoPatchelfHook
+    ];
+
+    installPhase = ''
+      runHook preInstall
+
+      installBin $src
+
+      wrapProgram $out/bin/claude \
+        --set DISABLE_AUTOUPDATER 1 \
+        --set-default FORCE_AUTOUPDATE_PLUGINS 1 \
+        --set DISABLE_INSTALLATION_CHECKS 1 \
+        --set USE_BUILTIN_RIPGREP 0 \
+        --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ pkgs.alsa-lib ]} \
+        --prefix PATH : ${lib.makeBinPath [ pkgs.procps pkgs.ripgrep pkgs.bubblewrap pkgs.socat ]}
+
+      runHook postInstall
+    '';
+
+    meta = {
+      description = "Agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster";
+      homepage = "https://github.com/anthropics/claude-code";
+      license = lib.licenses.unfree;
+      mainProgram = "claude";
+      platforms = [ "x86_64-linux" ];
+    };
+  };
+
   # Written to the Nix store so activation can read it without quoting issues.
   mcpConfigFile = pkgs.writeText "claude-mcp-servers.json" (builtins.toJSON {
     "notion-perso" = {
@@ -118,7 +169,7 @@ in
 
 {
   home.packages = with pkgs; [
-    pkgs-unstable.claude-code
+    claudeCodeLatest
     claude-monitor
     notionPerso
     notionEleves
