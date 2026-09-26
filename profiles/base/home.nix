@@ -34,6 +34,10 @@
     ../../user/app/ide/vscode.nix
     # ../../user/app/other/scenebuilder/scenebuilder.nix
     ../../user/app/openstack/openstack.nix
+
+    # 3d model
+    ../../user/app/3d-model/blender/blender.nix
+    ../../user/app/3d-model/cura/cura.nix
   ];
 
 
