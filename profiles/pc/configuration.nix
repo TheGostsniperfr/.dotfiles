@@ -14,6 +14,7 @@ in
       ../../system/app/linoffice/linoffice.nix
       ../../system/app/video/davinci-resolve.nix
       ../../system/app/network/cisco-packet-tracer.nix
+      ../../system/app/ai/notion-mcp.nix
 
       # GPU
       ../../system/hardware/nvidia/nvidia-igpu.nix

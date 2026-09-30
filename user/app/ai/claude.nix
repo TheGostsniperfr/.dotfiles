@@ -38,6 +38,7 @@ let
   # secret file before launching the MCP server.
   mkNotionWrapper = name: secretPath:
     pkgs.writeShellScriptBin "notion-mcp-${name}" ''
+      set -euo pipefail
       token=$(cat "${secretPath}")
       export OPENAPI_MCP_HEADERS="{\"Authorization\": \"Bearer ''${token}\"}"
       exec ${pkgs.nodejs_22}/bin/npx -y @notionhq/notion-mcp-server "$@"
