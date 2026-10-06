@@ -100,56 +100,27 @@ let
     ];
   };
 
-  # nixpkgs' claude-code lags npm releases by days-to-weeks (someone has to
-  # bump the derivation). We fetch Anthropic's own prebuilt binary directly —
-  # same mechanism nixpkgs itself uses (downloads.claude.ai/claude-code-releases) —
-  # so we can track npm's "latest" without waiting on a nixpkgs PR.
-  # To bump: fetch https://downloads.claude.ai/claude-code-releases/latest and
-  # .../<version>/manifest.json for the linux-x64 checksum.
-  claudeCodeLatest = pkgs.stdenvNoCC.mkDerivation {
-    pname = "claude-code";
-    version = "2.1.283";
+  # nixpkgs' claude-code lags npm releases by days-to-weeks, and pinning
+  # Anthropic's binary by version+hash means every release needs a manual
+  # bump here. Instead: home.activation.claudeCodeFetch below downloads
+  # whatever is current at downloads.claude.ai on every `home-manager
+  # switch`, verifies it against Anthropic's published checksum, and patches
+  # it to run on NixOS. The binary itself can't live in the Nix store (its
+  # contents change every release, so it has no static output hash) — it's
+  # written to $HOME instead, following the same "mutable file" pattern as
+  # settings.json below. This wrapper is the only part that's a real,
+  # reproducible derivation.
+  claudeCodeStateDir = "${config.home.homeDirectory}/.local/state/claude-code";
 
-    src = pkgs.fetchurl {
-      url = "https://downloads.claude.ai/claude-code-releases/2.1.283/linux-x64/claude";
-      sha256 = "1859583ce32920595c61ef868bee52e1b1594f7486db209935e01f1e5e804ae2";
-    };
-
-    dontUnpack = true;
-    dontBuild = true;
-    dontStrip = true;
-    strictDeps = true;
-
-    nativeBuildInputs = [
-      pkgs.installShellFiles
-      pkgs.makeBinaryWrapper
-      pkgs.autoPatchelfHook
-    ];
-
-    installPhase = ''
-      runHook preInstall
-
-      installBin $src
-
-      wrapProgram $out/bin/claude \
-        --set DISABLE_AUTOUPDATER 1 \
-        --set-default FORCE_AUTOUPDATE_PLUGINS 1 \
-        --set DISABLE_INSTALLATION_CHECKS 1 \
-        --set USE_BUILTIN_RIPGREP 0 \
-        --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ pkgs.alsa-lib ]} \
-        --prefix PATH : ${lib.makeBinPath [ pkgs.procps pkgs.ripgrep pkgs.bubblewrap pkgs.socat ]}
-
-      runHook postInstall
-    '';
-
-    meta = {
-      description = "Agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster";
-      homepage = "https://github.com/anthropics/claude-code";
-      license = lib.licenses.unfree;
-      mainProgram = "claude";
-      platforms = [ "x86_64-linux" ];
-    };
-  };
+  claudeCodeWrapper = pkgs.writeShellScriptBin "claude" ''
+    export DISABLE_AUTOUPDATER=1
+    export DISABLE_INSTALLATION_CHECKS=1
+    export USE_BUILTIN_RIPGREP=0
+    export FORCE_AUTOUPDATE_PLUGINS="''${FORCE_AUTOUPDATE_PLUGINS:-1}"
+    export LD_LIBRARY_PATH="${lib.makeLibraryPath [ pkgs.alsa-lib ]}''${LD_LIBRARY_PATH:+:}$LD_LIBRARY_PATH"
+    export PATH="${lib.makeBinPath [ pkgs.procps pkgs.ripgrep pkgs.bubblewrap pkgs.socat ]}:$PATH"
+    exec "${claudeCodeStateDir}/bin/claude" "$@"
+  '';
 
   # Claude Code plugins installed from their marketplaces on every switch.
   # The CLI does not install plugins that are only declared in settings.json (that
@@ -178,7 +149,7 @@ in
 
 {
   home.packages = with pkgs; [
-    claudeCodeLatest
+    claudeCodeWrapper
     claude-monitor
     notionPerso
     notionEleves
@@ -242,6 +213,49 @@ in
     fi
   '';
 
+  # Downloads the latest Claude Code release and patches it to run on NixOS
+  # (upstream ships a binary linked against the FHS dynamic linker, not the
+  # Nix store one — autoPatchelfHook would normally do this, but that only
+  # works inside a derivation build, and this binary can't be one). Never
+  # blocks a rebuild on network access: offline, or a checksum mismatch,
+  # just keeps whatever was already installed and retries next switch.
+  #
+  # rpath is kept to glibc + libstdc++, same as autoPatchelfHook's default
+  # resolution for this binary previously (plus alsa-lib, handled above via
+  # LD_LIBRARY_PATH since it was never found via rpath either). If a future
+  # release links a new native dependency, the binary will fail at runtime
+  # with a "cannot open shared object file" error until that lib is added
+  # here — there's no build-time check for this the way a pinned derivation
+  # had.
+  home.activation.claudeCodeFetch = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    export PATH="${lib.makeBinPath [ pkgs.curl pkgs.jq pkgs.coreutils pkgs.patchelf ]}:$PATH"
+    STATE_DIR="${claudeCodeStateDir}"
+    CURRENT_VERSION=""
+    [ -f "$STATE_DIR/version" ] && CURRENT_VERSION=$(cat "$STATE_DIR/version")
+
+    LATEST_VERSION=$(curl -fsSL https://downloads.claude.ai/claude-code-releases/latest || true)
+
+    if [ -n "$LATEST_VERSION" ] && [ "$LATEST_VERSION" != "$CURRENT_VERSION" ]; then
+      echo "Claude Code: $CURRENT_VERSION -> $LATEST_VERSION"
+      EXPECTED_SHA=$(curl -fsSL "https://downloads.claude.ai/claude-code-releases/$LATEST_VERSION/manifest.json" \
+        | jq -r '.platforms["linux-x64"].checksum')
+      TMP_BIN=$(mktemp)
+      if curl -fsSL -o "$TMP_BIN" "https://downloads.claude.ai/claude-code-releases/$LATEST_VERSION/linux-x64/claude" \
+        && [ "$(sha256sum "$TMP_BIN" | cut -d' ' -f1)" = "$EXPECTED_SHA" ]; then
+        $DRY_RUN_CMD mkdir -p "$STATE_DIR/bin"
+        $DRY_RUN_CMD install -m755 "$TMP_BIN" "$STATE_DIR/bin/claude"
+        $DRY_RUN_CMD patchelf \
+          --set-interpreter "$(cat ${pkgs.stdenv.cc}/nix-support/dynamic-linker)" \
+          --set-rpath "${lib.makeLibraryPath [ pkgs.stdenv.cc.cc.lib pkgs.glibc ]}" \
+          "$STATE_DIR/bin/claude"
+        $DRY_RUN_CMD bash -c "echo '$LATEST_VERSION' > '$STATE_DIR/version'"
+      else
+        echo "Claude Code: download/checksum check failed, keeping $CURRENT_VERSION" >&2
+      fi
+      rm -f "$TMP_BIN"
+    fi
+  '';
+
   home.activation.claudeMcpServers = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     CONFIG="${config.home.homeDirectory}/.claude.json"
     if [ -f "$CONFIG" ]; then
@@ -253,12 +267,12 @@ in
 
   # Installs claudePlugins if missing, then declares them in settings.json with
   # auto-update. Idempotent, and non-fatal offline: a failed install retries next switch.
-  home.activation.claudePlugins = lib.hm.dag.entryAfter [ "claudeSettings" ] ''
+  home.activation.claudePlugins = lib.hm.dag.entryAfter [ "claudeSettings" "claudeCodeFetch" ] ''
     SETTINGS="${config.home.homeDirectory}/.claude/settings.json"
     export PATH="${lib.makeBinPath [ pkgs.git pkgs.coreutils pkgs.gnugrep ]}:$PATH"
     # Public repos: clone over HTTPS and skip the SSH probe, which needs known_hosts.
     export CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1
-    claude="${claudeCodeLatest}/bin/claude"
+    claude="${claudeCodeWrapper}/bin/claude"
     installed="$($claude plugin list 2>/dev/null || true)"
     ${lib.concatMapStrings (p: ''
       if ! grep -q "${p.plugin}@${p.marketplace}" <<<"$installed"; then

@@ -15,6 +15,12 @@
         ForwardAgent = "yes";
       };
 
+      "farmlab" = {
+        Hostname = "10.69.16.19";
+        User = "pi";
+        IdentityFile = "~/.ssh/id_ed25519";
+      };
+
       "workstation" = {
         Hostname = "thegostserveur.ddns.net";
         User = "brian";
