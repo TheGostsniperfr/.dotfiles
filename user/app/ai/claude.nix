@@ -144,6 +144,10 @@ let
       type = "http";
       url = "https://mcp.linear.app/mcp";
     };
+    "atlassian" = {
+      type = "http";
+      url = "https://mcp.atlassian.com/v1/mcp";
+    };
   });
 in
 
