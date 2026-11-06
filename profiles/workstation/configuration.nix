@@ -25,6 +25,7 @@ in
       
       # AI / MCP
       ../../system/app/ai/notion-mcp.nix
+      ../../system/app/secrets/arffornia-tf-backend.nix
 
       # Development tools
     ];

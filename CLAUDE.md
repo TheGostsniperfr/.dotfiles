@@ -43,3 +43,9 @@ gives you structural context (callers, dependents, test coverage) that file sear
 3. Use `get_affected_flows_tool` to understand impact.
 4. Use `query_graph_tool` pattern="tests_for" to check coverage.
 <!-- /code-review-graph MCP tools -->
+
+## Secrets (sops)
+
+- `secrets/secrets.yaml` is read by sops-nix with classical age recipients (see `.sops.yaml`).
+- `secrets/arffornia-tfvars.json` is a sops binary file for a post-quantum age recipient only (ML-KEM-768 + X25519), with its identity in `~/.config/sops/age/keys.txt`. Never add a classical recipient to it. It is decrypted on demand with `sops decrypt --input-type json --output-type binary`, not through sops-nix.
+- Never print decrypted values.
