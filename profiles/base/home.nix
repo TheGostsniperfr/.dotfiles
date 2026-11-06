@@ -22,6 +22,7 @@
     ../../user/app/ai/gemini.nix
     ../../user/app/ai/claude.nix
     ../../user/app/konsole/konsole.nix
+    ../../user/app/plasma/plasma.nix
     ../../user/app/zellij/zellij.nix
 
     # Development Apps

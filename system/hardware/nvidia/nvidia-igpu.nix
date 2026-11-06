@@ -72,6 +72,11 @@
     };
   };
 
+  # card0 is nvidia (loaded first in initrd), card1 is intel. Intel must drive the
+  # panel so KWin can mirror to the HDMI port wired to nvidia. by-path symlinks
+  # can't be used: their colons clash with the variable's separator.
+  environment.sessionVariables.KWIN_DRM_DEVICES = "/dev/dri/card1:/dev/dri/card0";
+
   services.xserver.videoDrivers = [
     "nvidia"
   ];

@@ -20,6 +20,11 @@
     make-project-prompt.url = "github:briossant/make-project-prompt";
     antigravity2.url = "github:briossant/antigravity2.0-nix";
     antigravity2.inputs.nixpkgs.follows = "nixpkgs";
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager, nur, nixos-hardware, make-project-prompt, antigravity2, sops-nix, ... }:
@@ -65,6 +70,7 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "backup";
+          home-manager.sharedModules = [ inputs.plasma-manager.homeModules.plasma-manager ];
           home-manager.extraSpecialArgs = {
             inherit inputs systemSettings userSettings pkgs-unstable;
             make-project-prompt = inputs.make-project-prompt;

@@ -1,5 +1,20 @@
 { pkgs, systemSettings, make-project-prompt, antigravity2, ... }:
 
+let
+  antigravity-cli-updated = antigravity2.packages.${systemSettings.system}.antigravity-cli.overrideAttrs (old: {
+    version = "1.3.1";
+    src = pkgs.fetchurl {
+      url = if systemSettings.system == "aarch64-linux" then
+        "https://storage.googleapis.com/antigravity-public/antigravity-cli/1.3.1-4582356770750464/linux-arm/cli_linux_arm64.tar.gz"
+      else
+        "https://storage.googleapis.com/antigravity-public/antigravity-cli/1.3.1-4582356770750464/linux-x64/cli_linux_x64.tar.gz";
+      hash = if systemSettings.system == "aarch64-linux" then
+        "sha256-+W7+yZyL2g0xaGdiLmX3kgugwrdKYtafzU7RPg6EEZ0="
+      else
+        "sha256-DjE7MJ6ljHFDHOhruCCTajcA4X5E6rznvyJkYX3IIts=";
+    };
+  });
+in
 {
   home.packages = [
     pkgs.wget
@@ -42,9 +57,8 @@
     make-project-prompt.packages.${systemSettings.system}.default
 
     # Antigravity
-    antigravity2.packages.${systemSettings.system}.default
     antigravity2.packages.${systemSettings.system}.antigravity-desktop
-    antigravity2.packages.${systemSettings.system}.antigravity-cli
+    antigravity-cli-updated
 
     pkgs.zellij
     pkgs.kubecolor

@@ -70,6 +70,7 @@ let
     # Claude aliases
     CD = "claude";
     CDD = "claude --dangerously-skip-permissions";
+    CDT = "claude --teleport";
     CT = "claude --think";
     CTH = "claude --think-hard";
     CO = "claude --continue";
