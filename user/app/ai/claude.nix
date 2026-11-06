@@ -117,7 +117,7 @@ let
     export DISABLE_INSTALLATION_CHECKS=1
     export USE_BUILTIN_RIPGREP=0
     export FORCE_AUTOUPDATE_PLUGINS="''${FORCE_AUTOUPDATE_PLUGINS:-1}"
-    export LD_LIBRARY_PATH="${lib.makeLibraryPath [ pkgs.alsa-lib ]}''${LD_LIBRARY_PATH:+:}$LD_LIBRARY_PATH"
+    export NIX_LD_LIBRARY_PATH="${lib.makeLibraryPath [ pkgs.alsa-lib ]}''${NIX_LD_LIBRARY_PATH:+:}$NIX_LD_LIBRARY_PATH"
     export PATH="${lib.makeBinPath [ pkgs.procps pkgs.ripgrep pkgs.bubblewrap pkgs.socat ]}:$PATH"
     exec "${claudeCodeStateDir}/bin/claude" "$@"
   '';
@@ -232,7 +232,7 @@ in
   # here — there's no build-time check for this the way a pinned derivation
   # had.
   home.activation.claudeCodeFetch = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    export PATH="${lib.makeBinPath [ pkgs.curl pkgs.jq pkgs.coreutils pkgs.patchelf ]}:$PATH"
+    export PATH="${lib.makeBinPath [ pkgs.curl pkgs.jq pkgs.coreutils ]}:$PATH"
     STATE_DIR="${claudeCodeStateDir}"
     CURRENT_VERSION=""
     [ -f "$STATE_DIR/version" ] && CURRENT_VERSION=$(cat "$STATE_DIR/version")
@@ -248,10 +248,6 @@ in
         && [ "$(sha256sum "$TMP_BIN" | cut -d' ' -f1)" = "$EXPECTED_SHA" ]; then
         $DRY_RUN_CMD mkdir -p "$STATE_DIR/bin"
         $DRY_RUN_CMD install -m755 "$TMP_BIN" "$STATE_DIR/bin/claude"
-        $DRY_RUN_CMD patchelf \
-          --set-interpreter "$(cat ${pkgs.stdenv.cc}/nix-support/dynamic-linker)" \
-          --set-rpath "${lib.makeLibraryPath [ pkgs.stdenv.cc.cc.lib pkgs.glibc ]}" \
-          "$STATE_DIR/bin/claude"
         $DRY_RUN_CMD bash -c "echo '$LATEST_VERSION' > '$STATE_DIR/version'"
       else
         echo "Claude Code: download/checksum check failed, keeping $CURRENT_VERSION" >&2

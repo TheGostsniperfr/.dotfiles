@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArdourMIDIBindings version="1.0.0" name="KeyLab Essential 88 mk3" manufacturer="Arturia">
+  <DeviceInfo bank-size="8"/>
+
+  <!-- Arturia program: faders 1-9, knobs 1-9 -->
+  <Binding channel="1" ctl="73" uri="/route/gain B1"/>
+  <Binding channel="1" ctl="75" uri="/route/gain B2"/>
+  <Binding channel="1" ctl="79" uri="/route/gain B3"/>
+  <Binding channel="1" ctl="72" uri="/route/gain B4"/>
+  <Binding channel="1" ctl="80" uri="/route/gain B5"/>
+  <Binding channel="1" ctl="81" uri="/route/gain B6"/>
+  <Binding channel="1" ctl="82" uri="/route/gain B7"/>
+  <Binding channel="1" ctl="83" uri="/route/gain B8"/>
+  <Binding channel="1" ctl="85" uri="/bus/gain master"/>
+
+  <!-- DAWs program: faders 1-9, knobs 1-9 -->
+  <Binding channel="1" ctl="105" uri="/route/gain B1"/>
+  <Binding channel="1" ctl="106" uri="/route/gain B2"/>
+  <Binding channel="1" ctl="107" uri="/route/gain B3"/>
+  <Binding channel="1" ctl="108" uri="/route/gain B4"/>
+  <Binding channel="1" ctl="109" uri="/route/gain B5"/>
+  <Binding channel="1" ctl="110" uri="/route/gain B6"/>
+  <Binding channel="1" ctl="111" uri="/route/gain B7"/>
+  <Binding channel="1" ctl="112" uri="/route/gain B8"/>
+  <Binding channel="1" ctl="113" uri="/bus/gain master"/>
+
+  <!-- DAWs program: transport buttons, press only -->
+  <Binding msg="b0 14 7f" function="transport-stop"/>
+  <Binding msg="b0 15 7f" function="transport-roll"/>
+  <Binding msg="b0 16 7f" function="toggle-rec-enable"/>
+  <Binding msg="b0 17 7f" action="Transport/ToggleClick"/>
+  <Binding msg="b0 18 7f" action="Transport/Loop"/>
+  <Binding msg="b0 19 7f" action="Transport/Rewind"/>
+  <Binding msg="b0 1a 7f" action="Transport/Forward"/>
+
+  <!-- DAWs program: pads 1-4 launch row A of tracks 1-4, pads 5-8 launch row B of tracks 1-4 -->
+  <Binding channel="11" note="48" action="Cues/trigger-slot-0-0"/>
+  <Binding channel="11" note="49" action="Cues/trigger-slot-1-0"/>
+  <Binding channel="11" note="50" action="Cues/trigger-slot-2-0"/>
+  <Binding channel="11" note="51" action="Cues/trigger-slot-3-0"/>
+  <Binding channel="11" note="44" action="Cues/trigger-slot-0-1"/>
+  <Binding channel="11" note="45" action="Cues/trigger-slot-1-1"/>
+  <Binding channel="11" note="46" action="Cues/trigger-slot-2-1"/>
+  <Binding channel="11" note="47" action="Cues/trigger-slot-3-1"/>
+  <!-- DAWs program: knobs 1-8 on the first plugin of the selected track -->
+  <Binding channel="1" ctl="96" uri="/route/plugin/parameter S1 0 0"/>
+  <Binding channel="1" ctl="97" uri="/route/plugin/parameter S1 0 1"/>
+  <Binding channel="1" ctl="98" uri="/route/plugin/parameter S1 0 2"/>
+  <Binding channel="1" ctl="99" uri="/route/plugin/parameter S1 0 3"/>
+  <Binding channel="1" ctl="100" uri="/route/plugin/parameter S1 0 4"/>
+  <Binding channel="1" ctl="101" uri="/route/plugin/parameter S1 0 5"/>
+  <Binding channel="1" ctl="102" uri="/route/plugin/parameter S1 0 6"/>
+  <Binding channel="1" ctl="103" uri="/route/plugin/parameter S1 0 7"/>
+
+  <!-- Arturia program: knobs 1-8 on the first plugin of the selected track -->
+  <Binding channel="1" ctl="74" uri="/route/plugin/parameter S1 0 0"/>
+  <Binding channel="1" ctl="71" uri="/route/plugin/parameter S1 0 1"/>
+  <Binding channel="1" ctl="76" uri="/route/plugin/parameter S1 0 2"/>
+  <Binding channel="1" ctl="77" uri="/route/plugin/parameter S1 0 3"/>
+  <Binding channel="1" ctl="18" uri="/route/plugin/parameter S1 0 4"/>
+  <Binding channel="1" ctl="19" uri="/route/plugin/parameter S1 0 5"/>
+  <Binding channel="1" ctl="16" uri="/route/plugin/parameter S1 0 6"/>
+  <Binding channel="1" ctl="17" uri="/route/plugin/parameter S1 0 7"/>
+</ArdourMIDIBindings>
