@@ -1,4 +1,8 @@
+{ pkgs, ... }:
+
 {
+  home.packages = [ pkgs.tela-icon-theme ];
+
   programs.plasma = {
     shortcuts = {
       ActivityManager.switch-to-activity-6e188145-9d68-40c3-9571-9578287d41a9 = [ ];
@@ -245,11 +249,9 @@
       "services/org.kde.spectacle.desktop".OpenWithoutScreenshot = [ ];
     };
     configFile = {
-      baloofilerc.General.dbVersion = 2;
       baloofilerc.General."exclude filters" = "*~,*.part,*.o,*.la,*.lo,*.loT,*.moc,moc_*.cpp,qrc_*.cpp,ui_*.h,cmake_install.cmake,CMakeCache.txt,CTestTestfile.cmake,libtool,config.status,confdefs.h,autom4te,conftest,confstat,Makefile.am,*.gcode,.ninja_deps,.ninja_log,build.ninja,*.csproj,*.m4,*.rej,*.gmo,*.pc,*.omf,*.aux,*.tmp,*.po,*.vm*,*.nvram,*.rcore,*.swp,*.swap,lzo,litmain.sh,*.orig,.histfile.*,.xsession-errors*,*.map,*.so,*.a,*.db,*.qrc,*.ini,*.init,*.img,*.vdi,*.vbox*,vbox.log,*.qcow2,*.vmdk,*.vhd,*.vhdx,*.sql,*.sql.gz,*.ytdl,*.tfstate*,*.class,*.pyc,*.pyo,*.elc,*.qmlc,*.jsc,*.fastq,*.fq,*.gb,*.fasta,*.fna,*.gbff,*.faa,po,CVS,.svn,.git,_darcs,.bzr,.hg,CMakeFiles,CMakeTmp,CMakeTmpQmake,.moc,.obj,.pch,.uic,.npm,.yarn,.yarn-cache,__pycache__,node_modules,node_packages,nbproject,.terraform,.venv,venv,core-dumps,lost+found";
       baloofilerc.General."exclude filters version" = 9;
       dolphinrc.DetailsMode.PreviewSize = 64;
-      dolphinrc.General.ViewPropsTimestamp = "2026,1,31,18,10,4.719";
       dolphinrc.IconsMode.PreviewSize = 96;
       dolphinrc."KFileDialog Settings"."Places Icons Auto-resize" = false;
       dolphinrc."KFileDialog Settings"."Places Icons Static Size" = 22;
@@ -275,7 +277,6 @@
       katerc.filetree.viewShade = "124,42,140";
       kded5rc.Module-browserintegrationreminder.autoload = false;
       kded5rc.Module-device_automounter.autoload = false;
-      kdeglobals.Icons.Theme = "Tela-dark";
       kdeglobals.KDE.contrast = 4;
       kdeglobals.KDE.frameContrast = 0.2;
       kdeglobals."KFileDialog Settings"."Allow Expansion" = false;
@@ -295,17 +296,10 @@
       kdeglobals."KFileDialog Settings"."View Style" = "DetailTree";
       kdeglobals.PreviewSettings.EnableRemoteFolderThumbnail = false;
       kdeglobals.PreviewSettings.MaximumRemoteSize = 0;
-      kdeglobals.WM.activeBackground = "39,44,49";
-      kdeglobals.WM.activeBlend = "252,252,252";
-      kdeglobals.WM.activeForeground = "252,252,252";
-      kdeglobals.WM.inactiveBackground = "32,36,40";
-      kdeglobals.WM.inactiveBlend = "161,169,177";
-      kdeglobals.WM.inactiveForeground = "161,169,177";
       kiorc.Confirmations.ConfirmDelete = true;
       kiorc.Confirmations.ConfirmEmptyTrash = true;
       kiorc.Confirmations.ConfirmTrash = false;
       kiorc."Executable scripts".behaviourOnLaunch = "alwaysAsk";
-      kwalletrc.Wallet."First Use" = false;
       kwinrc.Desktops.Number = 1;
       kwinrc.Desktops.Rows = 1;
       kwinrc.NightColor.Active = true;
@@ -313,11 +307,7 @@
       kwinrc.Windows.RollOverDesktops = true;
       kwinrc."org.kde.kdecoration2".theme = "__aurorae__svg__Layan";
       plasma-localerc.Formats.LANG = "en_US.UTF-8";
-      plasmanotifyrc."Applications/com.nextcloud.desktopclient.nextcloud".Seen = true;
-      plasmanotifyrc."Applications/discord".Seen = true;
-      plasmanotifyrc."Applications/firefox".Seen = true;
       plasmaparc.General.GlobalMuteSinks = true;
-      plasmaparc.General.GlobalMuteSinksMutedDevices = "alsa_output.pci-0000_00_1f.3.analog-stereo.0";
       spectaclerc.Annotations.annotationToolType = 3;
       spectaclerc.ImageSave.translatedScreenshotsFolder = "Screenshots";
       spectaclerc.VideoSave.translatedScreencastsFolder = "Screencasts";

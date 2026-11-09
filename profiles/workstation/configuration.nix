@@ -14,7 +14,7 @@ in
       ../../system/hardware/nvidia/nvidia-gpu.nix
 
       # Apps
-      # ../../user/app/layout/kde-plugins.nix # TODO fix wallpaper engine plugin
+      ../../system/app/plasma/wallpaper-engine.nix
       ../../system/app/sunshine/sunshine.nix
       ../../system/app/openssh/openssh.nix
       ../../system/app/linoffice/linoffice.nix
