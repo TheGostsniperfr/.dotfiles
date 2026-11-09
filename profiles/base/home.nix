@@ -17,12 +17,16 @@
     ../../user/app/work/drawio/drawio.nix
     ../../user/shell/cli-collection/cli-collection.nix
     ../../user/shell/sh/sh.nix
+    ../../user/shell/modern-cli/modern-cli.nix
     ../../user/shell/direnv/direnv.nix
     ../../user/shell/kube/krew.nix
     ../../user/app/ai/gemini.nix
     ../../user/app/ai/claude.nix
     ../../user/app/konsole/konsole.nix
     ../../user/app/plasma/plasma.nix
+    ../../user/app/terminal/ghostty.nix
+    ../../user/app/desktop/hyprland.nix
+    ../../user/app/desktop/niri.nix
     ../../user/app/zellij/zellij.nix
 
     # Development Apps

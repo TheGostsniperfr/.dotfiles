@@ -26,7 +26,8 @@ in
       ../../system/app/utils/cifs-utils.nix
 
       ../../system/app/gparted/gparted.nix
-      ../../system/app/plasma/specialisations.nix
+      ../../system/app/theme/theme.nix
+      ../../system/app/desktop/wayland-wm.nix
       # ../../system/app/java/java.nix
 
       # Development tools
