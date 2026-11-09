@@ -67,6 +67,7 @@
       kwinrc."Tiling/e67c962d-5202-4e48-9f73-de478b6fc16b/fdc0838f-e227-4d6a-9f65-8eafafa7467e".padding = 4;
       kwinrc."Tiling/e67c962d-5202-4e48-9f73-de478b6fc16b/fdc0838f-e227-4d6a-9f65-8eafafa7467e".tiles = "{\"layoutDirection\":\"horizontal\",\"tiles\":[{\"width\":0.25},{\"width\":0.5},{\"width\":0.25}]}";
       kwinrc.Xwayland.Scale = 1.75;
+      plasmaparc.General.GlobalMuteSinksMutedDevices = "alsa_output.pci-0000_00_1f.3.analog-stereo.0";
       plasmarc.Wallpapers.usersWallpapers = "/home/brian/Downloads/1784653322691.jpg";
   };
 }

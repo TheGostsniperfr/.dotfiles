@@ -5,8 +5,6 @@ let
   myAliases = {
 
     # Path shortcut
-    NC = "cd /etc/nixos";
-    HC = "cd && cd .config/home-manager";
     CF = "cd ~/.dotfiles";
     CCF = "code ~/.dotfiles";
 
@@ -15,7 +13,9 @@ let
     SC = "source ~/.bashrc";
     CC = "clear";
 
-    ll = "ls -l";
+    ll = "eza -l --git --group-directories-first";
+    la = "eza -la --git --group-directories-first";
+    lt = "eza --tree --level=2";
     ".." = "cd ..";
     # ep = "xdg-open ."; # open path in file explorer
     lc = "nix-shell -p criterion";
@@ -38,10 +38,9 @@ let
 
 
     # Update cmd aliases
-    update = "sudo nixos-rebuild switch --flake ~/.dotfiles"; # update configuration file using flake
-    hupdate = "home-manager switch --flake ~/.dotfiles"; # update home-manager file using flake
-    fupdate = "nix flake update"; #update flake file
-    allupdate = "fupdate; update; fupdate"; # update all
+    update = "nh os switch";
+    fupdate = "nix flake update --flake ~/.dotfiles";
+    allupdate = "nh os switch --update";
 
     # Git commands
     gs = "git status";
@@ -103,7 +102,7 @@ in
 
     initExtra = ''
       # kubectl Autocompletion
-      source <(kubectl completion bash)
+      source ${pkgs.kubectl}/share/bash-completion/completions/kubectl.bash
       complete -F __start_kubectl k
       complete -F __start_kubectl kubecolor
 
