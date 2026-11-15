@@ -44,16 +44,22 @@ in
         };
       };
 
-      home-manager.users.${userSettings.username}.stylix.targets = {
-        # plasma-manager owns the Plasma look; stylix's KDE target and qtct
-        # platform theme would fight it inside the Plasma session.
-        kde.enable = false;
-        qt.enable = false;
-        # Wallpaper comes from swaybg in wayland-session-autostart; the
-        # auto-enabled hyprpaper unit would also run (and segfault) in Plasma.
-        hyprland.hyprpaper.enable = false;
-        # Firefox profiles are not managed by home-manager.
-        firefox.enable = false;
+      home-manager.users.${userSettings.username} = {
+        stylix.targets = {
+          # plasma-manager owns the Plasma look; stylix's KDE target and qtct
+          # platform theme would fight it inside the Plasma session.
+          kde.enable = false;
+          qt.enable = false;
+          # Wallpaper comes from swaybg in wayland-session-autostart; the
+          # auto-enabled hyprpaper unit would also run (and segfault) in Plasma.
+          hyprland.hyprpaper.enable = false;
+          # Firefox profiles are not managed by home-manager.
+          firefox.enable = false;
+        };
+
+        # Plasma's kde-gtk-config rewrites ~/.gtkrc-2.0 as a plain file on every
+        # login, so the backup slot is always taken and activation fails.
+        gtk.gtk2.force = true;
       };
     }
 

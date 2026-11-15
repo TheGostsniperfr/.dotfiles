@@ -4,6 +4,7 @@
   imports = [
     ../base/home.nix
     ../../user/app/music/ardour.nix
+    ../../user/app/ssh/ssh.nix
     # ../../user/app/zellij/zellij-remote.nix # auto-attach zellij wrapper on terminal open, unused
   ];
 
