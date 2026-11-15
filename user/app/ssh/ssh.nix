@@ -32,6 +32,31 @@
         ForwardAgent = "yes";
       };
 
+      "proxmox-homelab" = {
+        Hostname = "192.168.1.49";
+        User = "root";
+      };
+
+      "arffornia-k8s-master-node" = {
+        Hostname = "192.168.1.73";
+        User = "master-node";
+      };
+
+      "arffornia-k8s-worker-01" = {
+        Hostname = "192.168.1.168";
+        User = "worker-01";
+      };
+
+      "arffornia-k8s-worker-02" = {
+        Hostname = "192.168.1.142";
+        User = "worker-02";
+      };
+
+      "arffornia-k8s-worker-03" = {
+        Hostname = "192.168.1.127";
+        User = "worker-03";
+      };
+
       # ── K3S / Kubernetes ───────────────────────────────────────────────────
       "k3s-master-epimac" = {
         Hostname = "master-k8s-01.k8s.srv.epimac.org";
@@ -170,7 +195,10 @@
           "9292 192.168.1.210:9292"  # Glance API
           "9876 192.168.1.210:9876"  # Octavia
           "6443 192.168.1.212:6443"  # KubeAPI
+          "6444 192.168.1.217:6443"  # K3s lab API Server
         ];
+        # CNP cnp.sh and EKS/GKE kubeconfigs reach the cloud APIs through it (CNP-166)
+        DynamicForward = "1080";
       };
 
       "pae-node-2" = {

@@ -22,6 +22,7 @@ in
       ../../system/app/video/davinci-resolve.nix
 
       ../../system/app/network/cisco-packet-tracer.nix
+      ../../system/app/network/nfra-dns.nix
       
       # AI / MCP
       ../../system/app/ai/notion-mcp.nix

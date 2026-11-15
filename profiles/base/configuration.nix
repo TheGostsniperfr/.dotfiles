@@ -167,5 +167,15 @@ in
       "cache.nix.cri.epita.fr:qDIfJpZWGBWaGXKO3wZL1zmC+DikhMwFRO4RVE6VVeo="
     ];
   };
+
+  nix.optimise.automatic = true;
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
+  systemd.coredump.settings.Coredump.MaxUse = "1G";
 }
 
