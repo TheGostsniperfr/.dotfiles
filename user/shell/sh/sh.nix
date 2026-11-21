@@ -30,9 +30,6 @@ let
     sshmaster = "ssh master-node@192.168.1.73";
     sshworker01 = "ssh worker-01@192.168.1.168";
 
-    # Kubeswitch alias
-    switch = "switcher"; # switch kubernetes context
-
     # Other
     neofetch = "fastfetch"; # fastfetch is a neofetch alternative
 
@@ -95,6 +92,21 @@ in
 {
   home.packages = [ pkgs.grc ];
 
+  home.file.".kube/switch-config.yaml".text = ''
+    kind: SwitchConfig
+    version: v1alpha1
+    kubeconfigStores:
+      - kind: filesystem
+        id: main
+        paths:
+          - ~/.kube/config
+      - kind: filesystem
+        id: imported
+        kubeconfigName: "*"
+        paths:
+          - ~/.kube/configs
+  '';
+
   programs.bash = {
     enable = true;
     enableCompletion = true;
@@ -105,6 +117,11 @@ in
       source ${pkgs.kubectl}/share/bash-completion/completions/kubectl.bash
       complete -F __start_kubectl k
       complete -F __start_kubectl kubecolor
+
+      # switcher can't change the parent shell's KUBECONFIG, so it ships a
+      # `switch` shell function that does. An alias to the binary does nothing.
+      source <(${pkgs.kubeswitch}/bin/switcher init bash)
+      source <(${pkgs.kubeswitch}/bin/switcher completion bash)
 
       # Git Autocompletion for Alias
       if [ -f "${pkgs.git}/share/bash-completion/completions/git" ]; then

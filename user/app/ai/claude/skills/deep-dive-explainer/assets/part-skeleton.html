@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SERIES · I. PART NAME</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Literata:opsz,ital,wght@7..72,0,400;7..72,0,600;7..72,1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+/* Paste assets/series.css here. Change only --accent/--accent-soft (and their dark values) to give the series its own colour. */
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="brand">SERIES TITLE, sous le capot</span>
+    <nav class="parts" aria-label="Parties">
+      <a class="cur" href="#top">I · …</a>
+      <span class="soon">II · … (bientôt)</span>
+    </nav>
+  </div>
+</header>
+
+<div class="page" id="top">
+  <aside class="rail" aria-label="Sommaire">
+    <ol>
+      <li><a class="ch" href="#ch1">1 · Chapter</a></li>
+      <li class="sub"><a href="#sub-a">Sub-section</a></li>
+      <li><a class="ch" href="#quiz">Quiz et sources</a></li>
+    </ol>
+  </aside>
+
+  <main>
+    <section class="hero">
+      <span class="eyebrow">Partie I sur N · THEME · lecture ≈ 40 min</span>
+      <h1>A concrete claim, not a topic label</h1>
+      <p class="lede">Two or three sentences: the specimen we will follow, the journey, and the questions this part answers.</p>
+      <div class="specimen" role="img" aria-label="…">
+        <div class="line"><span class="k1">name</span>{<span class="k2">dims</span>} <span class="k3">value</span></div>
+        <div class="ann"><span><b class="k1">nom</b> ce que c'est</span><span><b class="k2">…</b> …</span></div>
+      </div>
+      <div class="hero-meta"><span>Pour : …</span><span>Prérequis : …</span></div>
+      <details class="mtoc"><summary>Sommaire de la partie I</summary><ol><li><a href="#ch1">…</a></li></ol></details>
+    </section>
+
+    <section class="chap" id="ch1">
+      <div class="chap-head">
+        <span class="chap-num">1</span>
+        <h2>Chapter title</h2>
+        <p>One line: what the reader gets from this chapter.</p>
+      </div>
+      <div class="col">
+        <p>Body text.</p>
+        <div class="box mental"><span class="lbl">Modèle mental</span><p class="big">One sentence to remember.</p></div>
+        <div class="box trade"><span class="lbl">Trade-off · X ou Y</span>
+          <div class="tgrid">
+            <div class="plus"><h5>X</h5><p>Gain.</p></div><div class="minus"><h5>Ce qu'on paie</h5><p>Price.</p></div>
+            <div class="plus"><h5>Y</h5><p>Gain.</p></div><div class="minus"><h5>Ce qu'on paie</h5><p>Price.</p></div>
+          </div>
+        </div>
+        <div class="box trap"><span class="lbl">Piège classique · short name</span><p>Concrete misuse, why it hurts, the fix.</p></div>
+      </div>
+    </section>
+
+    <section class="chap" id="quiz">
+      <div class="chap-head"><span class="chap-num">?</span><h2>Vérifie que c'est acquis</h2><p>Six questions sur la partie I. L'explication s'affiche dès que tu réponds.</p></div>
+      <div class="col quiz" id="quizbox"></div>
+      <div class="col"><div class="next"><h3>Dans la partie II : …</h3><p>Teaser that names the concrete mechanisms coming next.</p><p><a href="#">Lire la partie II →</a></p></div></div>
+      <div class="col"><h3>Sources de cette partie</h3><div class="src"><a href="https://…" target="_blank" rel="noopener">Org · title (date)</a></div></div>
+    </section>
+  </main>
+</div>
+
+<script>
+(function () {
+  function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+  function norm(s){return s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();}
+
+  // Glossary: [term, theme, definition, example, "Partie · ch."]. Needs #gq, #gloss, #gcount and .chipbtn[data-f].
+  const G = [];
+  const box=document.getElementById('gloss');
+  if (box) {
+    const q=document.getElementById('gq'), cnt=document.getElementById('gcount'); let filt='all';
+    const render=()=>{ const t=norm(q.value.trim());
+      const list=G.filter(g=>(filt==='all'||g[1]===filt)&&(!t||norm(g[0]+' '+g[2]+' '+g[3]).includes(t)));
+      box.innerHTML=list.map(g=>`<div class="gterm"><span class="where">${esc(g[1])} · ${esc(g[4])}</span><span class="t">${esc(g[0])}</span><span class="d">${esc(g[2])}</span>${g[3]?`<span class="e">${esc(g[3])}</span>`:''}</div>`).join('')||'<p class="note">Aucun terme ne correspond.</p>';
+      cnt.textContent=list.length+' terme'+(list.length>1?'s':'')+' sur '+G.length; };
+    q.addEventListener('input',render);
+    document.querySelectorAll('.chipbtn').forEach(b=>b.addEventListener('click',()=>{filt=b.dataset.f;document.querySelectorAll('.chipbtn').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));render();}));
+    render();
+  }
+
+  // Quiz: {q, o:[options], a:index, e:explanation}
+  const Q = [];
+  const qb=document.getElementById('quizbox');
+  Q.forEach((it,i)=>{ const c=document.createElement('div'); c.className='qcard';
+    c.innerHTML=`<p class="qq">${i+1}. ${esc(it.q)}</p><div class="qopts">${it.o.map((o,j)=>`<button type="button" data-j="${j}">${esc(o)}</button>`).join('')}</div><p class="qexp" hidden></p>`;
+    c.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{ const j=+b.dataset.j;
+      c.querySelectorAll('button').forEach(x=>x.classList.remove('right','wrong'));
+      b.classList.add(j===it.a?'right':'wrong'); c.querySelector(`button[data-j="${it.a}"]`).classList.add('right');
+      const ex=c.querySelector('.qexp'); ex.hidden=false; ex.textContent=(j===it.a?'Exact. ':'Pas tout à fait. ')+it.e; }));
+    qb.appendChild(c); });
+
+  // Rail highlight
+  const links=[...document.querySelectorAll('.rail a')];
+  const targets=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  if('IntersectionObserver' in window){
+    const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id)); }),{rootMargin:'-20% 0px -70% 0px'});
+    targets.forEach(t=>io.observe(t));
+  }
+})();
+</script>
+</body>
+</html>
