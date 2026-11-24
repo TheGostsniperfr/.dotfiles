@@ -1,5 +1,8 @@
 { lib, ... }:
 
+let
+  gpgAgent = "/run/user/1000/gnupg/S.gpg-agent.ssh";
+in
 {
   programs.ssh = {
     enable = true;
@@ -239,6 +242,58 @@
         User = "node-1";
         IdentityFile = "~/.ssh/id_ed25519";
         ProxyJump = "pae-node-1";
+      };
+
+      # ── Atelier ────────────────────────────────────────────────────────────
+      "at-pi-01" = {
+        Hostname = "192.168.1.2";
+        User = "root";
+        IdentityAgent = gpgAgent;
+      };
+
+      "*.le-maker.fr" = {
+        User = "root";
+        IdentityAgent = gpgAgent;
+      };
+
+      "ctl-01.le-maker.fr" = {
+        Hostname = "192.168.253.10";
+      };
+      "cpt-02.le-maker.fr" = {
+        Hostname = "192.168.253.101";
+      };
+      "cpt-03.le-maker.fr" = {
+        Hostname = "192.168.253.102";
+      };
+      "sto-01.le-maker.fr" = {
+        Hostname = "192.168.253.200";
+      };
+      "sto-02.le-maker.fr" = {
+        Hostname = "192.168.253.201";
+      };
+
+      "at-admin-bastion" = {
+        Hostname = "ext.bastion.admin.cloud.atelier-maker.fr";
+        User = "alpine";
+        IdentityAgent = gpgAgent;
+      };
+
+      "*.admin.cloud.atelier-maker.fr" = {
+        User = "root";
+        IdentityAgent = gpgAgent;
+        ProxyJump = "at-admin-bastion";
+      };
+
+      "at-playground-bastion" = {
+        Hostname = "ext.bastion.atelier_playground.cloud.atelier-maker.fr";
+        User = "alpine";
+        IdentityAgent = gpgAgent;
+      };
+
+      "*.atelier_playground.cloud.atelier-maker.fr" = {
+        User = "root";
+        IdentityAgent = gpgAgent;
+        ProxyJump = "at-playground-bastion";
       };
 
       # ── Forge Lab 2026 ─────────────────────────────────────────────────────

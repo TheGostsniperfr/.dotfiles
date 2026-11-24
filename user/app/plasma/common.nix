@@ -1,9 +1,11 @@
 { pkgs, ... }:
 
 {
-  home.packages = [ pkgs.tela-icon-theme ];
 
   programs.plasma = {
+    # A restored Spectacle opens in capture mode at every login.
+    session.sessionRestore.excludeApplications = [ "spectacle" ];
+
     shortcuts = {
       ActivityManager.switch-to-activity-6e188145-9d68-40c3-9571-9578287d41a9 = [ ];
       "KDE Keyboard Layout Switcher"."Switch to Last-Used Keyboard Layout" = "Meta+Alt+L";
@@ -305,7 +307,6 @@
       kwinrc.NightColor.Active = true;
       kwinrc.NightColor.NightTemperature = 3500;
       kwinrc.Windows.RollOverDesktops = true;
-      kwinrc."org.kde.kdecoration2".theme = "__aurorae__svg__Layan";
       plasma-localerc.Formats.LANG = "en_US.UTF-8";
       plasmaparc.General.GlobalMuteSinks = true;
       spectaclerc.Annotations.annotationToolType = 3;

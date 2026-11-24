@@ -12,6 +12,7 @@ in
 
       # GPU
       ../../system/hardware/nvidia/nvidia-gpu.nix
+      ../../system/vm/desktop-lab.nix
 
       # Apps
       ../../system/app/plasma/wallpaper-engine.nix
@@ -20,6 +21,7 @@ in
       ../../system/app/linoffice/linoffice.nix
       ../../system/app/music/music.nix
       ../../system/app/video/davinci-resolve.nix
+      ../../system/app/video/mediamtx.nix
 
       ../../system/app/network/cisco-packet-tracer.nix
       ../../system/app/network/nfra-dns.nix

@@ -1,15 +1,5 @@
 { pkgs, lib, inputs, userSettings, ... }:
 
-let
-  mkPalette = setPriority: { scheme, polarity, wallpaper, plasmaTheme }: {
-    stylix = {
-      base16Scheme = setPriority "${pkgs.base16-schemes}/share/themes/${scheme}.yaml";
-      polarity = setPriority polarity;
-      image = setPriority pkgs.nixos-artwork.wallpapers.${wallpaper}.gnomeFilePath;
-    };
-    home-manager.users.${userSettings.username}.plasma.theme = setPriority plasmaTheme;
-  };
-in
 {
   imports = [ inputs.stylix.nixosModules.stylix ];
 
@@ -17,6 +7,11 @@ in
     {
       stylix = {
         enable = true;
+        # System-wide default (SDDM, TTY, Hyprland/niri). The Plasma user
+        # session overrides it per preset through the desk module.
+        base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+        polarity = "dark";
+        image = pkgs.nixos-artwork.wallpapers.nineish-catppuccin-mocha.gnomeFilePath;
 
         fonts = {
           monospace = {
@@ -24,8 +19,8 @@ in
             name = "JetBrainsMono Nerd Font";
           };
           sansSerif = {
-            package = pkgs.dejavu_fonts;
-            name = "DejaVu Sans";
+            package = pkgs.inter;
+            name = "Inter";
           };
           serif = {
             package = pkgs.dejavu_fonts;
@@ -55,27 +50,13 @@ in
           hyprland.hyprpaper.enable = false;
           # Firefox profiles are not managed by home-manager.
           firefox.enable = false;
+          # Base16 palettes are too low-contrast for terminal work; terminals keep Dracula.
+          ghostty.enable = false;
         };
 
         # Plasma's kde-gtk-config rewrites ~/.gtkrc-2.0 as a plain file on every
         # login, so the backup slot is always taken and activation fails.
         gtk.gtk2.force = true;
-      };
-    }
-
-    (mkPalette lib.mkDefault {
-      scheme = "catppuccin-mocha";
-      polarity = "dark";
-      wallpaper = "nineish-catppuccin-mocha";
-      plasmaTheme = "breeze-dark";
-    })
-
-    {
-      specialisation.light.configuration = mkPalette lib.mkForce {
-        scheme = "catppuccin-latte";
-        polarity = "light";
-        wallpaper = "nineish-catppuccin-latte";
-        plasmaTheme = "breeze-light";
       };
     }
   ];

@@ -8,7 +8,7 @@ in
 {
   imports =
     [ # Include the results of the hardware scan.
-      ../personal/configuration.nix
+      ../base/configuration.nix
 
       # ../../system/app/steam/steam.nix
       ../../system/app/language/docker/docker.nix

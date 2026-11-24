@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ../personal/home.nix
+    ../base/home.nix
     ../../user/app/ide/goland.nix
   ];
 }

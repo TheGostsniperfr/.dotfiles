@@ -15,5 +15,10 @@
   # Registers the PAM service hyprlock needs to unlock.
   programs.hyprlock.enable = true;
 
+  # programs.hyprlock turns this on, and its unit is WantedBy
+  # graphical-session.target, so it would also lock Plasma after 600s.
+  # wayland-session-autostart already starts hypridle in Hyprland and niri.
+  services.hypridle.enable = lib.mkForce false;
+
   environment.systemPackages = [ pkgs.xwayland-satellite ];
 }
