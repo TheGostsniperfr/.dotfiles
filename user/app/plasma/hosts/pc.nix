@@ -1,11 +1,13 @@
+{ lib, ... }:
+
 {
   programs.plasma.configFile = {
       kcminputrc."Libinput/2362/9794/ASUP1204:00 093A:2642 Touchpad".Enabled = true;
       kcminputrc."Libinput/2362/9794/ASUP1204:00 093A:2642 Touchpad".NaturalScroll = true;
       kcminputrc."Libinput/2362/9794/ASUP1204:00 093A:2642 Touchpad".PointerAcceleration = 0.200;
       kcminputrc."Libinput/2362/9794/ASUP1204:00 093A:2642 Touchpad".ScrollFactor = 0.3;
-      kscreenlockerrc."Greeter/Wallpaper/org.kde.image/General".Image = "file:///home/brian/Downloads/1784653322691.jpg";
-      kscreenlockerrc."Greeter/Wallpaper/org.kde.image/General".PreviewImage = "file:///home/brian/Downloads/1784653322691.jpg";
+      kscreenlockerrc."Greeter/Wallpaper/org.kde.image/General".Image = lib.mkForce "file:///home/brian/Downloads/1784653322691.jpg";
+      kscreenlockerrc."Greeter/Wallpaper/org.kde.image/General".PreviewImage = lib.mkForce "file:///home/brian/Downloads/1784653322691.jpg";
       kwinrc."Tiling/5edc32d7-ea46-404c-a95c-2ed9241fb9e7/0fc50193-1774-4373-8e42-5772ac6927fc".padding = 4;
       kwinrc."Tiling/5edc32d7-ea46-404c-a95c-2ed9241fb9e7/0fc50193-1774-4373-8e42-5772ac6927fc".tiles = "{\"layoutDirection\":\"horizontal\",\"tiles\":[{\"width\":0.25},{\"width\":0.5},{\"width\":0.25}]}";
       kwinrc."Tiling/5edc32d7-ea46-404c-a95c-2ed9241fb9e7/22577f39-9561-47ce-a357-8c4e5f845504".padding = 4;

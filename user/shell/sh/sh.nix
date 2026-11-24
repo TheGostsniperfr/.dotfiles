@@ -92,6 +92,8 @@ in
 {
   home.packages = [ pkgs.grc ];
 
+  # kubeswitch errors out when a store path is missing
+  home.file.".kube/configs/.keep".text = "";
   home.file.".kube/switch-config.yaml".text = ''
     kind: SwitchConfig
     version: v1alpha1
@@ -122,6 +124,11 @@ in
       # `switch` shell function that does. An alias to the binary does nothing.
       source <(${pkgs.kubeswitch}/bin/switcher init bash)
       source <(${pkgs.kubeswitch}/bin/switcher completion bash)
+      # Keep the launcher's active infra in step with this shell's context.
+      if command -v infractx >/dev/null; then
+        eval "__kubeswitch () $(declare -f switch | tail -n +2)"
+        switch () { __kubeswitch "$@" && infractx sync; }
+      fi
 
       # Git Autocompletion for Alias
       if [ -f "${pkgs.git}/share/bash-completion/completions/git" ]; then

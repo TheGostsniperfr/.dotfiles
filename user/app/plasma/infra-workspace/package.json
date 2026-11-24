@@ -1,0 +1,134 @@
+{
+  "$schema": "https://raw.githubusercontent.com/vicinaehq/vicinae/refs/heads/main/extra/schemas/extension.json",
+  "name": "infra-workspace",
+  "title": "Infra Workspace",
+  "description": "Active infrastructure context for SRE work: links, Kubernetes, ArgoCD, alerts, GitLab, Talos, OpenStack, Boundary and runbooks",
+  "categories": [
+    "Developer Tools"
+  ],
+  "license": "MIT",
+  "platforms": [
+    "Linux"
+  ],
+  "author": "dotfiles",
+  "icon": "extension_icon.png",
+  "commands": [
+    {
+      "name": "open-alertmanager",
+      "title": "Alertmanager",
+      "subtitle": "active infra",
+      "description": "Open Alertmanager of the active infra",
+      "mode": "no-view"
+    },
+    {
+      "name": "open-vault",
+      "title": "Vault",
+      "subtitle": "active infra",
+      "description": "Open Vault of the active infra",
+      "mode": "no-view"
+    },
+    {
+      "name": "open-argocd",
+      "title": "ArgoCD",
+      "subtitle": "active infra",
+      "description": "Open ArgoCD of the active infra",
+      "mode": "no-view"
+    },
+    {
+      "name": "open-grafana",
+      "title": "Grafana",
+      "subtitle": "active infra",
+      "description": "Open Grafana of the active infra",
+      "mode": "no-view"
+    },
+    {
+      "name": "infra",
+      "title": "Infra",
+      "subtitle": "Infra Workspace",
+      "description": "Links of the active infra, then of the others",
+      "mode": "view"
+    },
+    {
+      "name": "switch-infra",
+      "title": "Switch Infra",
+      "subtitle": "Infra Workspace",
+      "description": "Change the active infra and its kube context",
+      "mode": "view"
+    },
+    {
+      "name": "kube",
+      "title": "Kube Pods",
+      "subtitle": "Infra Workspace",
+      "description": "Pods of the active infra: logs, exec, describe",
+      "mode": "view"
+    },
+    {
+      "name": "argocd",
+      "title": "ArgoCD Apps",
+      "subtitle": "Infra Workspace",
+      "description": "Applications of the active infra with sync and health",
+      "mode": "view"
+    },
+    {
+      "name": "alerts",
+      "title": "Firing Alerts",
+      "subtitle": "Infra Workspace",
+      "description": "Alertmanager alerts of the active infra",
+      "mode": "view"
+    },
+    {
+      "name": "grafana",
+      "title": "Grafana Dashboards",
+      "subtitle": "Infra Workspace",
+      "description": "Search dashboards on the active infra",
+      "mode": "view"
+    },
+    {
+      "name": "gitlab",
+      "title": "GitLab Merge Requests",
+      "subtitle": "Infra Workspace",
+      "description": "Merge requests to review and yours, with pipeline status",
+      "mode": "view"
+    },
+    {
+      "name": "talos",
+      "title": "Talos",
+      "subtitle": "Infra Workspace",
+      "description": "Talos nodes of the active infra",
+      "mode": "view"
+    },
+    {
+      "name": "openstack",
+      "title": "OpenStack Servers",
+      "subtitle": "Infra Workspace",
+      "description": "Servers of the active infra's OpenStack cloud",
+      "mode": "view"
+    },
+    {
+      "name": "boundary",
+      "title": "Boundary and Vault",
+      "subtitle": "Infra Workspace",
+      "description": "Boundary targets and Vault login for the active infra",
+      "mode": "view"
+    },
+    {
+      "name": "runbooks",
+      "title": "Runbooks",
+      "subtitle": "Infra Workspace",
+      "description": "Search runbooks and the SRE research hub",
+      "mode": "view"
+    }
+  ],
+  "scripts": {
+    "build": "vici build",
+    "dev": "vici develop"
+  },
+  "dependencies": {
+    "@vicinae/api": "0.30.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "typescript": "^5.9.2"
+  }
+}

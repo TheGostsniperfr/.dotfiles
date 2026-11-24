@@ -25,6 +25,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+    # Not following our nixpkgs keeps vicinae.cachix.org hits.
+    vicinae.url = "github:vicinaehq/vicinae";
+    vicinae-extensions = {
+      url = "github:vicinaehq/extensions";
+      inputs.vicinae.follows = "vicinae";
+    };
+    # Only its package expression is used, built against our kdePackages.
+    kwin-effects-glass = {
+      url = "github:4v3ngR/kwin-effects-glass";
+      flake = false;
+    };
     stylix = {
       url = "github:nix-community/stylix/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";

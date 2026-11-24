@@ -1,7 +1,6 @@
 { pkgs, ... }:
 
 {
-  home.packages = [ pkgs.tela-icon-theme ];
 
   programs.plasma = {
     shortcuts = {
@@ -305,7 +304,6 @@
       kwinrc.NightColor.Active = true;
       kwinrc.NightColor.NightTemperature = 3500;
       kwinrc.Windows.RollOverDesktops = true;
-      kwinrc."org.kde.kdecoration2".theme = "__aurorae__svg__Layan";
       plasma-localerc.Formats.LANG = "en_US.UTF-8";
       plasmaparc.General.GlobalMuteSinks = true;
       spectaclerc.Annotations.annotationToolType = 3;
