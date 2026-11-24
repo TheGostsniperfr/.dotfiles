@@ -5,6 +5,7 @@
     enable = true;
     enableBashIntegration = true;
     settings = {
+      theme = "Dracula";
       window-padding-x = 10;
       window-padding-y = 8;
       window-padding-balance = true;

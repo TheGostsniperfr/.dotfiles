@@ -3,6 +3,9 @@
 {
 
   programs.plasma = {
+    # A restored Spectacle opens in capture mode at every login.
+    session.sessionRestore.excludeApplications = [ "spectacle" ];
+
     shortcuts = {
       ActivityManager.switch-to-activity-6e188145-9d68-40c3-9571-9578287d41a9 = [ ];
       "KDE Keyboard Layout Switcher"."Switch to Last-Used Keyboard Layout" = "Meta+Alt+L";

@@ -109,6 +109,14 @@ def tasks():
             if state == "normal":
                 els += hints(prefix, x, 2 * task_r + 4, {"top": 2, "bottom": 2, "left": 2, "right": 2})
             x += W + 4
+    # Without these the task manager draws nothing on grouped tasks.
+    for side in ("bottom", "top", "left", "right"):
+        els.append(
+            f'<g id="group-expander-{side}"><rect x="{x}" y="0" width="11" height="11" fill="none"/>'
+            f'<circle class="ColorScheme-Highlight" fill="currentColor" cx="{x + 5.5}" cy="5.5" r="5.5"/>'
+            f'<path fill="#fff" d="M{x + 4.75},2.5h1.5v2.25h2.25v1.5h-2.25v2.25h-1.5v-2.25h-2.25v-1.5h2.25Z"/></g>'
+        )
+        x += 15
     return svg(els, x, 2 * task_r + 12)
 
 

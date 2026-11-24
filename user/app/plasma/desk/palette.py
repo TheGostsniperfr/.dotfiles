@@ -1,4 +1,4 @@
-"""Generate the KDE color scheme and Konsole color scheme for a desk combo.
+"""Generate the KDE color scheme for a desk combo.
 
 Raw base16 mappings put mid-tone accents (sky blues, teals, yellows) on the
 background as-is, which is unreadable on light palettes. Every color drawn as
@@ -120,29 +120,6 @@ def main():
     }
     with open(os.path.join(out, "kde.colors"), "w") as f:
         f.write(ini(kde))
-
-    # Terminal: base16 order, then every color made readable on the background.
-    # color0/8 are kept as dim shades for UI chrome (prompts use them for
-    # separators) but still reach the soft target.
-    ansi = ["base00", "base08", "base0B", "base0A", "base0D", "base0E", "base0C", "base05"]
-    bright = ["base03", "base08", "base0B", "base0A", "base0D", "base0E", "base0C", "base07"]
-    term = {
-        "General": {"Description": spec["name"], "Opacity": 0.95, "Blur": "true"},
-        "Background": {"Color": triple(bg)},
-        "BackgroundIntense": {"Color": triple(alt)},
-        "BackgroundFaint": {"Color": triple(bg)},
-        "Foreground": {"Color": triple(fg)},
-        "ForegroundIntense": {"Color": triple(readable(c["base06"], bg, fg, TEXT_CONTRAST))},
-        "ForegroundFaint": {"Color": triple(readable(c["base04"], bg, fg, SOFT_CONTRAST))},
-    }
-    for i, (n, b) in enumerate(zip(ansi, bright)):
-        target = SOFT_CONTRAST if i == 0 else TEXT_CONTRAST
-        normal = readable(c[n], bg, fg, target)
-        term[f"Color{i}"] = {"Color": triple(normal)}
-        term[f"Color{i}Faint"] = {"Color": triple(normal)}
-        term[f"Color{i}Intense"] = {"Color": triple(readable(c[b], bg, fg, target))}
-    with open(os.path.join(out, "konsole.colorscheme"), "w") as f:
-        f.write(ini(term))
 
 
 if __name__ == "__main__":

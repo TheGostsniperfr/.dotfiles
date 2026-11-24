@@ -149,7 +149,6 @@ func (p paths) apply(ctx context.Context, combo string, quiet bool) error {
 	if err := p.ensurePanels(ctx, logFile); err != nil {
 		return err
 	}
-	reloadTerminals(ctx, logFile)
 
 	if err := p.write("selected", combo); err != nil {
 		return fmt.Errorf("save selection: %w", err)
@@ -158,13 +157,6 @@ func (p paths) apply(ctx context.Context, combo string, quiet bool) error {
 		notify("Style appliqué", fmt.Sprintf("%s en %.1fs", combo, time.Since(start).Seconds()))
 	}
 	return nil
-}
-
-// reloadTerminals asks Ghostty to re-read its config. Konsole cannot be
-// recolored live: it caches profiles and color schemes per process and
-// ignores OSC 50, so it follows on its next start.
-func reloadTerminals(ctx context.Context, log io.Writer) {
-	_ = run(ctx, log, "pkill", "-USR2", "-x", "ghostty")
 }
 
 // ensurePanels replaces the panels when the active generation's layout script

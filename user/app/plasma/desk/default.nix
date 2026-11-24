@@ -179,14 +179,6 @@ in
       };
     };
 
-    xdg.dataFile."konsole/${schemeId}.colorscheme".source = "${palette}/konsole.colorscheme";
-
-    # setupKonsole copies a profile pinned to Dracula on every activation.
-    home.activation.deskKonsole = lib.hm.dag.entryAfter [ "setupKonsole" ] ''
-      run ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "$HOME/.local/share/konsole/Brian.profile" \
-        --group Appearance --key ColorScheme ${schemeId}
-    '';
-
     # The desk CLI switches combos by running a specialisation's activation;
     # it needs the base generation, which specialisations do not link back to.
     home.activation.deskState = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

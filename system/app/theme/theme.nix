@@ -50,6 +50,8 @@
           hyprland.hyprpaper.enable = false;
           # Firefox profiles are not managed by home-manager.
           firefox.enable = false;
+          # Base16 palettes are too low-contrast for terminal work; terminals keep Dracula.
+          ghostty.enable = false;
         };
 
         # Plasma's kde-gtk-config rewrites ~/.gtkrc-2.0 as a plain file on every
