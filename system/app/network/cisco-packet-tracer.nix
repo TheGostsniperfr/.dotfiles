@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   ptDeb = pkgs.requireFile {
@@ -56,16 +56,21 @@ EOF
 
 in
 {
-  programs.firejail = {
-    enable = true;
-    wrappedBinaries = {
-      packettracer9 = {
-        executable = "${packetTracer9}/bin/packettracer9";
-        desktop = "${packetTracer9}/share/applications/cisco-pt9.desktop";
-        extraArgs = [
-          "--net=none"
-          "--noprofile"
-        ];
+  # The .deb sits behind a Netacad login, so fresh installs cannot fetch it.
+  options.packetTracer.enable = lib.mkEnableOption "Cisco Packet Tracer 9 from a manually added .deb";
+
+  config = lib.mkIf config.packetTracer.enable {
+    programs.firejail = {
+      enable = true;
+      wrappedBinaries = {
+        packettracer9 = {
+          executable = "${packetTracer9}/bin/packettracer9";
+          desktop = "${packetTracer9}/share/applications/cisco-pt9.desktop";
+          extraArgs = [
+            "--net=none"
+            "--noprofile"
+          ];
+        };
       };
     };
   };
