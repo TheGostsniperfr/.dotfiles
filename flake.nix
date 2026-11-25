@@ -50,8 +50,8 @@
 
   outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager, nur, nixos-hardware, make-project-prompt, antigravity2, sops-nix, ... }:
   let 
-    # Global Settings
-    systemSettings = {
+    # Defaults, overridable per host through hosts/<name>/settings.nix
+    defaultSystemSettings = {
       system = "x86_64-linux"; 
       timeZone = "Europe/Paris";
       locale = "en_US.UTF-8";
@@ -59,7 +59,7 @@
       keyboardLayout = "us";
     };
 
-    userSettings = {
+    defaultUserSettings = {
       username = "brian";
       email = "brianperret.pro@gmail.com";
       dotfilesDir = "~/.dotfiles";
@@ -68,7 +68,7 @@
     lib = nixpkgs.lib;
 
     pkgs-unstable = import nixpkgs-unstable {
-      system = systemSettings.system;
+      system = defaultSystemSettings.system;
       config.allowUnfree = true;
     };
 
@@ -76,7 +76,12 @@
     hosts = builtins.attrNames (lib.filterAttrs (n: v: v == "directory") (builtins.readDir ./hosts));
 
     # Function to create the configuration
-    mkHost = hostName: lib.nixosSystem {
+    mkHost = hostName: let
+      hostSettingsFile = ./hosts + "/${hostName}/settings.nix";
+      hostSettings = if builtins.pathExists hostSettingsFile then import hostSettingsFile else { };
+      systemSettings = defaultSystemSettings // (hostSettings.system or { });
+      userSettings = defaultUserSettings // (hostSettings.user or { });
+    in lib.nixosSystem {
       system = systemSettings.system;
       
       # Pass inputs and settings to all modules

@@ -98,6 +98,17 @@ else
 }
 EOF
 
+    # Without this the flake defaults to user "brian", and switching drops the
+    # account the machine was installed with.
+    KEYBOARD_LAYOUT=$(localectl status 2>/dev/null | awk '/X11 Layout/ {print $3}')
+    log "Creating settings.nix for user '$USER' (keyboard: ${KEYBOARD_LAYOUT:-us})..."
+    cat > "$HOST_DIR/settings.nix" <<EOF
+{
+  user.username = "$USER";
+  system.keyboardLayout = "${KEYBOARD_LAYOUT:-us}";
+}
+EOF
+
     # Add new files to git so Flake sees them
     log "Adding new host files to Git index..."
     git add "$HOST_DIR"
