@@ -2,7 +2,7 @@
 
 {
   environment.systemPackages = with pkgs; [
-    (python312.withPackages (ps: with ps; [
+    (python3.withPackages (ps: with ps; [
       pip
       jupyter-core
       numpy

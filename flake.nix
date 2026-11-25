@@ -25,8 +25,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
-    # Not following our nixpkgs keeps vicinae.cachix.org hits.
-    vicinae.url = "github:vicinaehq/vicinae";
+    # Not following our nixpkgs keeps vicinae.cachix.org hits, which only
+    # reliably exist for release tags, not arbitrary master commits.
+    vicinae.url = "github:vicinaehq/vicinae/v0.30.1";
     vicinae-extensions = {
       url = "github:vicinaehq/extensions";
       inputs.vicinae.follows = "vicinae";
