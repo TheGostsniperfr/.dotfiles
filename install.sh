@@ -124,6 +124,11 @@ fi
 # --- 6. Installation / Switch ---
 log "Building and switching to configuration: $HOST_NAME..."
 
-sudo nixos-rebuild switch --flake ".#$HOST_NAME"
+# nix.settings.substituters only takes effect after the first switch, so a
+# fresh install would compile vicinae and friends without these. Keep in
+# sync with profiles/base/configuration.nix.
+sudo nixos-rebuild switch --flake ".#$HOST_NAME" \
+    --option extra-substituters "https://nix-community.cachix.org https://s3.cri.epita.fr/cri-nix-cache.s3.cri.epita.fr https://vicinae.cachix.org" \
+    --option extra-trusted-public-keys "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= cache.nix.cri.epita.fr:qDIfJpZWGBWaGXKO3wZL1zmC+DikhMwFRO4RVE6VVeo= vicinae.cachix.org-1:1kDrfienkGHPYbkpNj1mWTr7Fm1+zcenzgTizIcI3oc="
 
 log "Done! Welcome to your new NixOS setup."
